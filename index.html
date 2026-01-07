@@ -2,113 +2,108 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Local Service Hub – Professional Companionship</title>
+<title>Local Services Platform | 18+</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style.btn {
-  display: inline-block;
-  padding: 12px 18px;
-  margin: 5px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  color: white;
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
 }
 
-.whatsapp {
-  background: #25D366;
+header {
+  background: #111;
+  color: #fff;
+  padding: 16px;
+  text-align: center;
+}
+
+.disclaimer {
+  background: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.container {
+  padding: 15px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+input, select {
+  padding: 10px;
+  width: 100%;
+  max-width: 240px;
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 12px;
+}
+
+.card-body h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.tag {
+  font-size: 13px;
+  color: #555;
+  margin-top: 4px;
+}
+
+.btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .call {
   background: #0d6efd;
-}>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0e0e0e;
-  color: #ffffff;
 }
-header {
-  background: #000;
-  padding: 22px;
-  text-align: center;
-  border-bottom: 1px solid #222;
+
+.whatsapp {
+  background: #25d366;
 }
-header h1 {
-  margin: 0;
-  color: #ff3b7a;
-}
-header p {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #ccc;
-}
-.notice {
-  background: #1a1a1a;
-  padding: 12px;
-  text-align: center;
-  font-size: 14px;
-}
-.search-box {
-  padding: 16px;
-  text-align: center;
-}
-.search-box input {
-  padding: 11px;
-  width: 78%;
-  max-width: 340px;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-}
-.search-box button {
-  padding: 11px 14px;
-  margin-left: 5px;
-  border: none;
-  border-radius: 6px;
-  background: #ff3b7a;
-  color: #fff;
-  cursor: pointer;
-}
-.providers {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  padding: 20px;
-}
-.card {
-  background: #1a1a1a;
-  border-radius: 12px;
-  padding: 16px;
-}
-.card h3 {
-  margin: 0 0 8px;
-  color: #ff3b7a;
-}
-.card p {
-  font-size: 14px;
-  color: #ddd;
-}
-.card .location {
-  font-size: 13px;
-  color: #aaa;
-  margin-top: 6px;
-}
-.card a {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 10px;
-  background: #25D366;
-  color: #000;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-}
+
 footer {
-  text-align: center;
-  padding: 20px;
+  margin-top: 30px;
+  background: #222;
+  color: #ccc;
+  padding: 15px;
   font-size: 13px;
-  color: #777;
+  text-align: center;
 }
 </style>
 </head>
@@ -116,106 +111,69 @@ footer {
 <body>
 
 <header>
-  <h1>Local Service Hub</h1>
-  <p>Professional Companionship & Lifestyle Services</p>
+  <h1>Local Services Platform (18+)</h1>
+  <p>Private listings & professional companionship</p>
 </header>
 
-<div class="notice">
-  🔞 Adults Only (18+). Independent companionship listings. No explicit content.
+<div class="disclaimer">
+⚠️ Adults only (18+). This platform is for advertising and social companionship listings only.
+No illegal services are promoted. Users must verify age before contact.
 </div>
 
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="Search: Embakasi, Tassia, Westlands, Kiambu, Ruiru">
-  <button onclick="filterProviders()">Search</button>
-  <button onclick="showAll()">Show All</button>
+<div class="container">
+
+<div class="filters">
+  <input type="text" id="search" placeholder="Search name or service">
+  <select id="category">
+    <option value="">All Categories</option>
+    <option>Companionship</option>
+    <option>Massage Services</option>
+    <option>Private Escort</option>
+    <option>Adult Entertainment</option>
+  </select>
+
+  <select id="location">
+    <option value="">All Locations</option>
+
+    <optgroup label="Embakasi">
+      <option>Embakasi - Tassia</option>
+      <option>Embakasi - Pipeline</option>
+      <option>Embakasi - Fedha</option>
+      <option>Embakasi - Nyayo</option>
+      <option>Embakasi - Utawala</option>
+    </optgroup>
+
+    <optgroup label="Nairobi">
+      <option>Westlands</option>
+      <option>CBD</option>
+      <option>South B</option>
+      <option>South C</option>
+      <option>Kasarani</option>
+    </optgroup>
+
+    <optgroup label="Kiambu">
+      <option>Ruiru</option>
+      <option>Thika</option>
+      <option>Juja</option>
+      <option>Kiambu Town</option>
+    </optgroup>
+  </select>
 </div>
 
-<div class="providers" id="providerList"></div>
+<div class="services" id="services">
 
-<footer>
-  © 2026 Local Service Hub • Independent Listings Only
-</footer>
+<div class="card">
+  <img src="https://picsum.photos/400/300?1">
+  <div class="card-body">
+    <h3>Linda</h3>
+    <div class="tag">Companionship • Embakasi - Tassia</div>
+    <a href="tel:+254705283274" class="btn call">📞 Call Now</a>
+    <a href="https://wa.me/254705283274" class="btn whatsapp">💬 WhatsApp</a>
+  </div>
+</div>
 
-<script>
-const providers = [
-  {
-    name: "Amina",
-    description: "Discreet professional companionship focused on privacy and comfort.",
-    locations: [
-      "Nairobi","Embakasi","Tassia","Pipeline","Fedha","Nyayo Estate",
-      "Donholm","Savanna","Mihango","Umoja","Tena"
-    ],
-    whatsapp: "254705283274"
-  },<a href="tel:+254705283274" class="btn call">Call Now</a>
-  {
-    name: "Lina",
-    description: "Friendly lifestyle companion serving Eastlands areas.",
-    locations: [
-      "Nairobi","Embakasi","Kayole","Komarock","Dandora","Buruburu","Ruai","Njiru"
-    ],
-    whatsapp: "254705283274"
-  },
-  {
-    name: "Maya",
-    description: "Elegant social companion available in prime Nairobi locations.",
-    locations: [
-      "Nairobi","Westlands","Parklands","Nairobi CBD","Upper Hill"
-    ],
-    whatsapp: "254705283274"
-  },
-  {
-    name: "Sasha",
-    description: "Premium companionship with a refined and respectful approach.",
-    locations: [
-      "Nairobi","Kilimani","Kileleshwa","Lavington","Ngong Road","South B","South C"
-    ],
-    whatsapp: "254705283274"
-  },
-  {
-    name: "Nia",
-    description: "Private lifestyle companion serving Kiambu County.",
-    locations: [
-      "Kiambu","Ruiru","Juja","Thika","Githurai","Kahawa Sukari",
-      "Kahawa Wendani","Kiambu Town","Limuru","Kikuyu"
-    ],
-    whatsapp: "254705283274"
-  }
-];
-
-const list = document.getElementById("providerList");
-
-function displayProviders(data) {
-  list.innerHTML = "";
-  if (data.length === 0) {
-    list.innerHTML = "<p>No providers found for this area.</p>";
-    return;
-  }
-  data.forEach(p => {
-    list.innerHTML += `
-      <div class="card">
-        <h3>${p.name}</h3>
-        <p>${p.description}</p>
-        <div class="location">📍 ${p.locations.join(", ")}</div>
-        <a href="https://wa.me/${p.whatsapp}" target="_blank">WhatsApp</a>
-      </div>
-    `;
-  });
-}
-
-function filterProviders() {
-  const term = document.getElementById("searchInput").value.toLowerCase();
-  const filtered = providers.filter(p =>
-    p.locations.some(loc => loc.toLowerCase().includes(term))
-  );
-  displayProviders(filtered);
-}
-
-function showAll() {
-  displayProviders(providers);
-}
-
-displayProviders(providers);
-</script>
-
-</body>
-</html>
+<div class="card">
+  <img src="https://picsum.photos/400/300?2">
+  <div class="card-body">
+    <h3>Maya</h3>
+    <div class="tag">Massage Services •
