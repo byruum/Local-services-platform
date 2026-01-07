@@ -1,4 +1,4 @@
-# <title>Nairobi Locals</title>
+# NAIROBI LOCAL
 
 Nairobi Locals is a discreet, adults-only local services listing platform designed for mature audiences seeking private companionship and personal services within Nairobi and its surrounding areas.
 Our platform connects independent adult service providers with respectful clients in a secure, private, and transparent environment. All listed providers operate independently and manage their own availability, communication, and arrangements directly with interested clients.
