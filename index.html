@@ -1,182 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Nairobi Locals – Adult Companionship Platform</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Nairobi Locals – Provider Portal</title>
 
-<style>
-body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; }
-header { background:#111; color:#fff; padding:15px; text-align:center; }
-section { padding:20px; }
-.card { background:#fff; padding:15px; margin-bottom:15px; border-radius:6px; }
-.hidden { display:none; }
-button { padding:10px 15px; margin-top:10px; cursor:pointer; }
-input, select { width:100%; padding:8px; margin-top:6px; }
-.small { font-size:12px; color:#555; }
-</style>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    .box {
+      background: #fff;
+      max-width: 420px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 6px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    button {
+      background: #111;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .link {
+      color: blue;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      display: inline-block;
+    }
+    #signupBox, #providerDashboard, #otherLocation {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-<h1>Nairobi Locals</h1>
-<p>Professional Adult Companionship Platform (18+ Only)</p>
-</header>
+<!-- LOGIN -->
+<div class="box" id="authBox">
+  <h2>Provider Login</h2>
 
-<!-- CUSTOMER VIEW -->
-<section class="card">
-<h2>Browse Providers</h2>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
 
-<select id="location">
-<option value="">Select Area</option>
-<option>CBD</option>
-<option>Westlands</option>
-<option>Embakasi</option>
-<option>Kilimani</option>
-<option>Kasarani</option>
-</select>
+  <button onclick="login()">Login</button>
+  <p id="status"></p>
 
-<select id="sublocation">
-<option value="">Sub-location</option>
-<option>Pipeline</option>
-<option>Tassia</option>
-<option>Fedha</option>
-<option>Donholm</option>
-<option>Umoja</option>
-<option>Ngara</option>
-</select>
+  <span class="link" onclick="showSignup()">Create account</span><br>
+  <span class="link" onclick="resetPassword()">Forgot password?</span>
+</div>
 
-<p><strong>Sample Provider (Demo)</strong></p>
-<button onclick="window.location='tel:0705283274'">📞 Call</button>
-<button onclick="window.location='https://wa.me/254705283274'">💬 WhatsApp</button>
-</section>
+<!-- SIGNUP -->
+<div class="box" id="signupBox">
+  <h2>Provider Signup</h2>
 
-<section class="card small">
-<strong>Disclaimer:</strong><br>
-This platform is strictly for adults aged 18 and above. Services listed are professional companionship services only. Explicit sexual services are not advertised. Users are responsible for complying with Kenyan laws and regulations.
-</section>
+  <input id="s_email" type="email" placeholder="Email">
+  <input id="s_password" type="password" placeholder="Password">
 
-<!-- PROVIDER LOGIN -->
-<section id="providerLogin" class="card">
-<h2>Provider Login</h2>
-<input id="email" type="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button onclick="providerLogin()">Login</button>
-<p id="loginMsg"></p>
-</section>
+  <select id="location" onchange="toggleOtherLocation()">
+    <option value="">Select Location</option>
+    <option>CBD</option>
+    <option>Westlands</option>
+    <option>Kilimani</option>
+    <option>Embakasi</option>
+    <option>Kasarani</option>
+    <option value="other">Other</option>
+  </select>
+
+  <input id="otherLocation" placeholder="Enter your location">
+
+  <button onclick="signup()">Register</button>
+  <span class="link" onclick="showLogin()">Back to login</span>
+</div>
 
 <!-- PROVIDER DASHBOARD -->
-<section id="providerDashboard" class="card hidden">
-<h2>Provider Dashboard</h2>
+<div class="box" id="providerDashboard">
+  <h2>Provider Dashboard</h2>
 
-<input id="pname" placeholder="Display Name">
-<input id="plocation" placeholder="Location">
+  <p><b>Listing Prices</b></p>
+  <input value="150" readonly>
+  <input value="400" readonly>
+  <input value="1200" readonly>
 
-<select id="price">
-<option value="150">KES 150 / day</option>
-<option value="400">KES 400 / 4 days</option>
-<option value="1200">KES 1200 / month</option>
-</select>
+  <p style="font-size:13px;">
+    Prices are system-defined and may be updated by admin.
+  </p>
 
-<button onclick="saveProvider()">Save Profile</button>
-<button onclick="logout()">Logout</button>
-
-<p>Status: <strong>Pending Approval</strong></p>
-</section>
-
-<!-- ADMIN LOGIN -->
-<section id="adminLogin" class="card">
-<h2>Admin Login</h2>
-<input id="adminEmail" type="email" placeholder="Admin Email">
-<input id="adminPassword" type="password" placeholder="Password">
-<button onclick="adminLogin()">Login</button>
-<p id="adminMsg"></p>
-</section>
-
-<!-- ADMIN DASHBOARD -->
-<section id="adminDashboard" class="card hidden">
-<h2>Admin Dashboard</h2>
-<p>Admin access granted.</p>
-<ul>
-<li>Approve providers</li>
-<li>Manage listings</li>
-<li>Control monetization</li>
-</ul>
-<button onclick="logout()">Logout</button>
-</section>
-
-<!-- FIREBASE SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <button onclick="logout()">Logout</button>
+</div>
 
 <script>
-// 🔥 YOUR REAL FIREBASE CONFIG
-const firebaseConfig = {
-  apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-  authDomain: "local-service-hub-26b50.firebaseapp.com",
-  projectId: "local-service-hub-26b50",
-  storageBucket: "local-service-hub-26b50.firebasestorage.app",
-  messagingSenderId: "397740156836",
-  appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
-};
+  // 🔥 YOUR REAL FIREBASE CONFIG
+  const firebaseConfig = {
+    apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+    authDomain: "local-service-hub-26b50.firebaseapp.com",
+    projectId: "local-service-hub-26b50",
+    storageBucket: "local-service-hub-26b50.firebasestorage.app",
+    messagingSenderId: "397740156836",
+    appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
+  };
 
-firebase.initializeApp(firebaseConfig);
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+  function showSignup() {
+    authBox.style.display = "none";
+    signupBox.style.display = "block";
+  }
 
-// PROVIDER LOGIN
-function providerLogin() {
-  auth.signInWithEmailAndPassword(email.value, password.value)
-    .then(() => {
-      providerLoginBox(false);
-    })
-    .catch(e => loginMsg.innerText = e.message);
-}
+  function showLogin() {
+    signupBox.style.display = "none";
+    authBox.style.display = "block";
+  }
 
-function providerLoginBox(show) {
-  document.getElementById("providerLogin").classList.toggle("hidden", !show);
-  document.getElementById("providerDashboard").classList.toggle("hidden", show);
-}
+  function toggleOtherLocation() {
+    otherLocation.style.display =
+      location.value === "other" ? "block" : "none";
+  }
 
-// ADMIN LOGIN
-function adminLogin() {
-  auth.signInWithEmailAndPassword(adminEmail.value, adminPassword.value)
-    .then(cred => db.collection("users").doc(cred.user.uid).get())
-    .then(doc => {
-      if (doc.exists && doc.data().role === "admin") {
-        adminLoginBox(false);
-      } else {
-        throw new Error("Not authorized");
-      }
-    })
-    .catch(e => adminMsg.innerText = e.message);
-}
+  function signup() {
+    const email = s_email.value;
+    const password = s_password.value;
 
-function adminLoginBox(show) {
-  document.getElementById("adminLogin").classList.toggle("hidden", !show);
-  document.getElementById("adminDashboard").classList.toggle("hidden", show);
-}
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        alert("Account created. Please login.");
+        showLogin();
 
-// SAVE PROVIDER
-function saveProvider() {
-  const user = auth.currentUser;
-  db.collection("providers").doc(user.uid).set({
-    name: pname.value,
-    location: plocation.value,
-    price: price.value,
-    active: false,
-    createdAt: new Date()
+        // 📧 marketing hook (future use)
+        console.log("Provider registered:", email);
+      })
+      .catch(err => alert(err.message));
+  }
+
+  function login() {
+    auth.signInWithEmailAndPassword(email.value, password.value)
+      .then(() => {
+        authBox.style.display = "none";
+        providerDashboard.style.display = "block";
+      })
+      .catch(err => status.innerText = err.message);
+  }
+
+  function resetPassword() {
+    if (!email.value) {
+      alert("Enter your email first");
+      return;
+    }
+
+    auth.sendPasswordResetEmail(email.value)
+      .then(() => alert("Password reset email sent"))
+      .catch(err => alert(err.message));
+  }
+
+  function logout() {
+    auth.signOut().then(() => location.reload());
+  }
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      authBox.style.display = "none";
+      providerDashboard.style.display = "block";
+    }
   });
-  alert("Profile saved. Await admin approval.");
-}
-
-// LOGOUT
-function logout() {
-  auth.signOut().then(() => location.reload());
-}
 </script>
 
 </body>
