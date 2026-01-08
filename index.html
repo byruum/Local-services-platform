@@ -2,165 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Nairobi Locals – Provider Portal</title>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <title>Nairobi Local Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 20px;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
     }
-    .box {
-      background: #fff;
-      max-width: 420px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 6px;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-    }
-    button {
+    header {
       background: #111;
       color: #fff;
-      border: none;
-      cursor: pointer;
+      padding: 15px;
+      text-align: center;
     }
-    .link {
-      color: blue;
-      cursor: pointer;
-      font-size: 14px;
-      margin-top: 10px;
+    .container {
+      padding: 15px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .filter-box {
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+    select, button {
+      padding: 10px;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .provider {
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    .provider h3 {
+      margin: 0;
+    }
+    .actions a {
       display: inline-block;
+      margin-right: 10px;
+      margin-top: 10px;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 14px;
     }
-    #signupBox, #providerDashboard, #otherLocation {
-      display: none;
+    .call {
+      background: #28a745;
+    }
+    .whatsapp {
+      background: #25D366;
+    }
+    .footer {
+      font-size: 13px;
+      color: #444;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+    .provider-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div class="box" id="authBox">
-  <h2>Provider Login</h2>
+<header>
+  <h1>Nairobi Local Services</h1>
+  <p>Find trusted service providers near you</p>
+</header>
 
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+<div class="container">
 
-  <button onclick="login()">Login</button>
-  <p id="status"></p>
+  <!-- LOCATION FILTER -->
+  <div class="filter-box">
+    <label><b>Select your location</b></label>
+    <select id="locationFilter" onchange="filterProviders()">
+      <option value="">-- Choose location --</option>
+      <option value="Westlands">Westlands</option>
+      <option value="Kasarani">Kasarani</option>
+      <option value="Embakasi">Embakasi</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
 
-  <span class="link" onclick="showSignup()">Create account</span><br>
-  <span class="link" onclick="resetPassword()">Forgot password?</span>
+  <!-- PROVIDERS LIST -->
+  <div id="providers">
+
+    <div class="provider" data-location="Westlands">
+      <h3>Electrician</h3>
+      <p>Location: Westlands</p>
+      <div class="actions">
+        <a href="tel:+254705283274" class="call">Call</a>
+        <a href="https://wa.me/254705283274" class="whatsapp">WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="provider" data-location="Kasarani">
+      <h3>Plumber</h3>
+      <p>Location: Kasarani</p>
+      <div class="actions">
+        <a href="tel:+254705283274" class="call">Call</a>
+        <a href="https://wa.me/254705283274" class="whatsapp">WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="provider" data-location="Embakasi">
+      <h3>House Cleaner</h3>
+      <p>Location: Embakasi</p>
+      <div class="actions">
+        <a href="tel:+254705283274" class="call">Call</a>
+        <a href="https://wa.me/254705283274" class="whatsapp">WhatsApp</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="footer">
+    <b style="color:#b30000;">Disclaimer:</b><br>
+    Nairobi Local Services is a listing platform only.  
+    We do not employ service providers and are not responsible for service quality, pricing, or disputes.
+    Users engage providers at their own discretion.
+  </div>
+
+  <!-- PROVIDER LINK -->
+  <a class="provider-link" href="provider.html">
+    Want to offer services? Create an account or login
+  </a>
+
 </div>
-
-<!-- SIGNUP -->
-<div class="box" id="signupBox">
-  <h2>Provider Signup</h2>
-
-  <input id="s_email" type="email" placeholder="Email">
-  <input id="s_password" type="password" placeholder="Password">
-
-  <select id="location" onchange="toggleOtherLocation()">
-    <option value="">Select Location</option>
-    <option>CBD</option>
-    <option>Westlands</option>
-    <option>Kilimani</option>
-    <option>Embakasi</option>
-    <option>Kasarani</option>
-    <option value="other">Other</option>
-  </select>
-
-  <input id="otherLocation" placeholder="Enter your location">
-
-  <button onclick="signup()">Register</button>
-  <span class="link" onclick="showLogin()">Back to login</span>
-</div>
-
-
 
 <script>
-  // 🔥 YOUR REAL FIREBASE CONFIG
-  const firebaseConfig = {
-    apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-    authDomain: "local-service-hub-26b50.firebaseapp.com",
-    projectId: "local-service-hub-26b50",
-    storageBucket: "local-service-hub-26b50.firebasestorage.app",
-    messagingSenderId: "397740156836",
-    appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
-  };
+  function filterProviders() {
+    const selected = document.getElementById("locationFilter").value;
+    const providers = document.querySelectorAll(".provider");
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  function showSignup() {
-    authBox.style.display = "none";
-    signupBox.style.display = "block";
+    providers.forEach(p => {
+      if (selected === "" || p.dataset.location === selected) {
+        p.style.display = "block";
+      } else {
+        p.style.display = "none";
+      }
+    });
   }
-
-  function showLogin() {
-    signupBox.style.display = "none";
-    authBox.style.display = "block";
-  }
-
-  function toggleOtherLocation() {
-    otherLocation.style.display =
-      location.value === "other" ? "block" : "none";
-  }
-
-  function signup() {
-    const email = s_email.value;
-    const password = s_password.value;
-
-    auth.createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        alert("Account created. Please login.");
-        showLogin();
-
-        // 📧 marketing hook (future use)
-        console.log("Provider registered:", email);
-      })
-      .catch(err => alert(err.message));
-  }
-
-  function login() {
-    auth.signInWithEmailAndPassword(email.value, password.value)
-      .then(() => {
-        authBox.style.display = "none";
-        providerDashboard.style.display = "block";
-      })
-      .catch(err => status.innerText = err.message);
-  }
-
-  function resetPassword() {
-    if (!email.value) {
-      alert("Enter your email first");
-      return;
-    }
-
-    auth.sendPasswordResetEmail(email.value)
-      .then(() => alert("Password reset email sent"))
-      .catch(err => alert(err.message));
-  }
-
-  function logout() {
-    auth.signOut().then(() => location.reload());
-  }
-
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      authBox.style.display = "none";
-      providerDashboard.style.display = "block";
-    }
-  });
 </script>
 
 </body>
