@@ -1,174 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nairobi Locals – Adult Services Directory</title>
+<meta charset="UTF-8">
+<title>Nairobi Locals – Adults Only Directory</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f2f2f2;
-      color: #222;
-    }
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; }
+header { background:#000; color:#fff; padding:20px; text-align:center; }
+.container { max-width:900px; margin:auto; padding:15px; }
+.card { background:#fff; border-radius:10px; margin-bottom:20px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.card img { width:100%; height:200px; object-fit:cover; }
+.card-content { padding:15px; }
+button { width:100%; padding:12px; border:none; border-radius:8px; font-size:16px; margin-top:8px; cursor:pointer; }
+.call { background:#007bff; color:#fff; }
+.whatsapp { background:#25d366; color:#fff; }
+.sponsor { background:gold; font-weight:bold; }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 15px;
-    }
+select, input { width:100%; padding:10px; margin-bottom:10px; }
 
-    .disclaimer {
-      background: #000;
-      color: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+.disclaimer {
+  background:#111; color:#fff; padding:20px; border-radius:10px; margin-bottom:20px;
+}
 
-    .disclaimer strong {
-      color: #ff4d4d;
-    }
+.dashboard { background:#fff; padding:15px; border-radius:10px; margin-bottom:20px; }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 15px;
-      color: #555;
-      margin-bottom: 25px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-
-    .card img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-
-    .card-content {
-      padding: 15px;
-    }
-
-    .name {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .category {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 10px;
-    }
-
-    .description {
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 15px;
-      color: #333;
-    }
-
-    .buttons a {
-      display: block;
-      text-decoration: none;
-      text-align: center;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .call {
-      background: #1a73e8;
-      color: #fff;
-    }
-
-    .whatsapp {
-      background: #25d366;
-      color: #fff;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 13px;
-      color: #777;
-      margin-top: 40px;
-      padding-bottom: 20px;
-    }
-  </style>
+.support-btn {
+  position:fixed; bottom:20px; right:20px;
+  background:red; color:white; padding:15px;
+  border-radius:50%; font-size:20px; text-decoration:none;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
 
-    <!-- DISCLAIMER -->
-    <div class="disclaimer">
-      <strong>🔞 Adults Only (18+)</strong><br />
-      Nairobi Locals is an adult-oriented directory intended strictly for individuals aged 18 years and above.
-      This platform lists independent adult companionship and massage service providers for informational purposes only.
-      We do not manage, employ, or control any listed individuals. By continuing to browse this site, you confirm
-      that you are at least 18 years old and that adult content is legal in your jurisdiction.
-    </div>
+<header>
+<h1>Nairobi Locals</h1>
+<p>Adults Only (18+) – Private Companion & Massage Directory</p>
+</header>
 
-    <h1>Nairobi Locals</h1>
-    <div class="subtitle">
-      A private directory connecting adults with independent companionship and massage services in Nairobi.
-    </div>
+<div class="container">
 
-    <!-- CARD 1 -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Linda" />
-      <div class="card-content">
-        <div class="name">Linda</div>
-        <div class="category">Companionship • Embakasi – Tassia</div>
-        <div class="description">
-          Linda offers discreet and respectful companionship services for mature adults seeking genuine connection
-          and quality private time. She values privacy, cleanliness, and mutual respect. Available by appointment
-          only for serious and respectful clients. Communication is direct and confidential.
-        </div>
-        <div class="buttons">
-          <a class="call" href="tel:+254700000000">📞 Call Now</a>
-          <a class="whatsapp" href="https://wa.me/254700000000">💬 WhatsApp</a>
-        </div>
-      </div>
-    </div>
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+<strong>Adults Only (18+)</strong><br><br>
+This platform is strictly for individuals aged 18 years and above.
+Nairobi Locals is an independent listing directory for companionship
+and massage service providers. We do not manage, employ, or control
+any individuals listed. All interactions are private and consensual.
+By continuing, you confirm adult content is legal in your jurisdiction.
+</div>
 
-    <!-- CARD 2 -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" alt="Maya" />
-      <div class="card-content">
-        <div class="name">Maya</div>
-        <div class="category">Massage Services • Nairobi</div>
-        <div class="description">
-          Maya provides professional relaxation and massage services in a calm and private environment.
-          Her sessions are designed to help clients unwind, release stress, and enjoy peaceful moments away
-          from daily pressure. Appointments are arranged in advance with clear communication.
-        </div>
-        <div class="buttons">
-          <a class="call" href="tel:+254711111111">📞 Call Now</a>
-          <a class="whatsapp" href="https://wa.me/254711111111">💬 WhatsApp</a>
-        </div>
-      </div>
-    </div>
+<!-- LOCATION FILTER -->
+<div class="dashboard">
+<h3>📍 Filter by Location</h3>
+<select id="locationFilter" onchange="filterCards()">
+<option value="all">All Locations</option>
+<option value="CBD">CBD</option>
+<option value="Embakasi">Embakasi</option>
+<option value="Westlands">Westlands</option>
+</select>
+</div>
 
-    <footer>
-      © 2026 Nairobi Locals. Independent adult listings only. No agencies.
-    </footer>
+<!-- CUSTOMER DASHBOARD -->
+<div class="dashboard">
+<h3>👤 Customer Dashboard</h3>
+<p>• Browse verified listings<br>
+• Filter by location<br>
+• Contact providers directly</p>
+</div>
 
-  </div>
+<!-- PROVIDER DASHBOARD (UI ONLY) -->
+<div class="dashboard">
+<h3>🔐 Provider Login (Coming Soon)</h3>
+<input type="text" placeholder="Phone / Email">
+<input type="password" placeholder="Password">
+<button disabled>Login (Backend Required)</button>
+<p style="font-size:13px;color:gray;">Accounts will be enabled soon.</p>
+</div>
+
+<!-- LISTING 1 -->
+<div class="card" data-location="Embakasi">
+<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
+<div class="card-content">
+<h3>Linda</h3>
+<p>Companionship • Embakasi – Tassia</p>
+<p>Friendly, discreet and professional companionship services.</p>
+<button class="call" onclick="location.href='tel:+254700000000'">📞 Call Now</button>
+<button class="whatsapp" onclick="location.href='https://wa.me/254700000000'">💬 WhatsApp</button>
+<button class="sponsor">⭐ Sponsor Listing</button>
+</div>
+</div>
+
+<!-- LISTING 2 -->
+<div class="card" data-location="CBD">
+<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+<div class="card-content">
+<h3>Maya</h3>
+<p>Massage Services • CBD</p>
+<p>Relaxing therapeutic massage services by appointment.</p>
+<button class="call" onclick="location.href='tel:+254711111111'">📞 Call Now</button>
+<button class="whatsapp" onclick="location.href='https://wa.me/254711111111'">💬 WhatsApp</button>
+<button class="sponsor">⭐ Sponsor Listing</button>
+</div>
+</div>
+
+</div>
+
+<!-- SUPPORT BUTTON -->
+<a class="support-btn" href="https://wa.me/254705283274" target="_blank">🛟</a>
+
+<script>
+function filterCards() {
+  let filter = document.getElementById("locationFilter").value;
+  let cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    if (filter === "all" || card.dataset.location === filter) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+</script>
+
 </body>
 </html>
