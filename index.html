@@ -1,221 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Nairobi Locals – Adults Only Directory</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Nairobi Locals – Adult Companionship Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-body { margin:0; font-family:Arial, sans-serif; background:#f3f3f3; }
-header { background:#000; color:#fff; padding:20px; text-align:center; }
-.container { max-width:1000px; margin:auto; padding:15px; }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
 
-.disclaimer {
-  background:#111;
-  color:#fff;
-  padding:18px;
-  border-radius:10px;
-  margin-bottom:20px;
-  font-size:14px;
-  line-height:1.6;
-}
-.disclaimer strong { color:#ff4d4d; }
+    header {
+      background: #000;
+      padding: 20px;
+      text-align: center;
+    }
 
-.dashboard {
-  background:#fff;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:20px;
-}
+    header h1 {
+      margin: 0;
+      color: #e63946;
+    }
 
-select, input {
-  width:100%;
-  padding:10px;
-  margin-bottom:10px;
-  font-size:15px;
-}
+    header p {
+      font-size: 14px;
+      color: #ccc;
+    }
 
-.card {
-  background:#fff;
-  border-radius:12px;
-  margin-bottom:20px;
-  overflow:hidden;
-  box-shadow:0 3px 8px rgba(0,0,0,0.12);
-}
-.card img {
-  width:100%;
-  height:220px;
-  object-fit:cover;
-}
-.card-content { padding:15px; }
+    .container {
+      padding: 20px;
+    }
 
-button {
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:8px;
-  margin-top:8px;
-  font-size:15px;
-  cursor:pointer;
-}
-.call { background:#1a73e8; color:#fff; }
-.whatsapp { background:#25d366; color:#fff; }
-.sponsor { background:gold; font-weight:bold; }
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
 
-.support-btn {
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#e53935;
-  color:#fff;
-  padding:16px;
-  border-radius:50%;
-  text-decoration:none;
-  font-size:20px;
-}
+    select, input {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
 
-footer {
-  text-align:center;
-  font-size:13px;
-  color:#777;
-  margin:40px 0 20px;
-}
-</style>
+    .provider {
+      background: #1c1c1c;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: 1px solid #333;
+    }
+
+    .provider h3 {
+      margin-top: 0;
+      color: #f1faee;
+    }
+
+    .buttons a {
+      display: inline-block;
+      margin-right: 10px;
+      margin-top: 10px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .call {
+      background: #2a9d8f;
+    }
+
+    .whatsapp {
+      background: #25d366;
+    }
+
+    .sponsor {
+      background: #e63946;
+    }
+
+    footer {
+      background: #000;
+      padding: 20px;
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+    }
+
+    .disclaimer {
+      font-size: 12px;
+      color: #bbb;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
   <h1>Nairobi Locals</h1>
-  <p>Private Adult Companionship & Massage Directory</p>
+  <p>Professional Adult Companionship Platform • 18+ Only</p>
 </header>
 
 <div class="container">
 
-<!-- DISCLAIMER (STAYS FOREVER) -->
-<div class="disclaimer">
-<strong>🔞 Adults Only (18+)</strong><br><br>
-This website is intended strictly for adults aged 18 years and above.
-Nairobi Locals is an independent directory listing adult companionship
-and massage service providers for informational purposes only.
-We do not employ, manage, or supervise any individuals listed.
-All interactions are private, consensual, and arranged directly between adults.
-By continuing, you confirm adult content is legal in your jurisdiction.
-</div>
+  <h2>Find Professional Companionship Near You</h2>
+  <p>
+    Nairobi Locals is a private, adult-only platform connecting consenting adults
+    with independent service providers offering professional companionship,
+    social engagement, nightlife company, and personalized experiences.
+  </p>
 
-<!-- CUSTOMER FILTER DASHBOARD -->
-<div class="dashboard">
-<h3>📍 Find Services Near You</h3>
+  <!-- FILTERS -->
+  <div class="filters">
+    <select>
+      <option>Select Area</option>
+      <option>CBD</option>
+      <option>Westlands</option>
+      <option>Eastlands</option>
+      <option>Embakasi</option>
+      <option>Kilimani</option>
+      <option>South B</option>
+      <option>South C</option>
+      <option>Roysambu</option>
+      <option>Kasarani</option>
+      <option>Kiambu</option>
+    </select>
 
-<select id="locationFilter">
-  <option value="">All Locations</option>
-  <option value="Embakasi">Embakasi</option>
-  <option value="Westlands">Westlands</option>
-  <option value="CBD">CBD</option>
-</select>
+    <select>
+      <option>Select Sub-Location</option>
+      <option>Pipeline</option>
+      <option>Tassia</option>
+      <option>Fedha</option>
+      <option>Nyayo Estate</option>
+      <option>Donholm</option>
+      <option>Umoja</option>
+      <option>Buruburu</option>
+      <option>Ruaka</option>
+      <option>Ruiru</option>
+    </select>
 
-<select id="subLocationFilter">
-  <option value="">All Areas</option>
-</select>
-</div>
+    <select>
+      <option>Category</option>
+      <option>Professional Companionship</option>
+      <option>Wellness & Massage</option>
+      <option>Nightlife & Events</option>
+    </select>
+  </div>
 
-<!-- PROVIDER LOGIN (UI ONLY) -->
-<div class="dashboard">
-<h3>🔐 Provider Dashboard (Coming Soon)</h3>
-<input type="text" placeholder="Email or Phone">
-<input type="password" placeholder="Password">
-<button disabled>Login (Backend Required)</button>
-<p style="font-size:13px;color:#777;">
-Providers will be able to manage profiles, photos, and sponsorship after approval.
-</p>
-</div>
+  <!-- PROVIDER CARD -->
+  <div class="provider">
+    <h3>Verified Companion • Embakasi</h3>
+    <p>
+      Discreet, respectful, and professional adult companionship.
+      Available for social outings, private time, and personalized experiences.
+    </p>
 
-<!-- PROVIDER CARD 1 -->
-<div class="card provider"
- data-location="Embakasi"
- data-sublocation="Tassia"
- data-published="true">
+    <p><strong>Pricing:</strong></p>
+    <ul>
+      <li>KES 150 – Daily Listing</li>
+      <li>KES 400 – 4 Days</li>
+      <li>KES 1,200 – Monthly</li>
+    </ul>
 
-<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
-<div class="card-content">
-<h3>Linda</h3>
-<p><strong>Companionship</strong> • Embakasi – Tassia</p>
-<p>
-Discreet and respectful adult companionship services for mature clients.
-Privacy, hygiene, and mutual respect are prioritized at all times.
-Available strictly by appointment.
-</p>
-<button class="call" onclick="location.href='tel:+254700000000'">📞 Call</button>
-<button class="whatsapp" onclick="location.href='https://wa.me/254700000000'">💬 WhatsApp</button>
-<button class="sponsor">⭐ Sponsor Listing</button>
-</div>
-</div>
+    <div class="buttons">
+      <a class="call" href="tel:0705283274">Call</a>
+      <a class="whatsapp" href="https://wa.me/254705283274" target="_blank">WhatsApp</a>
+      <a class="sponsor" href="#">Sponsor Profile</a>
+    </div>
+  </div>
 
-<!-- PROVIDER CARD 2 -->
-<div class="card provider"
- data-location="Westlands"
- data-sublocation="Kilimani"
- data-published="true">
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong><br><br>
+    Nairobi Locals is an adult-only (18+) platform intended for consenting adults.
+    All providers are independent individuals. This platform does not facilitate
+    illegal activities, explicit sexual content, or exploitation.
+    Any arrangements are private agreements between adults.
+    Users are responsible for complying with local laws and regulations.
+  </div>
 
-<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-<div class="card-content">
-<h3>Maya</h3>
-<p><strong>Massage Services</strong> • Westlands – Kilimani</p>
-<p>
-Professional relaxation and massage sessions in a calm private environment.
-Ideal for stress relief and wellness-focused clients.
-</p>
-<button class="call" onclick="location.href='tel:+254711111111'">📞 Call</button>
-<button class="whatsapp" onclick="location.href='https://wa.me/254711111111'">💬 WhatsApp</button>
-<button class="sponsor">⭐ Sponsor Listing</button>
-</div>
 </div>
 
 <footer>
-© 2026 Nairobi Locals · Independent adult listings only
+  © 2026 Nairobi Locals • Support: workwithbyram@gmail.com • WhatsApp: 0705283274
 </footer>
-
-</div>
-
-<!-- SUPPORT / ADMIN BUTTON -->
-<a class="support-btn" href="https://wa.me/254705283274" target="_blank">🛟</a>
-
-<script>
-const subLocations = {
-  Embakasi: ["Tassia", "Pipeline", "Fedha", "Utawala"],
-  Westlands: ["Kilimani", "Kileleshwa", "Lavington"],
-  CBD: ["Ngara", "Pangani"]
-};
-
-const locationFilter = document.getElementById("locationFilter");
-const subLocationFilter = document.getElementById("subLocationFilter");
-
-locationFilter.addEventListener("change", () => {
-  subLocationFilter.innerHTML = '<option value="">All Areas</option>';
-  if (subLocations[locationFilter.value]) {
-    subLocations[locationFilter.value].forEach(area => {
-      subLocationFilter.innerHTML += `<option value="${area}">${area}</option>`;
-    });
-  }
-  applyFilters();
-});
-
-subLocationFilter.addEventListener("change", applyFilters);
-
-function applyFilters() {
-  document.querySelectorAll(".provider").forEach(card => {
-    const published = card.dataset.published === "true";
-    const loc = card.dataset.location;
-    const sub = card.dataset.sublocation;
-
-    let visible = published;
-    if (locationFilter.value && loc !== locationFilter.value) visible = false;
-    if (subLocationFilter.value && sub !== subLocationFilter.value) visible = false;
-
-    card.style.display = visible ? "block" : "none";
-  });
-}
-</script>
 
 </body>
 </html>
