@@ -2,236 +2,254 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nairobi Locals – Adult Services Marketplace</title>
+<title>Nairobi Locals</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body { font-family: Arial, sans-serif; margin:0; background:#f7f7f7; }
-header { background:#111; color:#fff; padding:15px; text-align:center; }
-header h1 { margin:0; color:#e53935; }
-.container { padding:20px; max-width:1100px; margin:auto; }
-
-.disclaimer {
-  background:#fff3cd;
-  border-left:6px solid #e53935;
-  padding:15px;
-  margin-bottom:20px;
-}
-.disclaimer strong { color:#e53935; }
-
-button { padding:10px 15px; cursor:pointer; }
-input, select, textarea { padding:8px; width:100%; margin-bottom:10px; }
-
-.card {
-  background:#fff;
-  padding:15px;
-  margin-bottom:15px;
-  border-radius:5px;
-  box-shadow:0 0 5px rgba(0,0,0,0.1);
-}
-
-.hidden { display:none; }
-
-.actions a {
-  margin-right:10px;
-  text-decoration:none;
-  padding:8px 12px;
-  color:#fff;
-  border-radius:4px;
-}
-.call { background:#4caf50; }
-.whatsapp { background:#25d366; }
-
-.price-box { background:#f1f1f1; padding:10px; margin-top:10px; }
-
-footer { text-align:center; padding:20px; font-size:14px; color:#666; }
+body{font-family:Arial;background:#f5f5f5;margin:0}
+header{background:#111;color:#fff;padding:15px;text-align:center}
+h2,h3{margin-top:0}
+.container{padding:15px;max-width:1000px;margin:auto}
+.card{background:#fff;padding:15px;margin-bottom:15px;border-radius:6px}
+.hidden{display:none}
+input,select,textarea,button{width:100%;padding:8px;margin:6px 0}
+button{background:#111;color:#fff;border:none;border-radius:4px}
+.provider-card img{width:100%;max-height:200px;object-fit:cover}
+.badge{background:red;color:white;padding:2px 6px;font-size:12px;border-radius:3px}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>Nairobi Locals</h1>
-  <p>Discreet • Professional • Adult-Only Marketplace</p>
+  <h2>Nairobi Locals</h2>
+  <p>Find trusted local service providers in Nairobi</p>
 </header>
 
 <div class="container">
 
-<div class="disclaimer">
-<strong>DISCLAIMER:</strong><br>
-This platform is strictly for adults (18+). Nairobi Locals does not provide services directly.
-All listings are independent service providers. No explicit content is displayed.
+<!-- PUBLIC MARKETPLACE -->
+<div id="publicView">
+  <div class="card">
+    <h3>Are you a service provider?</h3>
+    <button onclick="showProviderAuth()">Create account / Login</button>
+  </div>
+
+  <div class="card">
+    <h3>Browse Providers</h3>
+    <input id="filterLocation" placeholder="Search by location">
+    <button onclick="loadProviders()">Search</button>
+  </div>
+
+  <div id="providersList"></div>
 </div>
 
-<h3>Find Services</h3>
-<select id="locationFilter">
-<option value="">Select Location</option>
-<option>CBD</option>
-<option>Embakasi</option>
-<option>Kilimani</option>
-<option>Westlands</option>
-<option>Ruiru</option>
-</select>
+<!-- PROVIDER AUTH -->
+<div id="providerAuth" class="hidden card">
+  <h3>Provider Login / Register</h3>
 
-<select id="subLocationFilter">
-<option value="">Sub-Location</option>
-<option>Pipeline</option>
-<option>Tassia</option>
-<option>Fedha</option>
-<option>Karen</option>
-<option>Ruaka</option>
-</select>
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
 
-<button onclick="loadListings()">Search</button>
+  <button onclick="login()">Login</button>
+  <button onclick="showRegister()">Register</button>
+  <button onclick="resetPassword()">Forgot password</button>
 
-<hr>
-
-<div id="publicListings"></div>
-
-<hr>
-
-<h3>Want to offer services?</h3>
-<button onclick="showLogin()">Login</button>
-<button onclick="showRegister()">Create Account</button>
-
-<!-- REGISTER -->
-<div id="registerBox" class="card hidden">
-<h3>Provider Registration</h3>
-<input id="regName" placeholder="Display Name">
-<input id="regPhone" placeholder="Phone Number">
-<input id="regEmail" placeholder="Email">
-<input id="regPassword" type="password" placeholder="Password">
-<button onclick="registerProvider()">Register (Free 24h)</button>
+  <p id="authMsg"></p>
 </div>
 
-<!-- LOGIN -->
-<div id="loginBox" class="card hidden">
-<h3>Provider Login</h3>
-<input id="loginEmail" placeholder="Email">
-<input id="loginPassword" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="resetPassword()">Forgot Password</button>
-<p id="loginStatus"></p>
+<!-- PROVIDER REGISTRATION -->
+<div id="registerBox" class="hidden card">
+  <h3>Create Provider Account</h3>
+  <input id="rName" placeholder="Full name">
+  <input id="rPhone" placeholder="Phone number">
+  <input id="rEmail" placeholder="Email">
+  <input id="rPassword" type="password" placeholder="Password">
+
+  <button onclick="register()">Register (Free 24hrs)</button>
 </div>
 
-<!-- DASHBOARD -->
-<div id="providerDashboard" class="card hidden">
-<h3>Provider Dashboard</h3>
-<p id="expiryInfo"></p>
+<!-- PROVIDER DASHBOARD -->
+<div id="dashboard" class="hidden">
 
-<div class="price-box">
-<strong>Upgrade Listing</strong><br>
-<button onclick="upgrade(1)">Daily – 150</button>
-<button onclick="upgrade(4)">4 Days – 400</button>
-<button onclick="upgrade(30)">Monthly – 1200</button><br><br>
-<button onclick="vip()">VIP Boost +150</button>
-</div>
+  <div class="card">
+    <h3>Provider Dashboard</h3>
+    <p id="expiryInfo"></p>
+    <button onclick="logout()">Logout</button>
+  </div>
 
-<h4>📥 Inquiries</h4>
-<div id="inbox"></div>
+  <div class="card">
+    <h3>Complete Your Listing</h3>
 
-<button onclick="logout()">Logout</button>
-</div>
+    <input id="pLocation" placeholder="Location (e.g. Westlands)">
+    <input id="pSubLocation" placeholder="Sub-location">
+
+    <select id="pServices" multiple>
+      <option>Incall</option>
+      <option>Outcall</option>
+      <option>Dinner Company</option>
+      <option>Massage</option>
+      <option>GFE</option>
+    </select>
+
+    <textarea id="pPrices" placeholder="Prices & Packages"></textarea>
+    <input type="file" id="pPhotos" multiple>
+
+    <button onclick="saveProfile()">Save Listing</button>
+    <p id="saveMsg"></p>
+  </div>
+
+  <div class="card">
+    <h3>Upgrade Listing</h3>
+    <p>VIP listing adds KES 150 on all packages</p>
+    <button onclick="alert('Payment integration later')">Upgrade</button>
+  </div>
+
+  <div class="card">
+    <h3>Inquiries</h3>
+    <div id="inbox"></div>
+  </div>
 
 </div>
 
-<footer>
-Support: <a href="mailto:workwithbyram@gmail.com">workwithbyram@gmail.com</a>
-</footer>
+</div>
 
 <script>
-let currentUser = null;
+let currentUser=null;
 
-function showRegister(){ hideAll(); registerBox.classList.remove("hidden"); }
-function showLogin(){ hideAll(); loginBox.classList.remove("hidden"); }
-function hideAll(){ registerBox.classList.add("hidden"); loginBox.classList.add("hidden"); providerDashboard.classList.add("hidden"); }
+function showProviderAuth(){
+  hideAll();
+  providerAuth.classList.remove("hidden");
+}
 
-function registerProvider(){
-  const user = {
-    name: regName.value,
-    phone: regPhone.value,
-    email: regEmail.value,
-    password: regPassword.value,
-    createdAt: Date.now(),
-    freeUntil: Date.now()+86400000,
-    paidUntil:null,
-    vip:false,
-    inbox:[]
+function showRegister(){
+  providerAuth.classList.add("hidden");
+  registerBox.classList.remove("hidden");
+}
+
+function register(){
+  const user={
+    name:rName.value,
+    phone:rPhone.value,
+    email:rEmail.value,
+    password:rPassword.value,
+    location:"",
+    subLocation:"",
+    services:[],
+    prices:"",
+    photos:[],
+    inbox:[],
+    freeUntil:Date.now()+86400000,
+    vip:false
   };
-  localStorage.setItem("provider_"+user.email, JSON.stringify(user));
-  alert("Registered. Free listing active for 24 hours.");
+  localStorage.setItem("prov_"+user.email,JSON.stringify(user));
+  currentUser=user;
+  openDashboard();
 }
 
 function login(){
-  const data = localStorage.getItem("provider_"+loginEmail.value);
-  if(!data){ loginStatus.innerText="Account not found"; return; }
-  const u = JSON.parse(data);
-  if(u.password!==loginPassword.value){ loginStatus.innerText="Wrong password"; return; }
-  currentUser=u;
+  const u=localStorage.getItem("prov_"+email.value);
+  if(!u){authMsg.innerText="Account not found";return;}
+  const user=JSON.parse(u);
+  if(user.password!==password.value){
+    authMsg.innerText="Wrong password";return;
+  }
+  currentUser=user;
+  openDashboard();
+}
+
+function resetPassword(){
+  authMsg.innerText="Password reset link would be sent to email (backend required)";
+}
+
+function openDashboard(){
   hideAll();
-  providerDashboard.classList.remove("hidden");
+  dashboard.classList.remove("hidden");
   checkExpiry();
   loadInbox();
 }
 
-function checkExpiry(){
-  const until = currentUser.paidUntil || currentUser.freeUntil;
-  expiryInfo.innerText = Date.now()>until ? "Listing expired" : "Active until "+new Date(until).toLocaleString();
+function saveProfile(){
+  currentUser.location=pLocation.value;
+  currentUser.subLocation=pSubLocation.value;
+  currentUser.services=[...pServices.selectedOptions].map(o=>o.value);
+  currentUser.prices=pPrices.value;
+
+  const files=pPhotos.files;
+  for(let f of files){
+    const reader=new FileReader();
+    reader.onload=e=>{
+      currentUser.photos.push(e.target.result);
+      localStorage.setItem("prov_"+currentUser.email,JSON.stringify(currentUser));
+    };
+    reader.readAsDataURL(f);
+  }
+  localStorage.setItem("prov_"+currentUser.email,JSON.stringify(currentUser));
+  saveMsg.innerText="Listing saved and live!";
 }
 
-function upgrade(days){
-  currentUser.paidUntil = Date.now()+days*86400000;
-  localStorage.setItem("provider_"+currentUser.email, JSON.stringify(currentUser));
-  alert("Upgrade successful");
-  checkExpiry();
-}
-
-function vip(){
-  currentUser.vip=true;
-  localStorage.setItem("provider_"+currentUser.email, JSON.stringify(currentUser));
-  alert("VIP enabled");
-}
-
-function logout(){ currentUser=null; hideAll(); }
-
-function resetPassword(){ alert("Password reset email sent (simulation)"); }
-
-function loadListings(){
-  publicListings.innerHTML="";
+function loadProviders(){
+  providersList.innerHTML="";
   for(let k in localStorage){
-    if(k.startsWith("provider_")){
-      const u=JSON.parse(localStorage[k]);
-      const until=u.paidUntil||u.freeUntil;
-      if(Date.now()<until){
-        publicListings.innerHTML+=`
-        <div class="card">
-          <strong>${u.name}</strong> ${u.vip?"⭐VIP":""}
-          <div class="actions">
-            <a class="call" href="tel:${u.phone}">Call</a>
-            <a class="whatsapp" href="https://wa.me/${u.phone}">WhatsApp</a>
-          </div>
-          <textarea id="msg_${u.email}" placeholder="Send inquiry"></textarea>
-          <button onclick="sendMessage('${u.email}')">Send Inquiry</button>
-        </div>`;
-      }
+    if(k.startsWith("prov_")){
+      const p=JSON.parse(localStorage[k]);
+      if(filterLocation.value && !p.location.toLowerCase().includes(filterLocation.value.toLowerCase()))continue;
+
+      const div=document.createElement("div");
+      div.className="card provider-card";
+      div.innerHTML=`
+        <h3>${p.name} ${p.vip?'<span class="badge">VIP</span>':''}</h3>
+        <p>${p.location} - ${p.subLocation}</p>
+        <p>${p.services.join(", ")}</p>
+        <p>${p.prices}</p>
+        ${p.photos[0]?`<img src="${p.photos[0]}">`:''}
+        <textarea placeholder="Send inquiry"></textarea>
+        <button onclick="sendInquiry('${p.email}',this)">Send Message</button>
+      `;
+      providersList.appendChild(div);
     }
   }
 }
 
-function sendMessage(email){
-  const msg=document.getElementById("msg_"+email).value;
-  const u=JSON.parse(localStorage.getItem("provider_"+email));
-  u.inbox.push({text:msg,time:new Date().toLocaleString()});
-  localStorage.setItem("provider_"+email, JSON.stringify(u));
-  alert("Message sent");
+function sendInquiry(email,btn){
+  const msg=btn.previousElementSibling.value;
+  if(!msg)return;
+  const p=JSON.parse(localStorage.getItem("prov_"+email));
+  p.inbox.push({msg, date:new Date().toLocaleString()});
+  localStorage.setItem("prov_"+email,JSON.stringify(p));
+  alert("Inquiry sent");
 }
 
 function loadInbox(){
   inbox.innerHTML="";
   currentUser.inbox.forEach(m=>{
-    inbox.innerHTML+=`<div class="card">${m.text}<br><small>${m.time}</small></div>`;
+    inbox.innerHTML+=`<p>${m.date}: ${m.msg}</p>`;
   });
 }
+
+function checkExpiry(){
+  if(Date.now()>currentUser.freeUntil){
+    expiryInfo.innerText="Listing expired. Please upgrade.";
+  }else{
+    const hrs=Math.round((currentUser.freeUntil-Date.now())/3600000);
+    expiryInfo.innerText="Free listing active: "+hrs+" hours remaining";
+  }
+}
+
+function logout(){
+  currentUser=null;
+  hideAll();
+  publicView.classList.remove("hidden");
+}
+
+function hideAll(){
+  publicView.classList.add("hidden");
+  providerAuth.classList.add("hidden");
+  registerBox.classList.add("hidden");
+  dashboard.classList.add("hidden");
+}
+
+loadProviders();
 </script>
 
 </body>
