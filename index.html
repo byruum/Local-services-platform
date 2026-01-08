@@ -2,76 +2,103 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Nairobi Local Services</title>
+  <title>Nairobi Adult Companionship Marketplace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #111;
+      color: #eee;
       margin: 0;
-      padding: 0;
     }
     header {
-      background: #111;
-      color: #fff;
-      padding: 15px;
+      background: #000;
+      padding: 20px;
       text-align: center;
+      border-bottom: 2px solid #b30000;
+    }
+    header h1 {
+      margin: 0;
+      color: #fff;
+    }
+    header p {
+      color: #ccc;
+      font-size: 14px;
     }
     .container {
-      padding: 15px;
-      max-width: 900px;
+      max-width: 1100px;
       margin: auto;
+      padding: 15px;
     }
     .filter-box {
-      background: #fff;
+      background: #1c1c1c;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border: 1px solid #333;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      background: #000;
+      color: #fff;
+      border: 1px solid #444;
+      margin-bottom: 10px;
+    }
+    .provider {
+      background: #1a1a1a;
       padding: 15px;
       border-radius: 6px;
       margin-bottom: 15px;
-    }
-    select, button {
-      padding: 10px;
-      width: 100%;
-      margin-top: 8px;
-    }
-    .provider {
-      background: #fff;
-      padding: 15px;
-      border-radius: 6px;
-      margin-bottom: 12px;
+      border: 1px solid #333;
     }
     .provider h3 {
       margin: 0;
+      color: #fff;
+    }
+    .provider p {
+      font-size: 14px;
+      color: #ccc;
+      margin: 6px 0;
+    }
+    .tags span {
+      display: inline-block;
+      background: #222;
+      border: 1px solid #444;
+      padding: 5px 8px;
+      margin: 4px 4px 0 0;
+      font-size: 12px;
+      border-radius: 4px;
     }
     .actions a {
       display: inline-block;
       margin-right: 10px;
       margin-top: 10px;
-      padding: 8px 12px;
+      padding: 8px 14px;
       text-decoration: none;
       color: #fff;
       border-radius: 4px;
       font-size: 14px;
     }
-    .call {
-      background: #28a745;
-    }
-    .whatsapp {
-      background: #25D366;
-    }
+    .call { background: #28a745; }
+    .whatsapp { background: #25D366; }
     .footer {
-      font-size: 13px;
-      color: #444;
-      background: #fff;
+      background: #000;
       padding: 15px;
       border-radius: 6px;
-      margin-top: 20px;
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 25px;
+      border: 1px solid #333;
     }
-    .provider-link {
+    .cta {
       display: block;
       text-align: center;
       margin-top: 20px;
       font-weight: bold;
+      color: #ff4d4d;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -79,48 +106,67 @@
 <body>
 
 <header>
-  <h1>Nairobi Local Services</h1>
-  <p>Find trusted service providers near you</p>
+  <h1>Nairobi Adult Companionship Marketplace</h1>
+  <p>Professional adult companionship & messaging services (18+ only)</p>
 </header>
 
 <div class="container">
 
-  <!-- LOCATION FILTER -->
+  <!-- FILTERS -->
   <div class="filter-box">
-    <label><b>Select your location</b></label>
+    <b>Filter by location</b>
     <select id="locationFilter" onchange="filterProviders()">
-      <option value="">-- Choose location --</option>
+      <option value="">All locations</option>
+      <option value="CBD">CBD</option>
       <option value="Westlands">Westlands</option>
-      <option value="Kasarani">Kasarani</option>
       <option value="Embakasi">Embakasi</option>
+      <option value="Kasarani">Kasarani</option>
       <option value="Other">Other</option>
+    </select>
+
+    <b>Filter by service type</b>
+    <select id="serviceFilter" onchange="filterProviders()">
+      <option value="">All services</option>
+      <option value="incall">Incalls</option>
+      <option value="outcall">Outcalls</option>
+      <option value="dinner">Dinner Company</option>
+      <option value="events">Social / Events</option>
+      <option value="message">Message Services</option>
     </select>
   </div>
 
-  <!-- PROVIDERS LIST -->
+  <!-- PROVIDERS -->
   <div id="providers">
 
-    <div class="provider" data-location="Westlands">
-      <h3>Electrician</h3>
-      <p>Location: Westlands</p>
+    <div class="provider" data-location="Westlands" data-services="incall outcall dinner message">
+      <h3>Professional Companion</h3>
+      <p><b>Location:</b> Westlands</p>
+      <p>Discreet adult companionship including in-person and messaging services.</p>
+
+      <div class="tags">
+        <span>Incalls</span>
+        <span>Outcalls</span>
+        <span>Dinner Company</span>
+        <span>Message Services</span>
+      </div>
+
       <div class="actions">
         <a href="tel:+254705283274" class="call">Call</a>
         <a href="https://wa.me/254705283274" class="whatsapp">WhatsApp</a>
       </div>
     </div>
 
-    <div class="provider" data-location="Kasarani">
-      <h3>Plumber</h3>
-      <p>Location: Kasarani</p>
-      <div class="actions">
-        <a href="tel:+254705283274" class="call">Call</a>
-        <a href="https://wa.me/254705283274" class="whatsapp">WhatsApp</a>
-      </div>
-    </div>
+    <div class="provider" data-location="Embakasi" data-services="outcall events message">
+      <h3>Lifestyle Companion</h3>
+      <p><b>Location:</b> Embakasi</p>
+      <p>Friendly adult companion offering social outings and text-based companionship.</p>
 
-    <div class="provider" data-location="Embakasi">
-      <h3>House Cleaner</h3>
-      <p>Location: Embakasi</p>
+      <div class="tags">
+        <span>Outcalls</span>
+        <span>Social / Events</span>
+        <span>Message Services</span>
+      </div>
+
       <div class="actions">
         <a href="tel:+254705283274" class="call">Call</a>
         <a href="https://wa.me/254705283274" class="whatsapp">WhatsApp</a>
@@ -131,30 +177,40 @@
 
   <!-- DISCLAIMER -->
   <div class="footer">
-    <b style="color:#b30000;">Disclaimer:</b><br>
-    Nairobi Local Services is a listing platform only.  
-    We do not employ service providers and are not responsible for service quality, pricing, or disputes.
-    Users engage providers at their own discretion.
+    <b style="color:#ff4d4d;">LEGAL DISCLAIMER & AGE RESTRICTION</b><br><br>
+
+    This website is strictly for adults aged <b>18 years and above</b>.
+    The platform provides advertising and listing services only.
+
+    <br><br>
+    All listed individuals are independent adults offering companionship,
+    messaging, and social interaction services.
+
+    <br><br>
+    No explicit content is hosted or facilitated.
+    Any interaction occurs between consenting adults and must comply with local laws.
+
+    <br><br>
+    By continuing to use this site, you confirm that you are at least 18 years old.
   </div>
 
-  <!-- PROVIDER LINK -->
-  <a class="provider-link" href="provider.html">
-    Want to offer services? Create an account or login
+  <!-- PROVIDER CTA -->
+  <a class="cta" href="provider.html">
+    Want to offer companionship or message services? Create an account or login
   </a>
 
 </div>
 
 <script>
   function filterProviders() {
-    const selected = document.getElementById("locationFilter").value;
+    const location = document.getElementById("locationFilter").value;
+    const service = document.getElementById("serviceFilter").value;
     const providers = document.querySelectorAll(".provider");
 
     providers.forEach(p => {
-      if (selected === "" || p.dataset.location === selected) {
-        p.style.display = "block";
-      } else {
-        p.style.display = "none";
-      }
+      const matchLocation = !location || p.dataset.location === location;
+      const matchService = !service || p.dataset.services.includes(service);
+      p.style.display = (matchLocation && matchService) ? "block" : "none";
     });
   }
 </script>
