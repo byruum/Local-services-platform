@@ -1,188 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Nairobi Locals – Adult Service Listings</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<title>Nairobi Locals – Adult Services Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: #eee;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #111;
-      padding: 20px;
-      text-align: center;
-    }
-    section {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 5px;
-      border: none;
-    }
-    button {
-      background: #e63946;
-      color: #fff;
-      cursor: pointer;
-    }
-    .card {
-      background: #1b1b1b;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 10px 0;
-    }
-    .hidden {
-      display: none;
-    }
-    footer {
-      background: #111;
-      padding: 15px;
-      text-align: center;
-      font-size: 14px;
-    }
-    a {
-      color: #e63946;
-      text-decoration: none;
-    }
-  </style>
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
+header { background:#111; color:white; padding:15px; text-align:center; }
+section { padding:20px; }
+.card { background:white; padding:15px; margin-bottom:15px; border-radius:5px; }
+button { padding:10px 15px; cursor:pointer; }
+.hidden { display:none; }
+input, select { padding:8px; width:100%; margin:5px 0; }
+.disclaimer { font-size:12px; color:#555; }
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>Nairobi Locals</h1>
-  <p>Private adult service listings platform (18+)</p>
+<h1>Nairobi Locals</h1>
+<p>Professional Adult Companionship Platform (18+ Only)</p>
 </header>
 
-<section>
-  <h2>⚠️ Disclaimer</h2>
-  <p>
-    This platform is strictly for adults (18+). Nairobi Locals does not offer services directly.
-    We only provide a neutral listing space for independent providers. Users are responsible
-    for their interactions and compliance with local laws.
-  </p>
+<section class="card">
+<h2>Browse Providers</h2>
+
+<select id="locationFilter">
+<option value="">Select Area</option>
+<option>CBD</option>
+<option>Westlands</option>
+<option>Embakasi</option>
+<option>Kasarani</option>
+<option>Kilimani</option>
+</select>
+
+<select id="subLocationFilter">
+<option value="">Sub-location</option>
+<option>Pipeline</option>
+<option>Tassia</option>
+<option>Fedha</option>
+<option>Donholm</option>
+<option>Umoja</option>
+<option>Ngara</option>
+</select>
+
+<p>Sample Provider (Demo)</p>
+<button onclick="window.location='tel:0705283274'">Call</button>
+<button onclick="window.location='https://wa.me/254705283274'">WhatsApp</button>
 </section>
 
-<section id="loginBox">
-  <h2>Provider Login</h2>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <button onclick="login()">Login</button>
-  <p id="loginStatus"></p>
+<section class="card disclaimer">
+<strong>Disclaimer:</strong><br>
+This platform is strictly for adults aged 18 and above. All services listed are professional companionship services. Explicit sexual acts are not advertised or promoted. Users are responsible for complying with local laws and regulations.
 </section>
 
-<section id="providerDashboard" class="hidden">
-  <h2>Provider Dashboard</h2>
-
-  <div class="card">
-    <h3>Create / Edit Listing</h3>
-
-    <input type="text" placeholder="Display Name" />
-    <input type="text" placeholder="Phone Number (e.g. 07xxxxxxxx)" />
-
-    <select>
-      <option>Nairobi</option>
-      <option>Kiambu</option>
-    </select>
-
-    <select>
-      <option>CBD</option>
-      <option>Westlands</option>
-      <option>Embakasi</option>
-      <option>Tassia</option>
-      <option>Pipeline</option>
-      <option>Fedha</option>
-      <option>Umoja</option>
-      <option>Kasarani</option>
-      <option>Roysambu</option>
-      <option>Ruaka</option>
-      <option>Thika Road</option>
-    </select>
-
-    <select>
-      <option>Daily – KES 150</option>
-      <option>4 Days – KES 400</option>
-      <option>Monthly – KES 1200</option>
-    </select>
-
-    <button>Save Listing</button>
-  </div>
-
-  <div class="card">
-    <h3>Support</h3>
-    <a href="https://wa.me/254705283274" target="_blank">
-      Contact Admin via WhatsApp
-    </a>
-  </div>
-
-  <div class="card">
-    <h3>Monetization</h3>
-    <p>Sponsor your profile for higher visibility.</p>
-    <button>Upgrade Listing (Coming Soon)</button>
-  </div>
+<!-- PROVIDER LOGIN -->
+<section id="providerLogin" class="card">
+<h2>Provider Login</h2>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<p id="loginStatus"></p>
 </section>
 
-<section>
-  <h2>Browse Providers</h2>
+<!-- PROVIDER DASHBOARD -->
+<section id="providerDashboard" class="card hidden">
+<h2>Provider Dashboard</h2>
 
-  <div class="card">
-    <h3>Independent Provider – Embakasi</h3>
-    <p>Available for private companionship. Discreet and professional.</p>
-    <a href="tel:+254705283274">📞 Call</a> |
-    <a href="https://wa.me/254705283274" target="_blank">💬 WhatsApp</a>
-  </div>
+<label>Display Name</label>
+<input id="providerName">
+
+<label>Location</label>
+<input id="providerLocation">
+
+<label>Price Plan</label>
+<select id="pricePlan">
+<option value="150">KES 150 / day</option>
+<option value="400">KES 400 / 4 days</option>
+<option value="1200">KES 1200 / month</option>
+</select>
+
+<button onclick="saveProvider()">Save Profile</button>
+<button onclick="logout()">Logout</button>
+
+<p>Status: Pending Approval</p>
 </section>
 
-<footer>
-  <p>© 2026 Nairobi Locals | Adults Only | Privacy Focused</p>
-</footer>
+<!-- ADMIN LOGIN -->
+<section id="adminLogin" class="card">
+<h2>Admin Login</h2>
+<input type="email" id="adminEmail" placeholder="Admin Email">
+<input type="password" id="adminPassword" placeholder="Password">
+<button onclick="adminLogin()">Login</button>
+<p id="adminStatus"></p>
+</section>
 
-<!-- 🔥 FIREBASE (CORRECT – DO NOT TOUCH) -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+<!-- ADMIN DASHBOARD -->
+<section id="adminDashboard" class="card hidden">
+<h2>Admin Dashboard</h2>
+<p>Admin controls active.</p>
+<ul>
+<li>Approve Providers</li>
+<li>Manage Listings</li>
+<li>View Payments</li>
+</ul>
+<button onclick="logout()">Logout</button>
+</section>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-    authDomain: "local-service-hub-26b50.firebaseapp.com",
-    projectId: "local-service-hub-26b50",
-    storageBucket: "local-service-hub-26b50.appspot.com",
-    messagingSenderId: "397740156836",
-    appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
-  };
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+<script>
+const firebaseConfig = {
+  apiKey: "PASTE_YOURS",
+  authDomain: "PASTE_YOURS",
+  projectId: "PASTE_YOURS",
+};
+firebase.initializeApp(firebaseConfig);
 
-  window.login = function () {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        document.getElementById("loginStatus").innerText = "Login successful";
-      })
-      .catch(err => {
-        document.getElementById("loginStatus").innerText = err.message;
-      });
-  };
+function login() {
+  auth.signInWithEmailAndPassword(
+    email.value,
+    password.value
+  ).then(() => {
+    providerLogin.classList.add("hidden");
+    providerDashboard.classList.remove("hidden");
+  }).catch(err => loginStatus.innerText = err.message);
+}
 
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("providerDashboard").classList.remove("hidden");
-    }
+function adminLogin() {
+  auth.signInWithEmailAndPassword(
+    adminEmail.value,
+    adminPassword.value
+  ).then(cred => {
+    return db.collection("users").doc(cred.user.uid).get();
+  }).then(doc => {
+    if (doc.data().role !== "admin") throw "Not admin";
+    adminLogin.classList.add("hidden");
+    adminDashboard.classList.remove("hidden");
+  }).catch(err => adminStatus.innerText = err);
+}
+
+function saveProvider() {
+  const user = auth.currentUser;
+  db.collection("providers").doc(user.uid).set({
+    name: providerName.value,
+    location: providerLocation.value,
+    price: pricePlan.value,
+    active: false,
+    createdAt: new Date()
   });
+  alert("Saved. Await admin approval.");
+}
+
+function logout() {
+  auth.signOut();
+  location.reload();
+}
 </script>
 
 </body>
