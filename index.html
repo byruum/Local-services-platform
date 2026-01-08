@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nairobi Locals – Adult Services Platform</title>
+<title>Nairobi Locals – Adult Companionship Platform</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-header { background:#111; color:white; padding:15px; text-align:center; }
+body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; }
+header { background:#111; color:#fff; padding:15px; text-align:center; }
 section { padding:20px; }
-.card { background:white; padding:15px; margin-bottom:15px; border-radius:5px; }
-button { padding:10px 15px; cursor:pointer; }
+.card { background:#fff; padding:15px; margin-bottom:15px; border-radius:6px; }
 .hidden { display:none; }
-input, select { padding:8px; width:100%; margin:5px 0; }
-.disclaimer { font-size:12px; color:#555; }
+button { padding:10px 15px; margin-top:10px; cursor:pointer; }
+input, select { width:100%; padding:8px; margin-top:6px; }
+.small { font-size:12px; color:#555; }
 </style>
 </head>
 
@@ -24,19 +24,20 @@ input, select { padding:8px; width:100%; margin:5px 0; }
 <p>Professional Adult Companionship Platform (18+ Only)</p>
 </header>
 
+<!-- CUSTOMER VIEW -->
 <section class="card">
 <h2>Browse Providers</h2>
 
-<select id="locationFilter">
+<select id="location">
 <option value="">Select Area</option>
 <option>CBD</option>
 <option>Westlands</option>
 <option>Embakasi</option>
-<option>Kasarani</option>
 <option>Kilimani</option>
+<option>Kasarani</option>
 </select>
 
-<select id="subLocationFilter">
+<select id="sublocation">
 <option value="">Sub-location</option>
 <option>Pipeline</option>
 <option>Tassia</option>
@@ -46,37 +47,33 @@ input, select { padding:8px; width:100%; margin:5px 0; }
 <option>Ngara</option>
 </select>
 
-<p>Sample Provider (Demo)</p>
-<button onclick="window.location='tel:0705283274'">Call</button>
-<button onclick="window.location='https://wa.me/254705283274'">WhatsApp</button>
+<p><strong>Sample Provider (Demo)</strong></p>
+<button onclick="window.location='tel:0705283274'">📞 Call</button>
+<button onclick="window.location='https://wa.me/254705283274'">💬 WhatsApp</button>
 </section>
 
-<section class="card disclaimer">
+<section class="card small">
 <strong>Disclaimer:</strong><br>
-This platform is strictly for adults aged 18 and above. All services listed are professional companionship services. Explicit sexual acts are not advertised or promoted. Users are responsible for complying with local laws and regulations.
+This platform is strictly for adults aged 18 and above. Services listed are professional companionship services only. Explicit sexual services are not advertised. Users are responsible for complying with Kenyan laws and regulations.
 </section>
 
 <!-- PROVIDER LOGIN -->
 <section id="providerLogin" class="card">
 <h2>Provider Login</h2>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<p id="loginStatus"></p>
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="providerLogin()">Login</button>
+<p id="loginMsg"></p>
 </section>
 
 <!-- PROVIDER DASHBOARD -->
 <section id="providerDashboard" class="card hidden">
 <h2>Provider Dashboard</h2>
 
-<label>Display Name</label>
-<input id="providerName">
+<input id="pname" placeholder="Display Name">
+<input id="plocation" placeholder="Location">
 
-<label>Location</label>
-<input id="providerLocation">
-
-<label>Price Plan</label>
-<select id="pricePlan">
+<select id="price">
 <option value="150">KES 150 / day</option>
 <option value="400">KES 400 / 4 days</option>
 <option value="1200">KES 1200 / month</option>
@@ -85,84 +82,100 @@ This platform is strictly for adults aged 18 and above. All services listed are 
 <button onclick="saveProvider()">Save Profile</button>
 <button onclick="logout()">Logout</button>
 
-<p>Status: Pending Approval</p>
+<p>Status: <strong>Pending Approval</strong></p>
 </section>
 
 <!-- ADMIN LOGIN -->
 <section id="adminLogin" class="card">
 <h2>Admin Login</h2>
-<input type="email" id="adminEmail" placeholder="Admin Email">
-<input type="password" id="adminPassword" placeholder="Password">
+<input id="adminEmail" type="email" placeholder="Admin Email">
+<input id="adminPassword" type="password" placeholder="Password">
 <button onclick="adminLogin()">Login</button>
-<p id="adminStatus"></p>
+<p id="adminMsg"></p>
 </section>
 
 <!-- ADMIN DASHBOARD -->
 <section id="adminDashboard" class="card hidden">
 <h2>Admin Dashboard</h2>
-<p>Admin controls active.</p>
+<p>Admin access granted.</p>
 <ul>
-<li>Approve Providers</li>
-<li>Manage Listings</li>
-<li>View Payments</li>
+<li>Approve providers</li>
+<li>Manage listings</li>
+<li>Control monetization</li>
 </ul>
 <button onclick="logout()">Logout</button>
 </section>
 
-<!-- FIREBASE -->
+<!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
+// 🔥 YOUR REAL FIREBASE CONFIG
 const firebaseConfig = {
-  apiKey: "PASTE_YOURS",
-  authDomain: "PASTE_YOURS",
-  projectId: "PASTE_YOURS",
+  apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+  authDomain: "local-service-hub-26b50.firebaseapp.com",
+  projectId: "local-service-hub-26b50",
+  storageBucket: "local-service-hub-26b50.firebasestorage.app",
+  messagingSenderId: "397740156836",
+  appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
 };
+
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-function login() {
-  auth.signInWithEmailAndPassword(
-    email.value,
-    password.value
-  ).then(() => {
-    providerLogin.classList.add("hidden");
-    providerDashboard.classList.remove("hidden");
-  }).catch(err => loginStatus.innerText = err.message);
+// PROVIDER LOGIN
+function providerLogin() {
+  auth.signInWithEmailAndPassword(email.value, password.value)
+    .then(() => {
+      providerLoginBox(false);
+    })
+    .catch(e => loginMsg.innerText = e.message);
 }
 
+function providerLoginBox(show) {
+  document.getElementById("providerLogin").classList.toggle("hidden", !show);
+  document.getElementById("providerDashboard").classList.toggle("hidden", show);
+}
+
+// ADMIN LOGIN
 function adminLogin() {
-  auth.signInWithEmailAndPassword(
-    adminEmail.value,
-    adminPassword.value
-  ).then(cred => {
-    return db.collection("users").doc(cred.user.uid).get();
-  }).then(doc => {
-    if (doc.data().role !== "admin") throw "Not admin";
-    adminLogin.classList.add("hidden");
-    adminDashboard.classList.remove("hidden");
-  }).catch(err => adminStatus.innerText = err);
+  auth.signInWithEmailAndPassword(adminEmail.value, adminPassword.value)
+    .then(cred => db.collection("users").doc(cred.user.uid).get())
+    .then(doc => {
+      if (doc.exists && doc.data().role === "admin") {
+        adminLoginBox(false);
+      } else {
+        throw new Error("Not authorized");
+      }
+    })
+    .catch(e => adminMsg.innerText = e.message);
 }
 
+function adminLoginBox(show) {
+  document.getElementById("adminLogin").classList.toggle("hidden", !show);
+  document.getElementById("adminDashboard").classList.toggle("hidden", show);
+}
+
+// SAVE PROVIDER
 function saveProvider() {
   const user = auth.currentUser;
   db.collection("providers").doc(user.uid).set({
-    name: providerName.value,
-    location: providerLocation.value,
-    price: pricePlan.value,
+    name: pname.value,
+    location: plocation.value,
+    price: price.value,
     active: false,
     createdAt: new Date()
   });
-  alert("Saved. Await admin approval.");
+  alert("Profile saved. Await admin approval.");
 }
 
+// LOGOUT
 function logout() {
-  auth.signOut();
-  location.reload();
+  auth.signOut().then(() => location.reload());
 }
 </script>
 
