@@ -2,32 +2,49 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nairobi Locals – Adult Marketplace</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Firebase v8 -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<title>Nairobi Locals – Adult Services Marketplace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;margin:0}
-header{background:#000;color:#fff;padding:15px;text-align:center}
-header h1{margin:0}
-header p{margin:5px 0 0;font-size:14px;color:#ddd}
-.container{max-width:900px;margin:auto;padding:15px}
-.box{background:#fff;padding:15px;border-radius:6px;margin-bottom:15px}
-.hidden{display:none}
-button{padding:10px;width:100%;background:#000;color:#fff;border:none;border-radius:4px;margin-top:10px;cursor:pointer}
-input,select{width:100%;padding:8px;margin-top:8px}
-.disclaimer{background:#ffe5e5;color:#900;font-weight:bold;text-align:center}
-.providers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.card{border:1px solid #ddd;border-radius:5px;padding:8px}
-.card img{width:100%;height:220px;object-fit:cover;border-radius:5px}
-.actions a{display:inline-block;margin:5px 3px;padding:8px 10px;color:#fff;text-decoration:none;border-radius:4px;font-size:14px}
-.call{background:#28a745}
-.whatsapp{background:#25D366}
-.small{text-align:center;color:#666;font-size:13px}
-label{font-weight:bold;margin-top:10px;display:block}
+body { font-family: Arial, sans-serif; margin:0; background:#f7f7f7; }
+header { background:#111; color:#fff; padding:15px; text-align:center; }
+header h1 { margin:0; color:#e53935; }
+.container { padding:20px; max-width:1100px; margin:auto; }
+
+.disclaimer {
+  background:#fff3cd;
+  border-left:6px solid #e53935;
+  padding:15px;
+  margin-bottom:20px;
+}
+.disclaimer strong { color:#e53935; }
+
+button { padding:10px 15px; cursor:pointer; }
+input, select, textarea { padding:8px; width:100%; margin-bottom:10px; }
+
+.card {
+  background:#fff;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:5px;
+  box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+
+.hidden { display:none; }
+
+.actions a {
+  margin-right:10px;
+  text-decoration:none;
+  padding:8px 12px;
+  color:#fff;
+  border-radius:4px;
+}
+.call { background:#4caf50; }
+.whatsapp { background:#25d366; }
+
+.price-box { background:#f1f1f1; padding:10px; margin-top:10px; }
+
+footer { text-align:center; padding:20px; font-size:14px; color:#666; }
 </style>
 </head>
 
@@ -35,159 +52,185 @@ label{font-weight:bold;margin-top:10px;display:block}
 
 <header>
   <h1>Nairobi Locals</h1>
-  <p>Adult Services Marketplace • 18+ Only</p>
+  <p>Discreet • Professional • Adult-Only Marketplace</p>
 </header>
 
 <div class="container">
 
-<div class="box disclaimer">
-⚠️ ADULT CONTENT – 18+ ONLY<br><br>
-Nairobi Locals is an adult-oriented advertising marketplace.
-All listed providers are independent adults.
-This platform does not provide escorting services directly.
+<div class="disclaimer">
+<strong>DISCLAIMER:</strong><br>
+This platform is strictly for adults (18+). Nairobi Locals does not provide services directly.
+All listings are independent service providers. No explicit content is displayed.
 </div>
 
-<!-- ENTRY CHOICE -->
-<div class="box" id="choiceBox">
-<h3>What do you want to do?</h3>
-<button onclick="openMarket()">Find services</button>
-<button onclick="openProvider()">Offer services (Providers)</button>
-</div>
-
-<!-- MARKETPLACE -->
-<div class="box hidden" id="market">
 <h3>Find Services</h3>
-
-<label>City</label>
-<select>
-<option>Nairobi</option>
-<option>Kiambu</option>
+<select id="locationFilter">
+<option value="">Select Location</option>
+<option>CBD</option>
+<option>Embakasi</option>
+<option>Kilimani</option>
+<option>Westlands</option>
+<option>Ruiru</option>
 </select>
 
-<label>Location</label>
-<select>
-<option>CBD</option>
-<option>Westlands</option>
-<option>Eastlands</option>
-<option>Embakasi</option>
+<select id="subLocationFilter">
+<option value="">Sub-Location</option>
 <option>Pipeline</option>
 <option>Tassia</option>
 <option>Fedha</option>
-<option>Kasarani</option>
-<option>Roysambu</option>
-<option>Kilimani</option>
-<option>Lavington</option>
+<option>Karen</option>
+<option>Ruaka</option>
 </select>
 
-<label>Service Type</label>
-<select>
-<option>Incalls</option>
-<option>Outcalls</option>
-<option>Dinner Company</option>
-<option>Massage</option>
-<option>Overnight</option>
-</select>
+<button onclick="loadListings()">Search</button>
 
-<button onclick="showResults()">Search</button>
+<hr>
 
-<div class="providers hidden" id="results">
+<div id="publicListings"></div>
 
-<div class="card">
-<img src="https://via.placeholder.com/300x400">
-<h4>Amara</h4>
-<p>Westlands • Incalls</p>
-<div class="actions">
-<a class="call" href="tel:+254705283274">Call</a>
-<a class="whatsapp" href="https://wa.me/254705283274">WhatsApp</a>
-</div>
-</div>
+<hr>
 
-<div class="card">
-<img src="https://via.placeholder.com/300x400">
-<h4>Kiara</h4>
-<p>Kilimani • Outcalls</p>
-<div class="actions">
-<a class="call" href="tel:+254705283274">Call</a>
-<a class="whatsapp" href="https://wa.me/254705283274">WhatsApp</a>
-</div>
+<h3>Want to offer services?</h3>
+<button onclick="showLogin()">Login</button>
+<button onclick="showRegister()">Create Account</button>
+
+<!-- REGISTER -->
+<div id="registerBox" class="card hidden">
+<h3>Provider Registration</h3>
+<input id="regName" placeholder="Display Name">
+<input id="regPhone" placeholder="Phone Number">
+<input id="regEmail" placeholder="Email">
+<input id="regPassword" type="password" placeholder="Password">
+<button onclick="registerProvider()">Register (Free 24h)</button>
 </div>
 
-</div>
-</div>
-
-<!-- PROVIDER LOGIN / REGISTER -->
-<div class="box hidden" id="provider">
-<h3>Already a service provider?</h3>
-<p class="small">Create an account or log in to manage your listing</p>
-
-<label>Full Name</label>
-<input id="name" placeholder="Your name">
-
-<label>Phone Number</label>
-<input id="phone" placeholder="07XXXXXXXX">
-
-<label>Email</label>
-<input id="email" placeholder="Email address">
-
-<label>Password</label>
-<input id="password" type="password" placeholder="Password">
-
-<button onclick="register()">Create Account</button>
+<!-- LOGIN -->
+<div id="loginBox" class="card hidden">
+<h3>Provider Login</h3>
+<input id="loginEmail" placeholder="Email">
+<input id="loginPassword" type="password" placeholder="Password">
 <button onclick="login()">Login</button>
-<button onclick="resetPassword()">Forgot password?</button>
+<button onclick="resetPassword()">Forgot Password</button>
+<p id="loginStatus"></p>
+</div>
 
-<p id="status" class="small"></p>
+<!-- DASHBOARD -->
+<div id="providerDashboard" class="card hidden">
+<h3>Provider Dashboard</h3>
+<p id="expiryInfo"></p>
 
-<label>Upload Profile Photo</label>
-<input type="file" accept="image/*" onchange="previewImage(event)">
-<img id="preview" style="width:100%;display:none;margin-top:10px;border-radius:5px">
+<div class="price-box">
+<strong>Upgrade Listing</strong><br>
+<button onclick="upgrade(1)">Daily – 150</button>
+<button onclick="upgrade(4)">4 Days – 400</button>
+<button onclick="upgrade(30)">Monthly – 1200</button><br><br>
+<button onclick="vip()">VIP Boost +150</button>
+</div>
+
+<h4>📥 Inquiries</h4>
+<div id="inbox"></div>
+
+<button onclick="logout()">Logout</button>
 </div>
 
 </div>
+
+<footer>
+Support: <a href="mailto:workwithbyram@gmail.com">workwithbyram@gmail.com</a>
+</footer>
 
 <script>
-// 🔐 FIREBASE CONFIG (YOUR REAL PROJECT)
-var firebaseConfig = {
-  apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-  authDomain: "local-service-hub-26b50.firebaseapp.com",
-  projectId: "local-service-hub-26b50"
-};
-firebase.initializeApp(firebaseConfig);
+let currentUser = null;
 
-// UI FUNCTIONS
-function openMarket(){
-  choiceBox.classList.add("hidden");
-  market.classList.remove("hidden");
-}
-function openProvider(){
-  choiceBox.classList.add("hidden");
-  provider.classList.remove("hidden");
-}
-function showResults(){
-  results.classList.remove("hidden");
+function showRegister(){ hideAll(); registerBox.classList.remove("hidden"); }
+function showLogin(){ hideAll(); loginBox.classList.remove("hidden"); }
+function hideAll(){ registerBox.classList.add("hidden"); loginBox.classList.add("hidden"); providerDashboard.classList.add("hidden"); }
+
+function registerProvider(){
+  const user = {
+    name: regName.value,
+    phone: regPhone.value,
+    email: regEmail.value,
+    password: regPassword.value,
+    createdAt: Date.now(),
+    freeUntil: Date.now()+86400000,
+    paidUntil:null,
+    vip:false,
+    inbox:[]
+  };
+  localStorage.setItem("provider_"+user.email, JSON.stringify(user));
+  alert("Registered. Free listing active for 24 hours.");
 }
 
-// AUTH
-function register(){
-  firebase.auth().createUserWithEmailAndPassword(email.value,password.value)
-  .then(()=>status.innerText="Account created successfully")
-  .catch(e=>status.innerText=e.message);
-}
 function login(){
-  firebase.auth().signInWithEmailAndPassword(email.value,password.value)
-  .then(()=>status.innerText="Login successful")
-  .catch(e=>status.innerText=e.message);
-}
-function resetPassword(){
-  firebase.auth().sendPasswordResetEmail(email.value)
-  .then(()=>status.innerText="Password reset email sent")
-  .catch(e=>status.innerText=e.message);
+  const data = localStorage.getItem("provider_"+loginEmail.value);
+  if(!data){ loginStatus.innerText="Account not found"; return; }
+  const u = JSON.parse(data);
+  if(u.password!==loginPassword.value){ loginStatus.innerText="Wrong password"; return; }
+  currentUser=u;
+  hideAll();
+  providerDashboard.classList.remove("hidden");
+  checkExpiry();
+  loadInbox();
 }
 
-// IMAGE PREVIEW
-function previewImage(e){
-  preview.src = URL.createObjectURL(e.target.files[0]);
-  preview.style.display = "block";
+function checkExpiry(){
+  const until = currentUser.paidUntil || currentUser.freeUntil;
+  expiryInfo.innerText = Date.now()>until ? "Listing expired" : "Active until "+new Date(until).toLocaleString();
+}
+
+function upgrade(days){
+  currentUser.paidUntil = Date.now()+days*86400000;
+  localStorage.setItem("provider_"+currentUser.email, JSON.stringify(currentUser));
+  alert("Upgrade successful");
+  checkExpiry();
+}
+
+function vip(){
+  currentUser.vip=true;
+  localStorage.setItem("provider_"+currentUser.email, JSON.stringify(currentUser));
+  alert("VIP enabled");
+}
+
+function logout(){ currentUser=null; hideAll(); }
+
+function resetPassword(){ alert("Password reset email sent (simulation)"); }
+
+function loadListings(){
+  publicListings.innerHTML="";
+  for(let k in localStorage){
+    if(k.startsWith("provider_")){
+      const u=JSON.parse(localStorage[k]);
+      const until=u.paidUntil||u.freeUntil;
+      if(Date.now()<until){
+        publicListings.innerHTML+=`
+        <div class="card">
+          <strong>${u.name}</strong> ${u.vip?"⭐VIP":""}
+          <div class="actions">
+            <a class="call" href="tel:${u.phone}">Call</a>
+            <a class="whatsapp" href="https://wa.me/${u.phone}">WhatsApp</a>
+          </div>
+          <textarea id="msg_${u.email}" placeholder="Send inquiry"></textarea>
+          <button onclick="sendMessage('${u.email}')">Send Inquiry</button>
+        </div>`;
+      }
+    }
+  }
+}
+
+function sendMessage(email){
+  const msg=document.getElementById("msg_"+email).value;
+  const u=JSON.parse(localStorage.getItem("provider_"+email));
+  u.inbox.push({text:msg,time:new Date().toLocaleString()});
+  localStorage.setItem("provider_"+email, JSON.stringify(u));
+  alert("Message sent");
+}
+
+function loadInbox(){
+  inbox.innerHTML="";
+  currentUser.inbox.forEach(m=>{
+    inbox.innerHTML+=`<div class="card">${m.text}<br><small>${m.time}</small></div>`;
+  });
 }
 </script>
 
