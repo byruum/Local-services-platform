@@ -1,218 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Nairobi Adult Companionship Marketplace</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Nairobi Locals – Adult Marketplace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #eee;
-      margin: 0;
-    }
-    header {
-      background: #000;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #b30000;
-    }
-    header h1 {
-      margin: 0;
-      color: #fff;
-    }
-    header p {
-      color: #ccc;
-      font-size: 14px;
-    }
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 15px;
-    }
-    .filter-box {
-      background: #1c1c1c;
-      padding: 15px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      border: 1px solid #333;
-    }
-    select {
-      width: 100%;
-      padding: 10px;
-      background: #000;
-      color: #fff;
-      border: 1px solid #444;
-      margin-bottom: 10px;
-    }
-    .provider {
-      background: #1a1a1a;
-      padding: 15px;
-      border-radius: 6px;
-      margin-bottom: 15px;
-      border: 1px solid #333;
-    }
-    .provider h3 {
-      margin: 0;
-      color: #fff;
-    }
-    .provider p {
-      font-size: 14px;
-      color: #ccc;
-      margin: 6px 0;
-    }
-    .tags span {
-      display: inline-block;
-      background: #222;
-      border: 1px solid #444;
-      padding: 5px 8px;
-      margin: 4px 4px 0 0;
-      font-size: 12px;
-      border-radius: 4px;
-    }
-    .actions a {
-      display: inline-block;
-      margin-right: 10px;
-      margin-top: 10px;
-      padding: 8px 14px;
-      text-decoration: none;
-      color: #fff;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-    .call { background: #28a745; }
-    .whatsapp { background: #25D366; }
-    .footer {
-      background: #000;
-      padding: 15px;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #aaa;
-      margin-top: 25px;
-      border: 1px solid #333;
-    }
-    .cta {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      font-weight: bold;
-      color: #ff4d4d;
-      text-decoration: none;
-    }
-  </style>
+<!-- Firebase v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;margin:0}
+header{background:#000;color:#fff;padding:15px;text-align:center}
+header h1{margin:0}
+header p{margin:5px 0 0;font-size:14px;color:#ddd}
+.container{max-width:900px;margin:auto;padding:15px}
+.box{background:#fff;padding:15px;border-radius:6px;margin-bottom:15px}
+.hidden{display:none}
+button{padding:10px;width:100%;background:#000;color:#fff;border:none;border-radius:4px;margin-top:10px;cursor:pointer}
+input,select{width:100%;padding:8px;margin-top:8px}
+.disclaimer{background:#ffe5e5;color:#900;font-weight:bold;text-align:center}
+.providers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{border:1px solid #ddd;border-radius:5px;padding:8px}
+.card img{width:100%;height:220px;object-fit:cover;border-radius:5px}
+.actions a{display:inline-block;margin:5px 3px;padding:8px 10px;color:#fff;text-decoration:none;border-radius:4px;font-size:14px}
+.call{background:#28a745}
+.whatsapp{background:#25D366}
+.small{text-align:center;color:#666;font-size:13px}
+label{font-weight:bold;margin-top:10px;display:block}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>Nairobi Adult Companionship Marketplace</h1>
-  <p>Professional adult companionship & messaging services (18+ only)</p>
+  <h1>Nairobi Locals</h1>
+  <p>Adult Services Marketplace • 18+ Only</p>
 </header>
 
 <div class="container">
 
-  <!-- FILTERS -->
-  <div class="filter-box">
-    <b>Filter by location</b>
-    <select id="locationFilter" onchange="filterProviders()">
-      <option value="">All locations</option>
-      <option value="CBD">CBD</option>
-      <option value="Westlands">Westlands</option>
-      <option value="Embakasi">Embakasi</option>
-      <option value="Kasarani">Kasarani</option>
-      <option value="Other">Other</option>
-    </select>
+<div class="box disclaimer">
+⚠️ ADULT CONTENT – 18+ ONLY<br><br>
+Nairobi Locals is an adult-oriented advertising marketplace.
+All listed providers are independent adults.
+This platform does not provide escorting services directly.
+</div>
 
-    <b>Filter by service type</b>
-    <select id="serviceFilter" onchange="filterProviders()">
-      <option value="">All services</option>
-      <option value="incall">Incalls</option>
-      <option value="outcall">Outcalls</option>
-      <option value="dinner">Dinner Company</option>
-      <option value="events">Social / Events</option>
-      <option value="message">Message Services</option>
-    </select>
-  </div>
+<!-- ENTRY CHOICE -->
+<div class="box" id="choiceBox">
+<h3>What do you want to do?</h3>
+<button onclick="openMarket()">Find services</button>
+<button onclick="openProvider()">Offer services (Providers)</button>
+</div>
 
-  <!-- PROVIDERS -->
-  <div id="providers">
+<!-- MARKETPLACE -->
+<div class="box hidden" id="market">
+<h3>Find Services</h3>
 
-    <div class="provider" data-location="Westlands" data-services="incall outcall dinner message">
-      <h3>Professional Companion</h3>
-      <p><b>Location:</b> Westlands</p>
-      <p>Discreet adult companionship including in-person and messaging services.</p>
+<label>City</label>
+<select>
+<option>Nairobi</option>
+<option>Kiambu</option>
+</select>
 
-      <div class="tags">
-        <span>Incalls</span>
-        <span>Outcalls</span>
-        <span>Dinner Company</span>
-        <span>Message Services</span>
-      </div>
+<label>Location</label>
+<select>
+<option>CBD</option>
+<option>Westlands</option>
+<option>Eastlands</option>
+<option>Embakasi</option>
+<option>Pipeline</option>
+<option>Tassia</option>
+<option>Fedha</option>
+<option>Kasarani</option>
+<option>Roysambu</option>
+<option>Kilimani</option>
+<option>Lavington</option>
+</select>
 
-      <div class="actions">
-        <a href="tel:+254705283274" class="call">Call</a>
-        <a href="https://wa.me/254705283274" class="whatsapp">WhatsApp</a>
-      </div>
-    </div>
+<label>Service Type</label>
+<select>
+<option>Incalls</option>
+<option>Outcalls</option>
+<option>Dinner Company</option>
+<option>Massage</option>
+<option>Overnight</option>
+</select>
 
-    <div class="provider" data-location="Embakasi" data-services="outcall events message">
-      <h3>Lifestyle Companion</h3>
-      <p><b>Location:</b> Embakasi</p>
-      <p>Friendly adult companion offering social outings and text-based companionship.</p>
+<button onclick="showResults()">Search</button>
 
-      <div class="tags">
-        <span>Outcalls</span>
-        <span>Social / Events</span>
-        <span>Message Services</span>
-      </div>
+<div class="providers hidden" id="results">
 
-      <div class="actions">
-        <a href="tel:+254705283274" class="call">Call</a>
-        <a href="https://wa.me/254705283274" class="whatsapp">WhatsApp</a>
-      </div>
-    </div>
+<div class="card">
+<img src="https://via.placeholder.com/300x400">
+<h4>Amara</h4>
+<p>Westlands • Incalls</p>
+<div class="actions">
+<a class="call" href="tel:+254705283274">Call</a>
+<a class="whatsapp" href="https://wa.me/254705283274">WhatsApp</a>
+</div>
+</div>
 
-  </div>
+<div class="card">
+<img src="https://via.placeholder.com/300x400">
+<h4>Kiara</h4>
+<p>Kilimani • Outcalls</p>
+<div class="actions">
+<a class="call" href="tel:+254705283274">Call</a>
+<a class="whatsapp" href="https://wa.me/254705283274">WhatsApp</a>
+</div>
+</div>
 
-  <!-- DISCLAIMER -->
-  <div class="footer">
-    <b style="color:#ff4d4d;">LEGAL DISCLAIMER & AGE RESTRICTION</b><br><br>
+</div>
+</div>
 
-    This website is strictly for adults aged <b>18 years and above</b>.
-    The platform provides advertising and listing services only.
+<!-- PROVIDER LOGIN / REGISTER -->
+<div class="box hidden" id="provider">
+<h3>Already a service provider?</h3>
+<p class="small">Create an account or log in to manage your listing</p>
 
-    <br><br>
-    All listed individuals are independent adults offering companionship,
-    messaging, and social interaction services.
+<label>Full Name</label>
+<input id="name" placeholder="Your name">
 
-    <br><br>
-    No explicit content is hosted or facilitated.
-    Any interaction occurs between consenting adults and must comply with local laws.
+<label>Phone Number</label>
+<input id="phone" placeholder="07XXXXXXXX">
 
-    <br><br>
-    By continuing to use this site, you confirm that you are at least 18 years old.
-  </div>
+<label>Email</label>
+<input id="email" placeholder="Email address">
 
-  <!-- PROVIDER CTA -->
-  <a class="cta" href="provider.html">
-    Want to offer companionship or message services? Create an account or login
-  </a>
+<label>Password</label>
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="register()">Create Account</button>
+<button onclick="login()">Login</button>
+<button onclick="resetPassword()">Forgot password?</button>
+
+<p id="status" class="small"></p>
+
+<label>Upload Profile Photo</label>
+<input type="file" accept="image/*" onchange="previewImage(event)">
+<img id="preview" style="width:100%;display:none;margin-top:10px;border-radius:5px">
+</div>
 
 </div>
 
 <script>
-  function filterProviders() {
-    const location = document.getElementById("locationFilter").value;
-    const service = document.getElementById("serviceFilter").value;
-    const providers = document.querySelectorAll(".provider");
+// 🔐 FIREBASE CONFIG (YOUR REAL PROJECT)
+var firebaseConfig = {
+  apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+  authDomain: "local-service-hub-26b50.firebaseapp.com",
+  projectId: "local-service-hub-26b50"
+};
+firebase.initializeApp(firebaseConfig);
 
-    providers.forEach(p => {
-      const matchLocation = !location || p.dataset.location === location;
-      const matchService = !service || p.dataset.services.includes(service);
-      p.style.display = (matchLocation && matchService) ? "block" : "none";
-    });
-  }
+// UI FUNCTIONS
+function openMarket(){
+  choiceBox.classList.add("hidden");
+  market.classList.remove("hidden");
+}
+function openProvider(){
+  choiceBox.classList.add("hidden");
+  provider.classList.remove("hidden");
+}
+function showResults(){
+  results.classList.remove("hidden");
+}
+
+// AUTH
+function register(){
+  firebase.auth().createUserWithEmailAndPassword(email.value,password.value)
+  .then(()=>status.innerText="Account created successfully")
+  .catch(e=>status.innerText=e.message);
+}
+function login(){
+  firebase.auth().signInWithEmailAndPassword(email.value,password.value)
+  .then(()=>status.innerText="Login successful")
+  .catch(e=>status.innerText=e.message);
+}
+function resetPassword(){
+  firebase.auth().sendPasswordResetEmail(email.value)
+  .then(()=>status.innerText="Password reset email sent")
+  .catch(e=>status.innerText=e.message);
+}
+
+// IMAGE PREVIEW
+function previewImage(e){
+  preview.src = URL.createObjectURL(e.target.files[0]);
+  preview.style.display = "block";
+}
 </script>
 
 </body>
