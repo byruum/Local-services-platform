@@ -2,100 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Nairobi Locals – Adult Companionship Platform</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nairobi Locals – Adult Service Listings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #111;
-      color: #f2f2f2;
+      background: #0f0f0f;
+      color: #eee;
       margin: 0;
       padding: 0;
     }
-
     header {
-      background: #000;
+      background: #111;
       padding: 20px;
       text-align: center;
     }
-
-    header h1 {
-      margin: 0;
-      color: #e63946;
-    }
-
-    header p {
-      font-size: 14px;
-      color: #ccc;
-    }
-
-    .container {
+    section {
       padding: 20px;
+      max-width: 900px;
+      margin: auto;
     }
-
-    .filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    select, input {
+    input, select, button {
+      width: 100%;
       padding: 10px;
+      margin: 8px 0;
       border-radius: 5px;
       border: none;
     }
-
-    .provider {
-      background: #1c1c1c;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      border: 1px solid #333;
-    }
-
-    .provider h3 {
-      margin-top: 0;
-      color: #f1faee;
-    }
-
-    .buttons a {
-      display: inline-block;
-      margin-right: 10px;
-      margin-top: 10px;
-      padding: 10px 15px;
-      border-radius: 5px;
-      text-decoration: none;
+    button {
+      background: #e63946;
       color: #fff;
+      cursor: pointer;
+    }
+    .card {
+      background: #1b1b1b;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    .hidden {
+      display: none;
+    }
+    footer {
+      background: #111;
+      padding: 15px;
+      text-align: center;
       font-size: 14px;
     }
-
-    .call {
-      background: #2a9d8f;
-    }
-
-    .whatsapp {
-      background: #25d366;
-    }
-
-    .sponsor {
-      background: #e63946;
-    }
-
-    footer {
-      background: #000;
-      padding: 20px;
-      font-size: 12px;
-      color: #aaa;
-      text-align: center;
-    }
-
-    .disclaimer {
-      font-size: 12px;
-      color: #bbb;
-      margin-top: 20px;
-      line-height: 1.6;
+    a {
+      color: #e63946;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -104,92 +61,129 @@
 
 <header>
   <h1>Nairobi Locals</h1>
-  <p>Professional Adult Companionship Platform • 18+ Only</p>
+  <p>Private adult service listings platform (18+)</p>
 </header>
 
-<div class="container">
-
-  <h2>Find Professional Companionship Near You</h2>
+<section>
+  <h2>⚠️ Disclaimer</h2>
   <p>
-    Nairobi Locals is a private, adult-only platform connecting consenting adults
-    with independent service providers offering professional companionship,
-    social engagement, nightlife company, and personalized experiences.
+    This platform is strictly for adults (18+). Nairobi Locals does not offer services directly.
+    We only provide a neutral listing space for independent providers. Users are responsible
+    for their interactions and compliance with local laws.
   </p>
+</section>
 
-  <!-- FILTERS -->
-  <div class="filters">
+<section id="loginBox">
+  <h2>Provider Login</h2>
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+  <p id="loginStatus"></p>
+</section>
+
+<section id="providerDashboard" class="hidden">
+  <h2>Provider Dashboard</h2>
+
+  <div class="card">
+    <h3>Create / Edit Listing</h3>
+
+    <input type="text" placeholder="Display Name" />
+    <input type="text" placeholder="Phone Number (e.g. 07xxxxxxxx)" />
+
     <select>
-      <option>Select Area</option>
-      <option>CBD</option>
-      <option>Westlands</option>
-      <option>Eastlands</option>
-      <option>Embakasi</option>
-      <option>Kilimani</option>
-      <option>South B</option>
-      <option>South C</option>
-      <option>Roysambu</option>
-      <option>Kasarani</option>
+      <option>Nairobi</option>
       <option>Kiambu</option>
     </select>
 
     <select>
-      <option>Select Sub-Location</option>
-      <option>Pipeline</option>
+      <option>CBD</option>
+      <option>Westlands</option>
+      <option>Embakasi</option>
       <option>Tassia</option>
+      <option>Pipeline</option>
       <option>Fedha</option>
-      <option>Nyayo Estate</option>
-      <option>Donholm</option>
       <option>Umoja</option>
-      <option>Buruburu</option>
+      <option>Kasarani</option>
+      <option>Roysambu</option>
       <option>Ruaka</option>
-      <option>Ruiru</option>
+      <option>Thika Road</option>
     </select>
 
     <select>
-      <option>Category</option>
-      <option>Professional Companionship</option>
-      <option>Wellness & Massage</option>
-      <option>Nightlife & Events</option>
+      <option>Daily – KES 150</option>
+      <option>4 Days – KES 400</option>
+      <option>Monthly – KES 1200</option>
     </select>
+
+    <button>Save Listing</button>
   </div>
 
-  <!-- PROVIDER CARD -->
-  <div class="provider">
-    <h3>Verified Companion • Embakasi</h3>
-    <p>
-      Discreet, respectful, and professional adult companionship.
-      Available for social outings, private time, and personalized experiences.
-    </p>
-
-    <p><strong>Pricing:</strong></p>
-    <ul>
-      <li>KES 150 – Daily Listing</li>
-      <li>KES 400 – 4 Days</li>
-      <li>KES 1,200 – Monthly</li>
-    </ul>
-
-    <div class="buttons">
-      <a class="call" href="tel:0705283274">Call</a>
-      <a class="whatsapp" href="https://wa.me/254705283274" target="_blank">WhatsApp</a>
-      <a class="sponsor" href="#">Sponsor Profile</a>
-    </div>
+  <div class="card">
+    <h3>Support</h3>
+    <a href="https://wa.me/254705283274" target="_blank">
+      Contact Admin via WhatsApp
+    </a>
   </div>
 
-  <!-- DISCLAIMER -->
-  <div class="disclaimer">
-    <strong>Disclaimer:</strong><br><br>
-    Nairobi Locals is an adult-only (18+) platform intended for consenting adults.
-    All providers are independent individuals. This platform does not facilitate
-    illegal activities, explicit sexual content, or exploitation.
-    Any arrangements are private agreements between adults.
-    Users are responsible for complying with local laws and regulations.
+  <div class="card">
+    <h3>Monetization</h3>
+    <p>Sponsor your profile for higher visibility.</p>
+    <button>Upgrade Listing (Coming Soon)</button>
   </div>
+</section>
 
-</div>
+<section>
+  <h2>Browse Providers</h2>
+
+  <div class="card">
+    <h3>Independent Provider – Embakasi</h3>
+    <p>Available for private companionship. Discreet and professional.</p>
+    <a href="tel:+254705283274">📞 Call</a> |
+    <a href="https://wa.me/254705283274" target="_blank">💬 WhatsApp</a>
+  </div>
+</section>
 
 <footer>
-  © 2026 Nairobi Locals • Support: workwithbyram@gmail.com • WhatsApp: 0705283274
+  <p>© 2026 Nairobi Locals | Adults Only | Privacy Focused</p>
 </footer>
+
+<!-- 🔥 FIREBASE (CORRECT – DO NOT TOUCH) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+    authDomain: "local-service-hub-26b50.firebaseapp.com",
+    projectId: "local-service-hub-26b50",
+    storageBucket: "local-service-hub-26b50.appspot.com",
+    messagingSenderId: "397740156836",
+    appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.login = function () {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        document.getElementById("loginStatus").innerText = "Login successful";
+      })
+      .catch(err => {
+        document.getElementById("loginStatus").innerText = err.message;
+      });
+  };
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("providerDashboard").classList.remove("hidden");
+    }
+  });
+</script>
 
 </body>
 </html>
