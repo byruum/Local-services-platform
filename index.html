@@ -6,29 +6,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; }
+body { margin:0; font-family:Arial, sans-serif; background:#f3f3f3; }
 header { background:#000; color:#fff; padding:20px; text-align:center; }
-.container { max-width:900px; margin:auto; padding:15px; }
-.card { background:#fff; border-radius:10px; margin-bottom:20px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-.card img { width:100%; height:200px; object-fit:cover; }
+.container { max-width:1000px; margin:auto; padding:15px; }
+
+.disclaimer {
+  background:#111;
+  color:#fff;
+  padding:18px;
+  border-radius:10px;
+  margin-bottom:20px;
+  font-size:14px;
+  line-height:1.6;
+}
+.disclaimer strong { color:#ff4d4d; }
+
+.dashboard {
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+
+select, input {
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  font-size:15px;
+}
+
+.card {
+  background:#fff;
+  border-radius:12px;
+  margin-bottom:20px;
+  overflow:hidden;
+  box-shadow:0 3px 8px rgba(0,0,0,0.12);
+}
+.card img {
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
 .card-content { padding:15px; }
-button { width:100%; padding:12px; border:none; border-radius:8px; font-size:16px; margin-top:8px; cursor:pointer; }
-.call { background:#007bff; color:#fff; }
+
+button {
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  margin-top:8px;
+  font-size:15px;
+  cursor:pointer;
+}
+.call { background:#1a73e8; color:#fff; }
 .whatsapp { background:#25d366; color:#fff; }
 .sponsor { background:gold; font-weight:bold; }
 
-select, input { width:100%; padding:10px; margin-bottom:10px; }
-
-.disclaimer {
-  background:#111; color:#fff; padding:20px; border-radius:10px; margin-bottom:20px;
+.support-btn {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#e53935;
+  color:#fff;
+  padding:16px;
+  border-radius:50%;
+  text-decoration:none;
+  font-size:20px;
 }
 
-.dashboard { background:#fff; padding:15px; border-radius:10px; margin-bottom:20px; }
-
-.support-btn {
-  position:fixed; bottom:20px; right:20px;
-  background:red; color:white; padding:15px;
-  border-radius:50%; font-size:20px; text-decoration:none;
+footer {
+  text-align:center;
+  font-size:13px;
+  color:#777;
+  margin:40px 0 20px;
 }
 </style>
 </head>
@@ -36,92 +86,133 @@ select, input { width:100%; padding:10px; margin-bottom:10px; }
 <body>
 
 <header>
-<h1>Nairobi Locals</h1>
-<p>Adults Only (18+) – Private Companion & Massage Directory</p>
+  <h1>Nairobi Locals</h1>
+  <p>Private Adult Companionship & Massage Directory</p>
 </header>
 
 <div class="container">
 
-<!-- DISCLAIMER -->
+<!-- DISCLAIMER (STAYS FOREVER) -->
 <div class="disclaimer">
-<strong>Adults Only (18+)</strong><br><br>
-This platform is strictly for individuals aged 18 years and above.
-Nairobi Locals is an independent listing directory for companionship
-and massage service providers. We do not manage, employ, or control
-any individuals listed. All interactions are private and consensual.
+<strong>🔞 Adults Only (18+)</strong><br><br>
+This website is intended strictly for adults aged 18 years and above.
+Nairobi Locals is an independent directory listing adult companionship
+and massage service providers for informational purposes only.
+We do not employ, manage, or supervise any individuals listed.
+All interactions are private, consensual, and arranged directly between adults.
 By continuing, you confirm adult content is legal in your jurisdiction.
 </div>
 
-<!-- LOCATION FILTER -->
+<!-- CUSTOMER FILTER DASHBOARD -->
 <div class="dashboard">
-<h3>📍 Filter by Location</h3>
-<select id="locationFilter" onchange="filterCards()">
-<option value="all">All Locations</option>
-<option value="CBD">CBD</option>
-<option value="Embakasi">Embakasi</option>
-<option value="Westlands">Westlands</option>
+<h3>📍 Find Services Near You</h3>
+
+<select id="locationFilter">
+  <option value="">All Locations</option>
+  <option value="Embakasi">Embakasi</option>
+  <option value="Westlands">Westlands</option>
+  <option value="CBD">CBD</option>
+</select>
+
+<select id="subLocationFilter">
+  <option value="">All Areas</option>
 </select>
 </div>
 
-<!-- CUSTOMER DASHBOARD -->
+<!-- PROVIDER LOGIN (UI ONLY) -->
 <div class="dashboard">
-<h3>👤 Customer Dashboard</h3>
-<p>• Browse verified listings<br>
-• Filter by location<br>
-• Contact providers directly</p>
-</div>
-
-<!-- PROVIDER DASHBOARD (UI ONLY) -->
-<div class="dashboard">
-<h3>🔐 Provider Login (Coming Soon)</h3>
-<input type="text" placeholder="Phone / Email">
+<h3>🔐 Provider Dashboard (Coming Soon)</h3>
+<input type="text" placeholder="Email or Phone">
 <input type="password" placeholder="Password">
 <button disabled>Login (Backend Required)</button>
-<p style="font-size:13px;color:gray;">Accounts will be enabled soon.</p>
+<p style="font-size:13px;color:#777;">
+Providers will be able to manage profiles, photos, and sponsorship after approval.
+</p>
 </div>
 
-<!-- LISTING 1 -->
-<div class="card" data-location="Embakasi">
+<!-- PROVIDER CARD 1 -->
+<div class="card provider"
+ data-location="Embakasi"
+ data-sublocation="Tassia"
+ data-published="true">
+
 <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
 <div class="card-content">
 <h3>Linda</h3>
-<p>Companionship • Embakasi – Tassia</p>
-<p>Friendly, discreet and professional companionship services.</p>
-<button class="call" onclick="location.href='tel:+254700000000'">📞 Call Now</button>
+<p><strong>Companionship</strong> • Embakasi – Tassia</p>
+<p>
+Discreet and respectful adult companionship services for mature clients.
+Privacy, hygiene, and mutual respect are prioritized at all times.
+Available strictly by appointment.
+</p>
+<button class="call" onclick="location.href='tel:+254700000000'">📞 Call</button>
 <button class="whatsapp" onclick="location.href='https://wa.me/254700000000'">💬 WhatsApp</button>
 <button class="sponsor">⭐ Sponsor Listing</button>
 </div>
 </div>
 
-<!-- LISTING 2 -->
-<div class="card" data-location="CBD">
+<!-- PROVIDER CARD 2 -->
+<div class="card provider"
+ data-location="Westlands"
+ data-sublocation="Kilimani"
+ data-published="true">
+
 <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
 <div class="card-content">
 <h3>Maya</h3>
-<p>Massage Services • CBD</p>
-<p>Relaxing therapeutic massage services by appointment.</p>
-<button class="call" onclick="location.href='tel:+254711111111'">📞 Call Now</button>
+<p><strong>Massage Services</strong> • Westlands – Kilimani</p>
+<p>
+Professional relaxation and massage sessions in a calm private environment.
+Ideal for stress relief and wellness-focused clients.
+</p>
+<button class="call" onclick="location.href='tel:+254711111111'">📞 Call</button>
 <button class="whatsapp" onclick="location.href='https://wa.me/254711111111'">💬 WhatsApp</button>
 <button class="sponsor">⭐ Sponsor Listing</button>
 </div>
 </div>
 
+<footer>
+© 2026 Nairobi Locals · Independent adult listings only
+</footer>
+
 </div>
 
-<!-- SUPPORT BUTTON -->
+<!-- SUPPORT / ADMIN BUTTON -->
 <a class="support-btn" href="https://wa.me/254705283274" target="_blank">🛟</a>
 
 <script>
-function filterCards() {
-  let filter = document.getElementById("locationFilter").value;
-  let cards = document.querySelectorAll(".card");
+const subLocations = {
+  Embakasi: ["Tassia", "Pipeline", "Fedha", "Utawala"],
+  Westlands: ["Kilimani", "Kileleshwa", "Lavington"],
+  CBD: ["Ngara", "Pangani"]
+};
 
-  cards.forEach(card => {
-    if (filter === "all" || card.dataset.location === filter) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
+const locationFilter = document.getElementById("locationFilter");
+const subLocationFilter = document.getElementById("subLocationFilter");
+
+locationFilter.addEventListener("change", () => {
+  subLocationFilter.innerHTML = '<option value="">All Areas</option>';
+  if (subLocations[locationFilter.value]) {
+    subLocations[locationFilter.value].forEach(area => {
+      subLocationFilter.innerHTML += `<option value="${area}">${area}</option>`;
+    });
+  }
+  applyFilters();
+});
+
+subLocationFilter.addEventListener("change", applyFilters);
+
+function applyFilters() {
+  document.querySelectorAll(".provider").forEach(card => {
+    const published = card.dataset.published === "true";
+    const loc = card.dataset.location;
+    const sub = card.dataset.sublocation;
+
+    let visible = published;
+    if (locationFilter.value && loc !== locationFilter.value) visible = false;
+    if (subLocationFilter.value && sub !== subLocationFilter.value) visible = false;
+
+    card.style.display = visible ? "block" : "none";
   });
 }
 </script>
