@@ -5,20 +5,22 @@
 <title>Nairobi Locals</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{font-family:Arial;margin:0;background:#111;color:#eee}
+body{margin:0;font-family:Arial;background:#0f0f0f;color:#eee}
 header{background:#000;padding:15px;text-align:center}
 h1{color:#e63946}
-button{padding:10px 15px;border:none;border-radius:5px;cursor:pointer}
+button{padding:10px 15px;border:none;border-radius:6px;margin:5px;cursor:pointer}
 .primary{background:#e63946;color:#fff}
-.whatsapp{background:#25D366;color:#fff}
 .call{background:#007bff;color:#fff}
-.card{background:#1c1c1c;margin:10px;padding:15px;border-radius:10px}
-.hidden{display:none}
+.whatsapp{background:#25D366;color:#fff}
+.support{background:#555;color:#fff}
 input,select,textarea{width:100%;padding:8px;margin:5px 0;border-radius:5px;border:none}
-small{color:#aaa}
-.disclaimer{background:#2a0000;padding:15px;margin:10px;border-left:5px solid red}
+.card{background:#1c1c1c;padding:15px;margin:10px;border-radius:10px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.hidden{display:none}
 img{width:100%;border-radius:10px}
+.disclaimer{background:#2a0000;border-left:5px solid red;padding:15px;margin:10px}
+.chat-box{height:150px;overflow:auto;background:#111;padding:10px;border-radius:5px}
+.msg{margin:5px 0;font-size:14px}
 </style>
 </head>
 
@@ -30,13 +32,16 @@ img{width:100%;border-radius:10px}
 </header>
 
 <div class="disclaimer">
-<strong>DISCLAIMER:</strong><br>
-This platform is strictly for adults aged 18 and above. Nairobi Locals does not provide escort services directly. We act only as an advertising platform. All interactions are between consenting adults. Any illegal activity is strictly prohibited.
+<strong>DISCLAIMER</strong><br>
+This platform advertises adult services for consenting adults only (18+).
+Nairobi Locals does not participate in services rendered.
+All arrangements are between independent adults.
+Illegal activity is prohibited.
 </div>
 
 <!-- PUBLIC MARKETPLACE -->
 <section id="marketplace">
-<h2 style="padding:10px">Available Providers</h2>
+<h2 style="padding:10px">Browse Services</h2>
 
 <select id="filterLocation" onchange="renderProviders()">
 <option value="">All Locations</option>
@@ -46,86 +51,94 @@ This platform is strictly for adults aged 18 and above. Nairobi Locals does not 
 <option>Kasarani</option>
 </select>
 
+<input id="serviceSearch" placeholder="Search services..." onkeyup="renderProviders()">
+
 <div id="providerList" class="grid"></div>
 </section>
 
-<!-- OFFER SERVICES -->
-<section style="padding:15px">
-<h2>Want to offer services?</h2>
+<!-- PROVIDER ENTRY -->
+<section class="card">
+<h3>Want to offer services?</h3>
 <p>Create an account or login if you are already a service provider.</p>
-<button class="primary" onclick="showRegister()">Create Account / Login</button>
+<button class="primary" onclick="toggleAuth()">Create Account / Login</button>
 </section>
 
-<!-- REGISTER / LOGIN -->
-<section id="auth" class="hidden">
-<div class="card">
+<!-- AUTH -->
+<section id="auth" class="hidden card">
 <h3>Provider Login</h3>
 <input id="loginEmail" placeholder="Email">
 <input id="loginPassword" type="password" placeholder="Password">
 <button class="primary" onclick="login()">Login</button>
 <p id="loginMsg"></p>
+
 <hr>
-<h3>Register (Free 24 Hours)</h3>
+
+<h3>Register – Free 24 Hours Listing</h3>
 <input id="rName" placeholder="Full Name">
 <input id="rPhone" placeholder="Phone Number">
 <input id="rEmail" placeholder="Email">
 <input id="rPassword" type="password" placeholder="Password">
 <button class="primary" onclick="register()">Register</button>
-</div>
 </section>
 
-<!-- PROVIDER DASHBOARD -->
-<section id="dashboard" class="hidden">
-<div class="card">
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden card">
 <h2>Provider Dashboard</h2>
-<p style="color:red;font-weight:bold">Free listing active for 24 hours</p>
+<p style="color:#f77">Free listing active for 24 hours</p>
 
-<input id="pLocation" placeholder="Main Location (e.g. Embakasi)">
-<input id="pSub" placeholder="Sub Location (Pipeline, Fedha, Tassia)">
-<textarea id="pServices" placeholder="Services: Incall, Outcall, Dinner, Extras"></textarea>
-<input id="pPrice" placeholder="Prices (150 daily, 400/4days, 1200/month)">
-<input type="file" id="pPhoto" multiple>
-<button class="primary" onclick="saveProfile()">Save Listing</button>
+<h3>Your Listing</h3>
+<input id="pLocation" placeholder="Location (e.g. Embakasi)">
+<input id="pSub" placeholder="Sub-location (Pipeline, Fedha)">
+<textarea id="pServices" placeholder="Services offered"></textarea>
+<input id="pPrice" placeholder="Prices">
+<button class="primary" onclick="saveProfile()">Save / Update Listing</button>
 
-<p id="dashMsg"></p>
+<h3>Search Other Services</h3>
+<input placeholder="Search marketplace..." onkeyup="renderProviders()">
+
+<h3>In-App Chat</h3>
+<div class="chat-box" id="chatBox"></div>
+<input id="chatInput" placeholder="Type message...">
+<button onclick="sendChat()">Send</button>
+
+<h3>Support</h3>
+<button class="support" onclick="location.href='mailto:workwithbyram@gmail.com'">
+Contact Support
+</button>
+
 <button onclick="logout()">Logout</button>
-</div>
 </section>
 
 <script>
-let providers=[
+let providers = JSON.parse(localStorage.getItem("providers")) || [
 {
 name:"Lena",
 location:"CBD",
 phone:"0700000001",
 img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2",
 services:"Incall & Outcall",
-price:"Ksh 1500",
-},
-{
-name:"Maya",
-location:"Westlands",
-phone:"0700000002",
-img:"https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9",
-services:"Dinner & Massage",
-price:"Ksh 2000",
+price:"Ksh 1500"
 }
 ];
 
-let currentUser=null;
+let chats = JSON.parse(localStorage.getItem("chats")) || [];
+let currentUser = null;
 
 function renderProviders(){
-let loc=document.getElementById("filterLocation").value;
-let list=document.getElementById("providerList");
-list.innerHTML="";
-providers.filter(p=>!loc||p.location===loc).forEach(p=>{
-list.innerHTML+=`
+let loc = filterLocation.value;
+let q = serviceSearch.value.toLowerCase();
+providerList.innerHTML="";
+providers
+.filter(p => (!loc || p.location===loc))
+.filter(p => !q || p.services.toLowerCase().includes(q))
+.forEach(p=>{
+providerList.innerHTML+=`
 <div class="card">
 <img src="${p.img}">
 <h3>${p.name}</h3>
 <p>${p.services}</p>
 <p><strong>${p.price}</strong></p>
-<button class="call" onclick="location.href='tel:${p.phone}'">Call Now</button>
+<button class="call" onclick="location.href='tel:${p.phone}'">Call</button>
 <button class="whatsapp" onclick="location.href='https://wa.me/254${p.phone.slice(1)}'">WhatsApp</button>
 </div>`;
 });
@@ -133,26 +146,21 @@ list.innerHTML+=`
 
 renderProviders();
 
-function showRegister(){
-document.getElementById("auth").classList.remove("hidden");
-}
+function toggleAuth(){auth.classList.toggle("hidden");}
 
 function register(){
-let user={
+currentUser={
 name:rName.value,
 phone:rPhone.value,
 email:rEmail.value,
-password:rPassword.value,
-freeUntil:Date.now()+86400000
+password:rPassword.value
 };
-localStorage.setItem("prov_"+user.email,JSON.stringify(user));
-currentUser=user;
+localStorage.setItem("user_"+currentUser.email,JSON.stringify(currentUser));
 openDashboard();
 }
 
 function login(){
-let key="prov_"+loginEmail.value;
-let u=JSON.parse(localStorage.getItem(key));
+let u=JSON.parse(localStorage.getItem("user_"+loginEmail.value));
 if(!u||u.password!==loginPassword.value){
 loginMsg.innerText="Invalid login";
 return;
@@ -162,8 +170,8 @@ openDashboard();
 }
 
 function openDashboard(){
-document.getElementById("auth").classList.add("hidden");
-document.getElementById("dashboard").classList.remove("hidden");
+auth.classList.add("hidden");
+dashboard.classList.remove("hidden");
 }
 
 function saveProfile(){
@@ -175,13 +183,26 @@ img:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
 services:pServices.value,
 price:pPrice.value
 });
-dashMsg.innerText="Listing saved and live!";
+localStorage.setItem("providers",JSON.stringify(providers));
 renderProviders();
 }
 
-function logout(){
-location.reload();
+function sendChat(){
+chats.push({from:currentUser.name,text:chatInput.value});
+localStorage.setItem("chats",JSON.stringify(chats));
+chatInput.value="";
+loadChat();
 }
+
+function loadChat(){
+chatBox.innerHTML="";
+chats.forEach(c=>{
+chatBox.innerHTML+=`<div class="msg"><b>${c.from}:</b> ${c.text}</div>`;
+});
+}
+loadChat();
+
+function logout(){location.reload();}
 </script>
 
 </body>
