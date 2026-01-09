@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Nairobi Locals</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
 <style>
-body{margin:0;font-family:Arial;background:#0f0f0f;color:#eee}
-header{background:#000;padding:15px;text-align:center}
-h1{color:#e63946}
-button{padding:10px 15px;border:none;border-radius:6px;margin:5px;cursor:pointer}
-.primary{background:#e63946;color:#fff}
-.call{background:#007bff;color:#fff}
-.whatsapp{background:#25D366;color:#fff}
-.support{background:#555;color:#fff}
-input,select,textarea{width:100%;padding:8px;margin:5px 0;border-radius:5px;border:none}
-.card{background:#1c1c1c;padding:15px;margin:10px;border-radius:10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+body{font-family:Arial;background:#f6f6f6;margin:0}
+header{background:#b30000;color:#fff;padding:15px;text-align:center}
+section{padding:15px}
+.card{background:#fff;padding:15px;margin-bottom:15px;border-radius:6px}
+button{padding:10px 15px;background:#b30000;color:#fff;border:none;border-radius:4px;cursor:pointer}
+input,select,textarea{width:100%;padding:8px;margin:5px 0}
 .hidden{display:none}
-img{width:100%;border-radius:10px}
-.disclaimer{background:#2a0000;border-left:5px solid red;padding:15px;margin:10px}
-.chat-box{height:150px;overflow:auto;background:#111;padding:10px;border-radius:5px}
-.msg{margin:5px 0;font-size:14px}
+.provider img{width:100%;border-radius:6px}
+footer{background:#111;color:#fff;padding:15px;font-size:13px}
+small{color:#555}
 </style>
 </head>
 
@@ -28,181 +28,145 @@ img{width:100%;border-radius:10px}
 
 <header>
 <h1>Nairobi Locals</h1>
-<p>Adult Services Marketplace – 18+ Only</p>
+<p>Local Services Marketplace</p>
+<button onclick="showProviderAuth()">Want to offer services?</button>
 </header>
 
-<div class="disclaimer">
-<strong>DISCLAIMER</strong><br>
-This platform advertises adult services for consenting adults only (18+).
-Nairobi Locals does not participate in services rendered.
-All arrangements are between independent adults.
-Illegal activity is prohibited.
+<!-- PUBLIC MARKETPLACE -->
+<section id="publicView">
+
+<div class="card">
+<h3>Find Services</h3>
+<select>
+<option>Nairobi</option>
+<option>Westlands</option>
+<option>Kilimani</option>
+<option>CBD</option>
+<option>Eastlands</option>
+</select>
 </div>
 
-<!-- PUBLIC MARKETPLACE -->
-<section id="marketplace">
-<h2 style="padding:10px">Browse Services</h2>
+<div class="card provider">
+<img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2">
+<h3>Grace – Premium Massage</h3>
+<p>Location: Westlands</p>
+<p>Available for private sessions</p>
+<a href="tel:+254700000000"><button>Call Now</button></a>
+<a href="https://wa.me/254700000000"><button>WhatsApp</button></a>
+</div>
 
-<select id="filterLocation" onchange="renderProviders()">
-<option value="">All Locations</option>
-<option>CBD</option>
-<option>Embakasi</option>
-<option>Westlands</option>
-<option>Kasarani</option>
+<div class="card provider">
+<img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e">
+<h3>Lynn – Relaxation Specialist</h3>
+<p>Location: Kilimani</p>
+<p>Discreet & professional</p>
+<a href="tel:+254711000000"><button>Call Now</button></a>
+<a href="https://wa.me/254711000000"><button>WhatsApp</button></a>
+</div>
+
+<div class="card">
+<h3>Send Inquiry</h3>
+<input id="inqName" placeholder="Your Name">
+<input id="inqEmail" placeholder="Your Email">
+<textarea id="inqMsg" placeholder="Your message"></textarea>
+<button onclick="sendInquiry()">Send</button>
+<p id="inqStatus"></p>
+</div>
+
+</section>
+
+<!-- PROVIDER AUTH -->
+<section id="providerAuth" class="hidden">
+<div class="card">
+<h3>Service Provider Login / Register</h3>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="register()">Register</button>
+<button onclick="resetPassword()">Forgot Password?</button>
+<p id="authStatus"></p>
+</div>
+</section>
+
+<!-- PROVIDER DASHBOARD -->
+<section id="dashboard" class="hidden">
+<div class="card">
+<h3>Provider Dashboard</h3>
+<p><strong>Status:</strong> Free listing (24 hours)</p>
+
+<input type="file" id="photo">
+<select>
+<option>Standard Listing</option>
+<option>VIP Listing (+150)</option>
+<option>Sponsored Profile</option>
 </select>
 
-<input id="serviceSearch" placeholder="Search services..." onkeyup="renderProviders()">
-
-<div id="providerList" class="grid"></div>
-</section>
-
-<!-- PROVIDER ENTRY -->
-<section class="card">
-<h3>Want to offer services?</h3>
-<p>Create an account or login if you are already a service provider.</p>
-<button class="primary" onclick="toggleAuth()">Create Account / Login</button>
-</section>
-
-<!-- AUTH -->
-<section id="auth" class="hidden card">
-<h3>Provider Login</h3>
-<input id="loginEmail" placeholder="Email">
-<input id="loginPassword" type="password" placeholder="Password">
-<button class="primary" onclick="login()">Login</button>
-<p id="loginMsg"></p>
-
-<hr>
-
-<h3>Register – Free 24 Hours Listing</h3>
-<input id="rName" placeholder="Full Name">
-<input id="rPhone" placeholder="Phone Number">
-<input id="rEmail" placeholder="Email">
-<input id="rPassword" type="password" placeholder="Password">
-<button class="primary" onclick="register()">Register</button>
-</section>
-
-<!-- DASHBOARD -->
-<section id="dashboard" class="hidden card">
-<h2>Provider Dashboard</h2>
-<p style="color:#f77">Free listing active for 24 hours</p>
-
-<h3>Your Listing</h3>
-<input id="pLocation" placeholder="Location (e.g. Embakasi)">
-<input id="pSub" placeholder="Sub-location (Pipeline, Fedha)">
-<textarea id="pServices" placeholder="Services offered"></textarea>
-<input id="pPrice" placeholder="Prices">
-<button class="primary" onclick="saveProfile()">Save / Update Listing</button>
-
-<h3>Search Other Services</h3>
-<input placeholder="Search marketplace..." onkeyup="renderProviders()">
-
-<h3>In-App Chat</h3>
-<div class="chat-box" id="chatBox"></div>
-<input id="chatInput" placeholder="Type message...">
-<button onclick="sendChat()">Send</button>
-
-<h3>Support</h3>
-<button class="support" onclick="location.href='mailto:workwithbyram@gmail.com'">
-Contact Support
+<button onclick="alert('Package selected. Payment integration next step.')">
+Select Package
 </button>
 
+<p><small>Your profile is private until approved.</small></p>
 <button onclick="logout()">Logout</button>
+</div>
 </section>
 
+<footer>
+<p><strong>Disclaimer:</strong> Nairobi Locals is a listing platform. We do not directly offer services.</p>
+<p>Support: <a style="color:#fff" href="mailto:workwithbyram@gmail.com">workwithbyram@gmail.com</a></p>
+<p>Invite others: <span id="inviteLink"></span></p>
+</footer>
+
 <script>
-let providers = JSON.parse(localStorage.getItem("providers")) || [
-{
-name:"Lena",
-location:"CBD",
-phone:"0700000001",
-img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2",
-services:"Incall & Outcall",
-price:"Ksh 1500"
-}
-];
-
-let chats = JSON.parse(localStorage.getItem("chats")) || [];
-let currentUser = null;
-
-function renderProviders(){
-let loc = filterLocation.value;
-let q = serviceSearch.value.toLowerCase();
-providerList.innerHTML="";
-providers
-.filter(p => (!loc || p.location===loc))
-.filter(p => !q || p.services.toLowerCase().includes(q))
-.forEach(p=>{
-providerList.innerHTML+=`
-<div class="card">
-<img src="${p.img}">
-<h3>${p.name}</h3>
-<p>${p.services}</p>
-<p><strong>${p.price}</strong></p>
-<button class="call" onclick="location.href='tel:${p.phone}'">Call</button>
-<button class="whatsapp" onclick="location.href='https://wa.me/254${p.phone.slice(1)}'">WhatsApp</button>
-</div>`;
+// FIREBASE CONFIG (YOUR REAL CONFIG)
+firebase.initializeApp({
+ apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+ authDomain: "local-service-hub-26b50.firebaseapp.com",
+ projectId: "local-service-hub-26b50",
+ storageBucket: "local-service-hub-26b50.appspot.com",
+ messagingSenderId: "397740156836",
+ appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
 });
+
+const auth = firebase.auth();
+
+function showProviderAuth(){
+ document.getElementById("publicView").style.display="none";
+ document.getElementById("providerAuth").style.display="block";
 }
-
-renderProviders();
-
-function toggleAuth(){auth.classList.toggle("hidden");}
 
 function register(){
-currentUser={
-name:rName.value,
-phone:rPhone.value,
-email:rEmail.value,
-password:rPassword.value
-};
-localStorage.setItem("user_"+currentUser.email,JSON.stringify(currentUser));
-openDashboard();
+ auth.createUserWithEmailAndPassword(
+  email.value,password.value
+ ).then(()=>{
+  authStatus.innerText="Registered successfully";
+ }).catch(e=>authStatus.innerText=e.message);
 }
 
 function login(){
-let u=JSON.parse(localStorage.getItem("user_"+loginEmail.value));
-if(!u||u.password!==loginPassword.value){
-loginMsg.innerText="Invalid login";
-return;
-}
-currentUser=u;
-openDashboard();
-}
-
-function openDashboard(){
-auth.classList.add("hidden");
-dashboard.classList.remove("hidden");
+ auth.signInWithEmailAndPassword(
+  email.value,password.value
+ ).then(()=>{
+  providerAuth.style.display="none";
+  dashboard.style.display="block";
+ }).catch(e=>authStatus.innerText=e.message);
 }
 
-function saveProfile(){
-providers.push({
-name:currentUser.name,
-location:pLocation.value,
-phone:currentUser.phone,
-img:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
-services:pServices.value,
-price:pPrice.value
-});
-localStorage.setItem("providers",JSON.stringify(providers));
-renderProviders();
+function resetPassword(){
+ auth.sendPasswordResetEmail(email.value)
+ .then(()=>authStatus.innerText="Password reset email sent");
 }
 
-function sendChat(){
-chats.push({from:currentUser.name,text:chatInput.value});
-localStorage.setItem("chats",JSON.stringify(chats));
-chatInput.value="";
-loadChat();
+function logout(){
+ auth.signOut();
+ location.reload();
 }
 
-function loadChat(){
-chatBox.innerHTML="";
-chats.forEach(c=>{
-chatBox.innerHTML+=`<div class="msg"><b>${c.from}:</b> ${c.text}</div>`;
-});
+function sendInquiry(){
+ document.getElementById("inqStatus").innerText=
+ "Message sent. We will respond via email.";
 }
-loadChat();
 
-function logout(){location.reload();}
+document.getElementById("inviteLink").innerText=location.href;
 </script>
 
 </body>
