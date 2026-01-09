@@ -16,6 +16,8 @@ button { padding:10px 15px; border:none; border-radius:4px; cursor:pointer; }
 .secondary { background:#333; color:#fff; }
 input, select { width:100%; padding:8px; margin:6px 0; }
 .provider-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
+.error { color:red; }
+.success { color:green; }
 </style>
 </head>
 
@@ -36,7 +38,7 @@ input, select { width:100%; padding:8px; margin:6px 0; }
 <header>
   <h1>Nairobi Locals</h1>
   <p>Adult Services Marketplace</p>
-  <button class="secondary" onclick="showProviderAuth()">Offer Services?</button>
+  <button class="secondary" onclick="toggleAuth()">Offer Services?</button>
 </header>
 
 <div class="container">
@@ -44,24 +46,23 @@ input, select { width:100%; padding:8px; margin:6px 0; }
 <!-- PROVIDER AUTH -->
 <div id="providerAuth" class="card hidden">
   <h2>Provider Login / Register</h2>
-  <input id="pEmail" placeholder="Email">
-  <input id="pPassword" type="password" placeholder="Password">
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
   <button class="primary" onclick="register()">Register</button>
   <button class="secondary" onclick="login()">Login</button>
   <p id="authMsg"></p>
 </div>
 
 <!-- PROVIDER DASHBOARD -->
-<div id="providerDashboard" class="card hidden">
+<div id="dashboard" class="card hidden">
   <h2>Provider Dashboard</h2>
-  <input id="pName" placeholder="Display Name">
-  <input id="pLocation" placeholder="Location">
-  <input id="pPhone" placeholder="Phone / WhatsApp">
-  <select id="pService">
+  <input id="name" placeholder="Display Name">
+  <input id="location" placeholder="Location">
+  <input id="phone" placeholder="Phone / WhatsApp">
+  <select>
     <option>Massage</option>
     <option>Incalls</option>
     <option>Outcalls</option>
-    <option>Dinner Company</option>
   </select>
   <button class="primary" onclick="saveProfile()">Save Profile</button>
   <button class="secondary" onclick="logout()">Logout</button>
@@ -71,7 +72,7 @@ input, select { width:100%; padding:8px; margin:6px 0; }
 <!-- PUBLIC LISTINGS -->
 <div class="card">
   <h2>Sample Providers</h2>
-  <div class="provider-grid" id="providerList">
+  <div class="provider-grid">
     <div class="card">
       <h3>Ruby – Westlands</h3>
       <p>Massage • Incalls</p>
@@ -97,40 +98,52 @@ window.onload=function(){
     mainSite.style.display="block";
   }
   if(localStorage.getItem("loggedIn")==="yes"){
-    providerDashboard.classList.remove("hidden");
+    dashboard.classList.remove("hidden");
   }
 }
 
-function showProviderAuth(){
+function toggleAuth(){
   providerAuth.classList.toggle("hidden");
 }
 
 function register(){
-  localStorage.setItem("providerEmail", pEmail.value);
-  localStorage.setItem("providerPass", pPassword.value);
-  authMsg.innerText="Registered successfully. Login now.";
+  const e=email.value.trim();
+  const p=password.value.trim();
+  if(!e || !p){
+    authMsg.innerHTML="<span class='error'>Email & password required</span>";
+    return;
+  }
+  localStorage.setItem("provEmail", e);
+  localStorage.setItem("provPass", p);
+  authMsg.innerHTML="<span class='success'>Registered. Now login.</span>";
 }
 
 function login(){
+  const e=email.value.trim();
+  const p=password.value.trim();
+  if(!e || !p){
+    authMsg.innerHTML="<span class='error'>Enter email & password</span>";
+    return;
+  }
   if(
-    pEmail.value===localStorage.getItem("providerEmail") &&
-    pPassword.value===localStorage.getItem("providerPass")
+    e===localStorage.getItem("provEmail") &&
+    p===localStorage.getItem("provPass")
   ){
     localStorage.setItem("loggedIn","yes");
     providerAuth.classList.add("hidden");
-    providerDashboard.classList.remove("hidden");
+    dashboard.classList.remove("hidden");
   } else {
-    authMsg.innerText="Invalid login";
+    authMsg.innerHTML="<span class='error'>Invalid credentials</span>";
   }
 }
 
 function saveProfile(){
-  dashMsg.innerText="Profile saved (demo)";
+  dashMsg.innerHTML="<span class='success'>Profile saved (demo)</span>";
 }
 
 function logout(){
   localStorage.removeItem("loggedIn");
-  providerDashboard.classList.add("hidden");
+  dashboard.classList.add("hidden");
 }
 </script>
 
