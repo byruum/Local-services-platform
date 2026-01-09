@@ -1,62 +1,223 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Nairobi Locals – Auth Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Nairobi Locals | Adult Services Marketplace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#111; color:#eee; }
+header { background:#000; padding:15px; text-align:center; }
+h1 { color:#ff3366; }
+section { padding:20px; }
+button { padding:10px; background:#ff3366; color:#fff; border:none; cursor:pointer; }
+input, select, textarea { width:100%; padding:10px; margin:6px 0; }
+.hidden { display:none; }
+.card { background:#1c1c1c; padding:15px; margin:10px 0; border-radius:6px; }
+.whatsapp-float {
+ position:fixed; bottom:20px; right:20px;
+ background:#25D366; color:white;
+ padding:15px; border-radius:50%;
+ text-decoration:none; font-size:22px;
+}
+small { color:#aaa; }
+</style>
 </head>
 
 <body>
-  <h2>Nairobi Locals – Login Test</h2>
 
-  <input id="email" type="email" placeholder="Email"><br><br>
-  <input id="password" type="password" placeholder="Password"><br><br>
+<header>
+<h1>Nairobi Locals</h1>
+<p>Adult Services Marketplace | 18+ Only</p>
+</header>
 
-  <button onclick="register()">Register</button>
-  <button onclick="login()">Login</button>
-  <button onclick="reset()">Reset Password</button>
+<!-- AGE DISCLAIMER -->
+<section id="ageGate">
+<h2>⚠️ 18+ AGE DISCLAIMER</h2>
+<p>This website contains adult content intended for consenting adults only.</p>
+<button onclick="acceptAge()">I am 18 or Older</button>
+</section>
 
-  <p id="msg"></p>
+<!-- PUBLIC MARKET -->
+<section id="publicView" class="hidden">
+<h2>Available Providers</h2>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<select id="filterLocation" onchange="filterListings()">
+<option value="">All Locations</option>
+<option value="CBD">CBD</option>
+<option value="Embakasi">Embakasi</option>
+<option value="Westlands">Westlands</option>
+<option value="Kasarani">Kasarani</option>
+</select>
 
-  <script>
-    var firebaseConfig = {
-      apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-      authDomain: "local-service-hub-26b50.firebaseapp.com",
-      projectId: "local-service-hub-26b50",
-      storageBucket: "local-service-hub-26b50.appspot.com",
-      messagingSenderId: "397740156836",
-      appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
-    };
-    firebase.initializeApp(firebaseConfig);
+<div id="listingArea"></div>
 
-    function register() {
-      firebase.auth()
-        .createUserWithEmailAndPassword(
-          email.value, password.value
-        )
-        .then(() => msg.innerText = "Registered successfully")
-        .catch(e => msg.innerText = e.message);
-    }
+<hr>
+<h3>Want to Offer Services?</h3>
+<button onclick="showRegister()">Create Provider Account</button>
+<button onclick="showLogin()">Provider Login</button>
 
-    function login() {
-      firebase.auth()
-        .signInWithEmailAndPassword(
-          email.value, password.value
-        )
-        .then(() => msg.innerText = "Login successful")
-        .catch(e => msg.innerText = e.message);
-    }
+<hr>
+<h3>General Inquiry</h3>
+<form onsubmit="sendInquiry(event)">
+<input placeholder="Your Email" required>
+<textarea placeholder="Message to Admin" required></textarea>
+<button>Send Inquiry</button>
+</form>
+</section>
 
-    function reset() {
-      firebase.auth()
-        .sendPasswordResetEmail(email.value)
-        .then(() => msg.innerText = "Reset email sent")
-        .catch(e => msg.innerText = e.message);
-    }
-  </script>
+<!-- REGISTER -->
+<section id="registerBox" class="hidden">
+<h2>Provider Registration</h2>
+<input id="regEmail" placeholder="Email">
+<input id="regPassword" type="password" placeholder="Password">
+<button onclick="register()">Register</button>
+<p id="regMsg"></p>
+<button onclick="backHome()">Back</button>
+</section>
+
+<!-- LOGIN -->
+<section id="loginBox" class="hidden">
+<h2>Provider Login</h2>
+<input id="loginEmail" placeholder="Email">
+<input id="loginPassword" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<p id="loginMsg"></p>
+<button onclick="resetPassword()">Forgot Password?</button>
+<button onclick="backHome()">Back</button>
+</section>
+
+<!-- PROVIDER DASHBOARD -->
+<section id="dashboard" class="hidden">
+<h2>Provider Dashboard</h2>
+
+<p><b>Free Listing:</b> Active for 24 Hours</p>
+<p><b>Packages:</b> Daily 150 | 4 Days 400 | Monthly 1200 | VIP +150</p>
+
+<input id="provName" placeholder="Your Name / Alias">
+<input id="provPhone" placeholder="Phone Number">
+<select id="provLocation">
+<option>CBD</option>
+<option>Embakasi</option>
+<option>Westlands</option>
+<option>Kasarani</option>
+</select>
+
+<select id="provService">
+<option>Escort</option>
+<option>Massage</option>
+<option>Incalls</option>
+<option>Outcalls</option>
+<option>Dinner Companion</option>
+</select>
+
+<textarea id="provDesc" placeholder="Describe your services (no explicit content)"></textarea>
+
+<button onclick="saveProfile()">Save Profile</button>
+<p id="dashMsg"></p>
+
+<button onclick="logout()">Logout</button>
+</section>
+
+<a class="whatsapp-float" href="https://wa.me/254705283274" target="_blank">💬</a>
+
+<script>
+// 🔐 Firebase Config (YOUR REAL CONFIG)
+const firebaseConfig = {
+ apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+ authDomain: "local-service-hub-26b50.firebaseapp.com",
+ projectId: "local-service-hub-26b50",
+ storageBucket: "local-service-hub-26b50.firebasestorage.app",
+ messagingSenderId: "397740156836",
+ appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// AGE
+function acceptAge(){
+ document.getElementById("ageGate").style.display="none";
+ document.getElementById("publicView").style.display="block";
+ loadListings();
+}
+
+// NAV
+function showRegister(){ hideAll(); registerBox.style.display="block"; }
+function showLogin(){ hideAll(); loginBox.style.display="block"; }
+function backHome(){ hideAll(); publicView.style.display="block"; }
+function hideAll(){
+ ageGate.style.display="none";
+ publicView.style.display="none";
+ registerBox.style.display="none";
+ loginBox.style.display="none";
+ dashboard.style.display="none";
+}
+
+// AUTH
+function register(){
+ auth.createUserWithEmailAndPassword(regEmail.value, regPassword.value)
+ .then(()=> regMsg.innerText="Registered successfully. Login now.")
+ .catch(e=> regMsg.innerText=e.message);
+}
+
+function login(){
+ auth.signInWithEmailAndPassword(loginEmail.value, loginPassword.value)
+ .then(()=>{ hideAll(); dashboard.style.display="block"; })
+ .catch(e=> loginMsg.innerText=e.message);
+}
+
+function resetPassword(){
+ auth.sendPasswordResetEmail(loginEmail.value)
+ .then(()=> loginMsg.innerText="Password reset email sent.")
+ .catch(e=> loginMsg.innerText=e.message);
+}
+
+function logout(){ auth.signOut().then(backHome); }
+
+// PROFILE
+function saveProfile(){
+ db.collection("providers").doc(auth.currentUser.uid).set({
+  name: provName.value,
+  phone: provPhone.value,
+  location: provLocation.value,
+  service: provService.value,
+  desc: provDesc.value,
+  active:true,
+  created: new Date()
+ }).then(()=> dashMsg.innerText="Profile saved.");
+}
+
+// LISTINGS
+function loadListings(){
+ db.collection("providers").where("active","==",true).onSnapshot(snap=>{
+  listingArea.innerHTML="";
+  snap.forEach(doc=>{
+   const d=doc.data();
+   listingArea.innerHTML+=`
+   <div class="card">
+   <h3>${d.name}</h3>
+   <p>${d.service} | ${d.location}</p>
+   <p>${d.desc}</p>
+   <a href="tel:${d.phone}">📞 Call</a> |
+   <a href="https://wa.me/${d.phone}" target="_blank">💬 WhatsApp</a>
+   </div>`;
+  });
+ });
+}
+
+// INQUIRY
+function sendInquiry(e){
+ e.preventDefault();
+ window.location = "mailto:workwithbyram@gmail.com?subject=Website Inquiry";
+}
+</script>
+
 </body>
 </html>
