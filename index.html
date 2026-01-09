@@ -221,7 +221,19 @@ function resetPassword(){
   firebase.auth().sendPasswordResetEmail(email.value)
   .then(()=>authStatus.innerText="Reset email sent")
   .catch(e=>authStatus.innerText=e.message);
+} // ===== AGE GATE FIX =====
+function enterSite() {
+  document.getElementById("ageGate").style.display = "none";
+  document.getElementById("mainSite").style.display = "block";
+  localStorage.setItem("ageVerified", "true");
 }
+
+window.onload = function () {
+  if (localStorage.getItem("ageVerified") === "true") {
+    document.getElementById("ageGate").style.display = "none";
+    document.getElementById("mainSite").style.display = "block";
+  }
+};
 </script>
 
 </body>
