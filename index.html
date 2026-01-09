@@ -3,194 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <title>Nairobi Locals | Adult Services Marketplace</title>
-
-<meta name="description" content="Nairobi Locals is an adults-only marketplace connecting clients with independent service providers in Nairobi. Explore massage, incalls, outcalls and companionship services.">
-<meta name="keywords" content="Nairobi locals, adult services Nairobi, massage Nairobi, incalls outcalls Nairobi">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{font-family:Arial,sans-serif;margin:0;background:#f4f4f4;color:#333}
-.hidden{display:none}
-header{background:#111;color:#fff;padding:20px;text-align:center}
-.container{max-width:1000px;margin:auto;padding:20px}
-.card{background:#fff;padding:20px;margin-bottom:20px;border-radius:6px}
-h1,h2,h3{color:#c62828}
-button{padding:10px 15px;border:none;border-radius:4px;cursor:pointer}
-.primary{background:#c62828;color:#fff}
-.secondary{background:#333;color:#fff}
-input,select,textarea{width:100%;padding:8px;margin:6px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
-.error{color:red}
-.success{color:green}
-footer{background:#111;color:#aaa;text-align:center;padding:15px;font-size:14px}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: #fff;
+}
+
+header {
+  background: #000;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 2px solid #c10000;
+}
+
+header h1 {
+  margin: 0;
+  color: #ff3b3b;
+}
+
+header p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+section {
+  padding: 20px;
+}
+
+.disclaimer {
+  background: #1a0000;
+  border: 1px solid #ff3b3b;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+button {
+  background: #ff3b3b;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #d60000;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 4px;
+  border: none;
+}
+
+.card {
+  background: #1b1b1b;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+}
+
+.provider-card img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  background: gold;
+  color: #000;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.hidden { display: none; }
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: #fff;
+  padding: 15px;
+  border-radius: 50%;
+  text-decoration: none;
+  font-weight: bold;
+}
 </style>
 </head>
 
 <body>
 
-<!-- AGE DISCLAIMER -->
-<div id="ageGate" class="container">
-  <div class="card">
-    <h1>🔞 Adults Only – 18+</h1>
-    <p>This website contains adult-oriented content intended strictly for persons 18 years and above.</p>
-    <button class="primary" onclick="enterSite()">I am 18 or Older</button>
-  </div>
+<!-- AGE GATE -->
+<div id="ageGate" class="card">
+  <h2>🔞 Adults Only</h2>
+  <p>You must be 18 years or older to access Nairobi Locals.</p>
+  <button onclick="enterSite()">I am 18+</button>
 </div>
 
-<!-- MAIN SITE -->
 <div id="mainSite" class="hidden">
 
 <header>
   <h1>Nairobi Locals</h1>
-  <p>Nairobi’s Independent Adult Services Marketplace</p>
-  <button class="secondary" onclick="toggleAuth()">Offer Services?</button>
+  <p>Private Adult Services Marketplace – Nairobi & Kiambu</p>
 </header>
 
-<div class="container">
+<section class="disclaimer">
+<strong>DISCLAIMER:</strong><br>
+This platform is for consenting adults (18+). Nairobi Locals does not provide escort services directly. All listings are independent providers. Users are responsible for their interactions. No explicit content allowed.
+</section>
 
-<!-- ABOUT -->
-<div class="card">
-  <h2>About Nairobi Locals</h2>
-  <p>
-    Nairobi Locals is a platform designed to connect adults with independent service providers across Nairobi.
-    We do not manage or employ providers — we only offer a digital listing space where adults can discover services.
-  </p>
+<!-- FILTERS -->
+<section class="card">
+<h3>Find Services</h3>
+<select>
+  <option>Nairobi CBD</option>
+  <option>Westlands</option>
+  <option>Kilimani</option>
+  <option>Embakasi – Pipeline</option>
+  <option>Embakasi – Tassia</option>
+  <option>Embakasi – Fedha</option>
+  <option>Ruaka</option>
+  <option>Thika Road</option>
+</select>
+<button>Search</button>
+</section>
+
+<!-- SAMPLE PROVIDERS -->
+<section>
+<h3>Available Providers</h3>
+
+<div class="card provider-card">
+<img src="https://via.placeholder.com/400x250" alt="">
+<h4>Maria – Westlands</h4>
+<p>Incall & Outcall • Massage • Dinner Company</p>
+<span class="badge">VIP</span><br><br>
+<a href="tel:+254700000000"><button>Call Now</button></a>
+<a href="https://wa.me/254700000000"><button>WhatsApp</button></a>
 </div>
 
-<!-- HOW IT WORKS -->
-<div class="card">
-  <h2>How It Works</h2>
-  <ul>
-    <li>Visitors browse available services and providers</li>
-    <li>Service providers register and list their offerings</li>
-    <li>Direct contact via phone or WhatsApp</li>
-    <li>No middlemen — direct communication</li>
-  </ul>
+<div class="card provider-card">
+<img src="https://via.placeholder.com/400x250" alt="">
+<h4>Lina – Kilimani</h4>
+<p>Relaxation Massage • Private Sessions</p><br>
+<a href="tel:+254711111111"><button>Call Now</button></a>
+<a href="https://wa.me/254711111111"><button>WhatsApp</button></a>
 </div>
-
-<!-- SERVICES -->
-<div class="card">
-  <h2>Available Services</h2>
-  <ul>
-    <li>Massage (Relaxation & Adult Massage)</li>
-    <li>Incalls & Outcalls</li>
-    <li>Dinner Companionship</li>
-    <li>Private Adult Companionship</li>
-  </ul>
-</div>
-
-<!-- LOCATIONS -->
-<div class="card">
-  <h2>Service Locations</h2>
-  <p>Providers are available across Nairobi including:</p>
-  <p>Westlands • CBD • Kilimani • Kileleshwa • South B • South C • Ruaka • Kasarani</p>
-</div>
+</section>
 
 <!-- PROVIDER AUTH -->
-<div id="providerAuth" class="card hidden">
-  <h2>Service Provider Login / Registration</h2>
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
-  <button class="primary" onclick="register()">Register</button>
-  <button class="secondary" onclick="login()">Login</button>
-  <p id="authMsg"></p>
-</div>
+<section class="card">
+<h3>Want to Offer Services?</h3>
+<button onclick="showRegister()">Create Account</button>
+<button onclick="showLogin()">Login</button>
+</section>
+
+<!-- REGISTER -->
+<section id="registerBox" class="card hidden">
+<h3>Provider Registration</h3>
+<input placeholder="Full Name">
+<input placeholder="Phone Number">
+<input placeholder="Email">
+<input type="password" placeholder="Password">
+
+<h4>Listing Package</h4>
+<select disabled>
+<option>Free Trial – 24 Hours (KES 0)</option>
+<option>Daily – KES 150</option>
+<option>4 Days – KES 400</option>
+<option>Monthly – KES 1200</option>
+</select>
+
+<label>
+<input type="checkbox"> VIP Boost (+KES 150)
+</label>
+
+<button onclick="registered()">Register</button>
+</section>
+
+<!-- LOGIN -->
+<section id="loginBox" class="card hidden">
+<h3>Provider Login</h3>
+<input placeholder="Email">
+<input type="password" placeholder="Password">
+<button>Login</button>
+<p><a href="#">Forgot Password?</a></p>
+</section>
 
 <!-- PROVIDER DASHBOARD -->
-<div id="dashboard" class="card hidden">
-  <h2>Provider Dashboard</h2>
-  <p>Your listing is <strong>FREE for 24 hours</strong>. Upgrade later for premium visibility.</p>
-  <input placeholder="Display Name">
-  <input placeholder="Location">
-  <input placeholder="Phone / WhatsApp">
-  <select>
-    <option>Massage</option>
-    <option>Incalls</option>
-    <option>Outcalls</option>
-    <option>Companionship</option>
-  </select>
-  <button class="primary" onclick="saveProfile()">Save Profile</button>
-  <button class="secondary" onclick="logout()">Logout</button>
-  <p id="dashMsg"></p>
-</div>
+<section id="dashboard" class="card hidden">
+<h3>Provider Dashboard</h3>
+<p>Status: <strong>Free Listing (24h)</strong></p>
+<p>After expiry, select a package to remain listed.</p>
 
-<!-- SAMPLE LISTINGS -->
-<div class="card">
-  <h2>Featured Providers</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Ruby – Westlands</h3>
-      <p>Massage • Incalls</p>
-      <button class="secondary" onclick="location.href='tel:+254700000001'">Call</button>
-      <button class="primary" onclick="location.href='https://wa.me/254700000001'">WhatsApp</button>
-    </div>
-    <div class="card">
-      <h3>Lina – Kilimani</h3>
-      <p>Outcalls • Dinner Company</p>
-      <button class="secondary" onclick="location.href='tel:+254700000002'">Call</button>
-      <button class="primary" onclick="location.href='https://wa.me/254700000002'">WhatsApp</button>
-    </div>
-  </div>
-</div>
+<h4>Your Listing</h4>
+<input placeholder="Service Title">
+<textarea placeholder="Description"></textarea>
+<button>Update Listing</button>
 
-<!-- CONTACT -->
-<div class="card">
-  <h2>Inquiries & Support</h2>
-  <p>Email: <strong>workwithbyram@gmail.com</strong></p>
-</div>
+<h4>Packages</h4>
+<ul>
+<li>Daily – KES 150</li>
+<li>4 Days – KES 400</li>
+<li>Monthly – KES 1200</li>
+<li>VIP Boost – +KES 150</li>
+</ul>
+</section>
 
-<!-- DISCLAIMER -->
-<div class="card">
-  <h2>Disclaimer</h2>
-  <p>
-    Nairobi Locals does not arrange meetings or services. All interactions are strictly between adults.
-    Providers are independent and responsible for their own conduct and listings.
-  </p>
-</div>
+<!-- INQUIRY -->
+<section class="card">
+<h3>Send Inquiry to Admin</h3>
+<input placeholder="Your Email">
+<textarea placeholder="Message"></textarea>
+<button onclick="alert('Inquiry sent to admin')">Send</button>
+</section>
 
 </div>
 
-<footer>
-© Nairobi Locals | Adults Only 18+
-</footer>
-
-</div>
+<a class="whatsapp-float" href="https://wa.me/254705283274">💬</a>
 
 <script>
 function enterSite(){
-  localStorage.setItem("ageVerified","yes");
-  ageGate.style.display="none";
-  mainSite.style.display="block";
+  document.getElementById("ageGate").style.display="none";
+  document.getElementById("mainSite").style.display="block";
 }
-window.onload=function(){
-  if(localStorage.getItem("ageVerified")==="yes"){
-    ageGate.style.display="none";
-    mainSite.style.display="block";
-  }
+function showRegister(){
+  document.getElementById("registerBox").classList.remove("hidden");
 }
-function toggleAuth(){ providerAuth.classList.toggle("hidden"); }
-function register(){
-  if(!email.value || !password.value){
-    authMsg.innerHTML="<span class='error'>Email & password required</span>";
-    return;
-  }
-  localStorage.setItem("provEmail",email.value);
-  localStorage.setItem("provPass",password.value);
-  authMsg.innerHTML="<span class='success'>Registered. Now login.</span>";
+function showLogin(){
+  document.getElementById("loginBox").classList.remove("hidden");
 }
-function login(){
-  if(email.value===localStorage.getItem("provEmail") &&
-     password.value===localStorage.getItem("provPass")){
-    providerAuth.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-  } else {
-    authMsg.innerHTML="<span class='error'>Invalid login</span>";
-  }
+function registered(){
+  alert("Registered! Free listing active for 24 hours.");
+  document.getElementById("dashboard").classList.remove("hidden");
 }
-function saveProfile(){
-  dashMsg.innerHTML="<span class='success'>Profile saved (demo)</span>";
-}
-function logout(){ dashboard.classList.add("hidden"); }
 </script>
 
 </body>
