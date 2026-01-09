@@ -2,30 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nairobi Locals | Adult Services Marketplace</title>
+<title>Nairobi Locals – Adult Services Marketplace</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Firebase SDKs -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <style>
-body { font-family: Arial, sans-serif; margin:0; background:#111; color:#eee; }
-header { background:#000; padding:15px; text-align:center; }
-h1 { color:#ff3366; }
-section { padding:20px; }
-button { padding:10px; background:#ff3366; color:#fff; border:none; cursor:pointer; }
-input, select, textarea { width:100%; padding:10px; margin:6px 0; }
+body { margin:0; font-family:Arial, sans-serif; background:#0f0f0f; color:#eee; }
+header { background:#000; padding:30px 15px; text-align:center; }
+h1 { color:#ff3366; margin-bottom:5px; }
+h2 { color:#ff3366; }
+section { padding:30px 20px; max-width:1100px; margin:auto; }
+.hero p { max-width:800px; margin:auto; font-size:16px; line-height:1.6; }
+.card { background:#1b1b1b; padding:15px; margin:15px 0; border-radius:6px; }
+button { background:#ff3366; color:#fff; border:none; padding:12px 16px; cursor:pointer; }
+input, select, textarea { width:100%; padding:10px; margin:8px 0; }
 .hidden { display:none; }
-.card { background:#1c1c1c; padding:15px; margin:10px 0; border-radius:6px; }
+.steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
 .whatsapp-float {
  position:fixed; bottom:20px; right:20px;
- background:#25D366; color:white;
+ background:#25D366; color:#fff;
  padding:15px; border-radius:50%;
- text-decoration:none; font-size:22px;
+ font-size:22px; text-decoration:none;
 }
-small { color:#aaa; }
+footer { background:#000; padding:20px; font-size:13px; color:#aaa; }
+a { color:#25D366; text-decoration:none; }
 </style>
 </head>
 
@@ -33,24 +37,56 @@ small { color:#aaa; }
 
 <header>
 <h1>Nairobi Locals</h1>
-<p>Adult Services Marketplace | 18+ Only</p>
+<p>Private Adult Services Marketplace – 18+ Only</p>
 </header>
 
-<!-- AGE DISCLAIMER -->
-<section id="ageGate">
-<h2>⚠️ 18+ AGE DISCLAIMER</h2>
-<p>This website contains adult content intended for consenting adults only.</p>
-<button onclick="acceptAge()">I am 18 or Older</button>
+<section class="hero">
+<p>
+<strong>Nairobi Locals</strong> is a discreet adult-only marketplace connecting consenting adults with
+independent service providers offering companionship, massage, incalls, outcalls,
+dinner dates, and lifestyle experiences across Nairobi and surrounding areas.
+</p>
+<p>
+All listings are independent. This platform does not provide services directly — it only
+connects adults for private arrangements. Respect, consent, and privacy are mandatory.
+</p>
 </section>
 
-<!-- PUBLIC MARKET -->
-<section id="publicView" class="hidden">
-<h2>Available Providers</h2>
+<section id="ageGate">
+<h2>🔞 Adults Only Disclaimer</h2>
+<p>
+This website contains adult-oriented content intended strictly for persons
+<strong>18 years or older</strong>. By continuing, you confirm you are of legal age and consent
+to viewing such material.
+</p>
+<button onclick="acceptAge()">I am 18 or Older – Enter</button>
+</section>
 
+<section id="publicView" class="hidden">
+
+<h2>How It Works</h2>
+<div class="steps">
+<div class="card">
+<strong>1. Browse Providers</strong>
+<p>View verified independent providers by location and service type.</p>
+</div>
+<div class="card">
+<strong>2. Contact Directly</strong>
+<p>Call or WhatsApp providers to confirm availability and terms.</p>
+</div>
+<div class="card">
+<strong>3. Private Arrangement</strong>
+<p>All meetings are private, consensual, and arranged independently.</p>
+</div>
+</div>
+
+<hr>
+
+<h2>Find Providers Near You</h2>
 <select id="filterLocation" onchange="filterListings()">
 <option value="">All Locations</option>
 <option value="CBD">CBD</option>
-<option value="Embakasi">Embakasi</option>
+<option value="Embakasi">Embakasi (Pipeline, Tassia, Fedha)</option>
 <option value="Westlands">Westlands</option>
 <option value="Kasarani">Kasarani</option>
 </select>
@@ -58,17 +94,27 @@ small { color:#aaa; }
 <div id="listingArea"></div>
 
 <hr>
-<h3>Want to Offer Services?</h3>
+
+<h2>Want to Offer Services?</h2>
+<p>
+Independent providers can create a free listing (24 hours).
+Optional premium packages available after listing.
+</p>
 <button onclick="showRegister()">Create Provider Account</button>
 <button onclick="showLogin()">Provider Login</button>
 
 <hr>
-<h3>General Inquiry</h3>
+
+<h2>General Inquiries & Support</h2>
+<p>
+For support, reports, or general inquiries, contact the platform administrator.
+</p>
 <form onsubmit="sendInquiry(event)">
 <input placeholder="Your Email" required>
-<textarea placeholder="Message to Admin" required></textarea>
+<textarea placeholder="Your message" required></textarea>
 <button>Send Inquiry</button>
 </form>
+
 </section>
 
 <!-- REGISTER -->
@@ -92,42 +138,45 @@ small { color:#aaa; }
 <button onclick="backHome()">Back</button>
 </section>
 
-<!-- PROVIDER DASHBOARD -->
+<!-- DASHBOARD -->
 <section id="dashboard" class="hidden">
 <h2>Provider Dashboard</h2>
+<p><strong>Free Listing:</strong> Active for 24 hours</p>
+<p><strong>Packages:</strong> Daily 150 | 4 Days 400 | Monthly 1200 | VIP Boost +150</p>
 
-<p><b>Free Listing:</b> Active for 24 Hours</p>
-<p><b>Packages:</b> Daily 150 | 4 Days 400 | Monthly 1200 | VIP +150</p>
-
-<input id="provName" placeholder="Your Name / Alias">
-<input id="provPhone" placeholder="Phone Number">
+<input id="provName" placeholder="Display Name / Alias">
+<input id="provPhone" placeholder="Phone Number (254...)">
 <select id="provLocation">
 <option>CBD</option>
 <option>Embakasi</option>
 <option>Westlands</option>
 <option>Kasarani</option>
 </select>
-
 <select id="provService">
 <option>Escort</option>
-<option>Massage</option>
+<option>Massage (Relaxation)</option>
 <option>Incalls</option>
 <option>Outcalls</option>
 <option>Dinner Companion</option>
 </select>
-
 <textarea id="provDesc" placeholder="Describe your services (no explicit content)"></textarea>
 
 <button onclick="saveProfile()">Save Profile</button>
 <p id="dashMsg"></p>
-
 <button onclick="logout()">Logout</button>
 </section>
 
 <a class="whatsapp-float" href="https://wa.me/254705283274" target="_blank">💬</a>
 
+<footer>
+<p>
+Nairobi Locals is an adult-only directory platform. We do not arrange meetings, collect payments,
+or act as agents. All interactions are voluntary between consenting adults.
+</p>
+<p>© Nairobi Locals | Support: workwithbyram@gmail.com</p>
+</footer>
+
 <script>
-// 🔐 Firebase Config (YOUR REAL CONFIG)
 const firebaseConfig = {
  apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
  authDomain: "local-service-hub-26b50.firebaseapp.com",
@@ -136,22 +185,15 @@ const firebaseConfig = {
  messagingSenderId: "397740156836",
  appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
 };
-
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// AGE
 function acceptAge(){
  document.getElementById("ageGate").style.display="none";
  document.getElementById("publicView").style.display="block";
  loadListings();
 }
-
-// NAV
-function showRegister(){ hideAll(); registerBox.style.display="block"; }
-function showLogin(){ hideAll(); loginBox.style.display="block"; }
-function backHome(){ hideAll(); publicView.style.display="block"; }
 function hideAll(){
  ageGate.style.display="none";
  publicView.style.display="none";
@@ -159,44 +201,42 @@ function hideAll(){
  loginBox.style.display="none";
  dashboard.style.display="none";
 }
+function showRegister(){ hideAll(); registerBox.style.display="block"; }
+function showLogin(){ hideAll(); loginBox.style.display="block"; }
+function backHome(){ hideAll(); publicView.style.display="block"; }
 
-// AUTH
 function register(){
  auth.createUserWithEmailAndPassword(regEmail.value, regPassword.value)
- .then(()=> regMsg.innerText="Registered successfully. Login now.")
+ .then(()=> regMsg.innerText="Registered successfully. Please login.")
  .catch(e=> regMsg.innerText=e.message);
 }
-
 function login(){
  auth.signInWithEmailAndPassword(loginEmail.value, loginPassword.value)
  .then(()=>{ hideAll(); dashboard.style.display="block"; })
  .catch(e=> loginMsg.innerText=e.message);
 }
-
 function resetPassword(){
  auth.sendPasswordResetEmail(loginEmail.value)
  .then(()=> loginMsg.innerText="Password reset email sent.")
  .catch(e=> loginMsg.innerText=e.message);
 }
-
 function logout(){ auth.signOut().then(backHome); }
 
-// PROFILE
 function saveProfile(){
  db.collection("providers").doc(auth.currentUser.uid).set({
-  name: provName.value,
-  phone: provPhone.value,
-  location: provLocation.value,
-  service: provService.value,
-  desc: provDesc.value,
+  name:provName.value,
+  phone:provPhone.value,
+  location:provLocation.value,
+  service:provService.value,
+  desc:provDesc.value,
   active:true,
-  created: new Date()
- }).then(()=> dashMsg.innerText="Profile saved.");
+  created:new Date()
+ }).then(()=> dashMsg.innerText="Profile saved successfully.");
 }
 
-// LISTINGS
 function loadListings(){
- db.collection("providers").where("active","==",true).onSnapshot(snap=>{
+ db.collection("providers").where("active","==",true)
+ .onSnapshot(snap=>{
   listingArea.innerHTML="";
   snap.forEach(doc=>{
    const d=doc.data();
@@ -212,10 +252,9 @@ function loadListings(){
  });
 }
 
-// INQUIRY
 function sendInquiry(e){
  e.preventDefault();
- window.location = "mailto:workwithbyram@gmail.com?subject=Website Inquiry";
+ window.location="mailto:workwithbyram@gmail.com?subject=Nairobi Locals Inquiry";
 }
 </script>
 
