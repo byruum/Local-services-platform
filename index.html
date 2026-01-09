@@ -6,62 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f4f4f4;
-}
-.hidden { display: none; }
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
-
-.card {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-header {
-  background: #111;
-  color: #fff;
-  padding: 15px;
-  text-align: center;
-}
-
-button {
-  padding: 12px 18px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.primary {
-  background: #c62828;
-  color: #fff;
-}
-
-.secondary {
-  background: #333;
-  color: #fff;
-}
-
-.provider-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-}
-
-img {
-  max-width: 100%;
-  border-radius: 4px;
-}
+body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; }
+.hidden { display:none; }
+.container { max-width:900px; margin:auto; padding:20px; }
+.card { background:#fff; padding:20px; margin-bottom:20px; border-radius:6px; }
+header { background:#111; color:#fff; padding:15px; text-align:center; }
+button { padding:10px 15px; border:none; border-radius:4px; cursor:pointer; }
+.primary { background:#c62828; color:#fff; }
+.secondary { background:#333; color:#fff; }
+input, select { width:100%; padding:8px; margin:6px 0; }
+.provider-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
 </style>
 </head>
 
@@ -71,15 +25,7 @@ img {
 <div id="ageGate" class="container">
   <div class="card">
     <h1>🔞 Adults Only (18+)</h1>
-    <p>
-      Nairobi Locals is an adult services marketplace intended strictly
-      for consenting adults aged 18 years and above.
-    </p>
-    <p>
-      By entering this website you confirm that:
-      <br>• You are at least 18 years old
-      <br>• Adult content is legal in your location
-    </p>
+    <p>You must be 18+ to enter Nairobi Locals.</p>
     <button class="primary" onclick="enterSite()">I am 18 or Older</button>
   </div>
 </div>
@@ -89,82 +35,103 @@ img {
 
 <header>
   <h1>Nairobi Locals</h1>
-  <p>Discreet Adult Services Marketplace</p>
+  <p>Adult Services Marketplace</p>
+  <button class="secondary" onclick="showProviderAuth()">Offer Services?</button>
 </header>
 
 <div class="container">
 
-  <div class="card">
-    <h2>About</h2>
-    <p>
-      Nairobi Locals connects adults with independent service providers.
-      All listings are user-submitted. We do not manage or control providers.
-    </p>
-  </div>
+<!-- PROVIDER AUTH -->
+<div id="providerAuth" class="card hidden">
+  <h2>Provider Login / Register</h2>
+  <input id="pEmail" placeholder="Email">
+  <input id="pPassword" type="password" placeholder="Password">
+  <button class="primary" onclick="register()">Register</button>
+  <button class="secondary" onclick="login()">Login</button>
+  <p id="authMsg"></p>
+</div>
 
-  <div class="card">
-    <h2>Sample Providers</h2>
+<!-- PROVIDER DASHBOARD -->
+<div id="providerDashboard" class="card hidden">
+  <h2>Provider Dashboard</h2>
+  <input id="pName" placeholder="Display Name">
+  <input id="pLocation" placeholder="Location">
+  <input id="pPhone" placeholder="Phone / WhatsApp">
+  <select id="pService">
+    <option>Massage</option>
+    <option>Incalls</option>
+    <option>Outcalls</option>
+    <option>Dinner Company</option>
+  </select>
+  <button class="primary" onclick="saveProfile()">Save Profile</button>
+  <button class="secondary" onclick="logout()">Logout</button>
+  <p id="dashMsg"></p>
+</div>
 
-    <div class="provider-grid">
-
-      <div class="card">
-        <img src="https://picsum.photos/300/200?1">
-        <h3>Ruby – Westlands</h3>
-        <p>Incalls & Outcalls • Massage</p>
-        <button class="secondary"
-          onclick="window.location.href='tel:+254700000001'">
-          Call Now
-        </button>
-        <br><br>
-        <button class="primary"
-          onclick="window.location.href='https://wa.me/254700000001'">
-          WhatsApp
-        </button>
-      </div>
-
-      <div class="card">
-        <img src="https://picsum.photos/300/200?2">
-        <h3>Maya – CBD</h3>
-        <p>Dinner Company • VIP</p>
-        <button class="secondary"
-          onclick="window.location.href='tel:+254700000002'">
-          Call Now
-        </button>
-        <br><br>
-        <button class="primary"
-          onclick="window.location.href='https://wa.me/254700000002'">
-          WhatsApp
-        </button>
-      </div>
-
+<!-- PUBLIC LISTINGS -->
+<div class="card">
+  <h2>Sample Providers</h2>
+  <div class="provider-grid" id="providerList">
+    <div class="card">
+      <h3>Ruby – Westlands</h3>
+      <p>Massage • Incalls</p>
+      <button class="secondary" onclick="location.href='tel:+254700000001'">Call</button>
+      <button class="primary" onclick="location.href='https://wa.me/254700000001'">WhatsApp</button>
     </div>
   </div>
-
-  <div class="card">
-    <h2>Disclaimer</h2>
-    <p>
-      Nairobi Locals is a listing platform only.
-      We do not verify, manage, or guarantee any service.
-    </p>
-  </div>
+</div>
 
 </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
-function enterSite() {
-  document.getElementById("ageGate").style.display = "none";
-  document.getElementById("mainSite").style.display = "block";
-  localStorage.setItem("ageVerified", "true");
+function enterSite(){
+  localStorage.setItem("ageVerified","yes");
+  ageGate.style.display="none";
+  mainSite.style.display="block";
 }
 
-window.onload = function () {
-  if (localStorage.getItem("ageVerified") === "true") {
-    document.getElementById("ageGate").style.display = "none";
-    document.getElementById("mainSite").style.display = "block";
+window.onload=function(){
+  if(localStorage.getItem("ageVerified")==="yes"){
+    ageGate.style.display="none";
+    mainSite.style.display="block";
   }
-};
+  if(localStorage.getItem("loggedIn")==="yes"){
+    providerDashboard.classList.remove("hidden");
+  }
+}
+
+function showProviderAuth(){
+  providerAuth.classList.toggle("hidden");
+}
+
+function register(){
+  localStorage.setItem("providerEmail", pEmail.value);
+  localStorage.setItem("providerPass", pPassword.value);
+  authMsg.innerText="Registered successfully. Login now.";
+}
+
+function login(){
+  if(
+    pEmail.value===localStorage.getItem("providerEmail") &&
+    pPassword.value===localStorage.getItem("providerPass")
+  ){
+    localStorage.setItem("loggedIn","yes");
+    providerAuth.classList.add("hidden");
+    providerDashboard.classList.remove("hidden");
+  } else {
+    authMsg.innerText="Invalid login";
+  }
+}
+
+function saveProfile(){
+  dashMsg.innerText="Profile saved (demo)";
+}
+
+function logout(){
+  localStorage.removeItem("loggedIn");
+  providerDashboard.classList.add("hidden");
+}
 </script>
 
 </body>
