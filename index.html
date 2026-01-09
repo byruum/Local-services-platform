@@ -1,189 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Nairobi Locals</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body { font-family: Arial; margin:0; background:#f2f2f2; }
-header { background:#111; color:#fff; padding:15px; text-align:center; }
-section { padding:15px; }
-.card { background:#fff; padding:15px; border-radius:8px; margin-bottom:15px; }
-input, select, button { width:100%; padding:10px; margin:6px 0; }
-button { background:#e6005c; color:#fff; border:none; cursor:pointer; }
-.hidden { display:none; }
-.provider { border-bottom:1px solid #ddd; padding:10px 0; }
-footer { text-align:center; font-size:12px; padding:10px; color:#666; }
-</style>
+  <meta charset="UTF-8">
+  <title>Nairobi Locals – Auth Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
+  <h2>Nairobi Locals – Login Test</h2>
 
-<header>
-<h2>Nairobi Locals</h2>
-<p>Find & offer local services</p>
-</header>
+  <input id="email" type="email" placeholder="Email"><br><br>
+  <input id="password" type="password" placeholder="Password"><br><br>
 
-<!-- PUBLIC HOME -->
-<section id="home">
-<div class="card">
-<h3>Find Services</h3>
+  <button onclick="register()">Register</button>
+  <button onclick="login()">Login</button>
+  <button onclick="reset()">Reset Password</button>
 
-<select id="city" onchange="updateAreas()">
-<option value="">Select City</option>
-<option value="Nairobi">Nairobi</option>
-</select>
+  <p id="msg"></p>
 
-<select id="area" onchange="filterProviders()">
-<option value="">Select Area</option>
-</select>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
-<div id="providers"></div>
-</div>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+      authDomain: "local-service-hub-26b50.firebaseapp.com",
+      projectId: "local-service-hub-26b50",
+      storageBucket: "local-service-hub-26b50.appspot.com",
+      messagingSenderId: "397740156836",
+      appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
+    };
+    firebase.initializeApp(firebaseConfig);
 
-<div class="card">
-<h3>Want to offer services?</h3>
-<button onclick="showRegister()">Create Account</button>
-<button onclick="showLogin()">Provider Login</button>
-</div>
+    function register() {
+      firebase.auth()
+        .createUserWithEmailAndPassword(
+          email.value, password.value
+        )
+        .then(() => msg.innerText = "Registered successfully")
+        .catch(e => msg.innerText = e.message);
+    }
 
-<div class="card">
-<strong style="color:red;">⚠ 18+ Disclaimer</strong>
-<p>Adult services. 18+ only.</p>
-</div>
-</section>
+    function login() {
+      firebase.auth()
+        .signInWithEmailAndPassword(
+          email.value, password.value
+        )
+        .then(() => msg.innerText = "Login successful")
+        .catch(e => msg.innerText = e.message);
+    }
 
-<!-- REGISTER -->
-<section id="register" class="hidden">
-<div class="card">
-<h3>Provider Registration</h3>
-<input id="regEmail" type="email" placeholder="Email">
-<input id="regPassword" type="password" placeholder="Password">
-
-<select id="regCity">
-<option value="Nairobi">Nairobi</option>
-</select>
-
-<select id="regArea">
-<option>CBD</option>
-<option>Westlands</option>
-<option>Kilimani</option>
-<option>Ngong Road</option>
-<option>Eastlands</option>
-</select>
-
-<button onclick="register()">Register</button>
-<button onclick="goHome()">Back</button>
-</div>
-</section>
-
-<!-- LOGIN -->
-<section id="login" class="hidden">
-<div class="card">
-<h3>Provider Login</h3>
-<input id="email" type="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="resetPassword()">Forgot Password</button>
-<button onclick="goHome()">Back</button>
-</div>
-</section>
-
-<!-- DASHBOARD -->
-<section id="dashboard" class="hidden">
-<div class="card">
-<h3>Provider Dashboard</h3>
-<p>Your listing is FREE for 24 hours.</p>
-<p>Upgrade to VIP for better visibility.</p>
-<button onclick="logout()">Logout</button>
-</div>
-</section>
-
-<footer>
-Support: workwithbyram@gmail.com
-</footer>
-
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-<script>
-firebase.initializeApp({
-  apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-  authDomain: "local-service-hub-26b50.firebaseapp.com",
-  projectId: "local-service-hub-26b50",
-  storageBucket: "local-service-hub-26b50.appspot.com",
-  messagingSenderId: "397740156836",
-  appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
-});
-
-const auth = firebase.auth();
-
-// SAMPLE PROVIDERS (real providers come later)
-const providers = [
-  {name:"Anna", city:"Nairobi", area:"CBD", phone:"0700000001"},
-  {name:"Bella", city:"Nairobi", area:"Westlands", phone:"0700000002"},
-  {name:"Clara", city:"Nairobi", area:"Kilimani", phone:"0700000003"}
-];
-
-function updateAreas() {
-  const area = document.getElementById("area");
-  area.innerHTML = "<option value=''>Select Area</option>";
-  ["CBD","Westlands","Kilimani","Ngong Road","Eastlands"].forEach(a=>{
-    area.innerHTML += `<option>${a}</option>`;
-  });
-}
-
-function filterProviders() {
-  const city = city.value;
-  const area = document.getElementById("area").value;
-  const list = document.getElementById("providers");
-  list.innerHTML = "";
-
-  providers.filter(p => p.city===city && p.area===area)
-  .forEach(p=>{
-    list.innerHTML += `
-      <div class="provider">
-        <strong>${p.name}</strong><br>
-        ${p.area}<br>
-        <a href="tel:${p.phone}">Call Now</a> |
-        <a href="https://wa.me/254700000001">WhatsApp</a>
-      </div>`;
-  });
-}
-
-// NAV
-function hideAll() {
-  ["home","register","login","dashboard"].forEach(id=>{
-    document.getElementById(id).style.display="none";
-  });
-}
-function showRegister(){hideAll();register.style.display="block";}
-function showLogin(){hideAll();login.style.display="block";}
-function goHome(){hideAll();home.style.display="block";}
-
-// AUTH
-function register(){
-  auth.createUserWithEmailAndPassword(regEmail.value, regPassword.value)
-  .then(()=>{ alert("Registered"); showLogin(); })
-  .catch(e=>alert(e.message));
-}
-function login(){
-  auth.signInWithEmailAndPassword(email.value,password.value)
-  .then(()=>{ hideAll(); dashboard.style.display="block"; })
-  .catch(e=>alert(e.message));
-}
-function resetPassword(){
-  auth.sendPasswordResetEmail(email.value)
-  .then(()=>alert("Reset email sent"))
-  .catch(e=>alert(e.message));
-}
-function logout(){ auth.signOut().then(goHome); }
-
-auth.onAuthStateChanged(u=>{
-  if(u){ hideAll(); dashboard.style.display="block"; }
-});
-</script>
-
+    function reset() {
+      firebase.auth()
+        .sendPasswordResetEmail(email.value)
+        .then(() => msg.innerText = "Reset email sent")
+        .catch(e => msg.innerText = e.message);
+    }
+  </script>
 </body>
 </html>
