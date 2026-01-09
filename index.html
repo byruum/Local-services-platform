@@ -2,40 +2,67 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nairobi Locals – Adult Services Marketplace</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Nairobi Locals is an adult services marketplace connecting consenting adults with verified service providers across Nairobi and Kiambu. 18+ only.">
+<title>Nairobi Locals – Adults Only</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; }
-header { background:#111; color:#fff; padding:15px; text-align:center; }
-h1 { color:#c62828; }
-.container { padding:20px; max-width:1100px; margin:auto; }
-.hidden { display:none; }
-.card { background:#fff; padding:15px; margin-bottom:15px; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,.1); }
-button { padding:10px 15px; background:#c62828; color:#fff; border:none; cursor:pointer; border-radius:4px; }
-button.secondary { background:#333; }
-input, select, textarea { width:100%; padding:8px; margin:5px 0; }
-footer { background:#111; color:#ccc; text-align:center; padding:20px; font-size:14px; }
-img { max-width:100%; border-radius:5px; }
-.provider-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
-</style><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f4f4;
+}
+.hidden { display: none; }
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-    authDomain: "local-service-hub-26b50.firebaseapp.com",
-    projectId: "local-service-hub-26b50",
-    storageBucket: "local-service-hub-26b50.appspot.com",
-    messagingSenderId: "397740156836",
-    appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
-  };
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
 
-  firebase.initializeApp(firebaseConfig);
-</script>
+.card {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header {
+  background: #111;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+}
+
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.primary {
+  background: #c62828;
+  color: #fff;
+}
+
+.secondary {
+  background: #333;
+  color: #fff;
+}
+
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+</style>
 </head>
 
 <body>
@@ -45,10 +72,15 @@ img { max-width:100%; border-radius:5px; }
   <div class="card">
     <h1>🔞 Adults Only (18+)</h1>
     <p>
-      Nairobi Locals is an adult services marketplace intended strictly for consenting adults aged 18 years and above.
-      By entering this website, you confirm that you are at least 18 years old and that adult content is legal in your location.
+      Nairobi Locals is an adult services marketplace intended strictly
+      for consenting adults aged 18 years and above.
     </p>
-    <button onclick="enterSite()">I am 18 or Older</button>
+    <p>
+      By entering this website you confirm that:
+      <br>• You are at least 18 years old
+      <br>• Adult content is legal in your location
+    </p>
+    <button class="primary" onclick="enterSite()">I am 18 or Older</button>
   </div>
 </div>
 
@@ -57,171 +89,70 @@ img { max-width:100%; border-radius:5px; }
 
 <header>
   <h1>Nairobi Locals</h1>
-  <p>Discreet Adult Services Marketplace – Nairobi & Kiambu</p>
-  <button onclick="showProviderAuth()">Want to offer services?</button>
+  <p>Discreet Adult Services Marketplace</p>
 </header>
 
 <div class="container">
 
-<!-- DESCRIPTION -->
-<div class="card">
-  <h2>About Nairobi Locals</h2>
-  <p>
-    Nairobi Locals connects consenting adults with independent adult service providers.
-    Services may include adult companionship, massage services, dinner company, incalls and outcalls.
-    This platform does not manage or supervise services — providers operate independently.
-  </p>
-</div>
+  <div class="card">
+    <h2>About</h2>
+    <p>
+      Nairobi Locals connects adults with independent service providers.
+      All listings are user-submitted. We do not manage or control providers.
+    </p>
+  </div>
 
-<!-- FILTER -->
-<div class="card">
-  <h3>Find Services</h3>
-  <select id="locationFilter">
-    <option value="">Select Area</option>
-    <option>CBD</option>
-    <option>Embakasi</option>
-    <option>Westlands</option>
-    <option>Kilimani</option>
-    <option>Ruiru</option>
-  </select>
-  <select id="subLocationFilter">
-    <option value="">Sub-Location</option>
-    <option>Tassia</option>
-    <option>Pipeline</option>
-    <option>Fedha</option>
-    <option>Roysambu</option>
-    <option>Ruaka</option>
-  </select>
-</div>
+  <div class="card">
+    <h2>Sample Providers</h2>
 
-<!-- SAMPLE PROVIDERS -->
-<div class="card">
-<h3>Featured Providers</h3>
-<div class="provider-grid">
+    <div class="provider-grid">
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2">
-<h4>Aisha – Massage & Incall</h4>
-<p>📍 Westlands</p>
-<p>💰 From KES 150</p>
-<a href="tel:+254700000000"><button>Call Now</button></a>
-<a href="https://wa.me/254700000000"><button class="secondary">WhatsApp</button></a>
-</div>
+      <div class="card">
+        <img src="https://picsum.photos/300/200?1">
+        <h3>Ruby – Westlands</h3>
+        <p>Incalls & Outcalls • Massage</p>
+        <button class="secondary"
+          onclick="window.location.href='tel:+254700000001'">
+          Call Now
+        </button>
+        <br><br>
+        <button class="primary"
+          onclick="window.location.href='https://wa.me/254700000001'">
+          WhatsApp
+        </button>
+      </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1548142813-c348350df52b">
-<h4>Lynn – Dinner Company</h4>
-<p>📍 Kilimani</p>
-<p>💰 From KES 400</p>
-<a href="tel:+254711111111"><button>Call Now</button></a>
-<a href="https://wa.me/254711111111"><button class="secondary">WhatsApp</button></a>
-</div>
+      <div class="card">
+        <img src="https://picsum.photos/300/200?2">
+        <h3>Maya – CBD</h3>
+        <p>Dinner Company • VIP</p>
+        <button class="secondary"
+          onclick="window.location.href='tel:+254700000002'">
+          Call Now
+        </button>
+        <br><br>
+        <button class="primary"
+          onclick="window.location.href='https://wa.me/254700000002'">
+          WhatsApp
+        </button>
+      </div>
 
-</div>
-</div>
+    </div>
+  </div>
 
-<!-- INQUIRY -->
-<div class="card">
-<h3>General Inquiry</h3>
-<form action="mailto:workwithbyram@gmail.com" method="post" enctype="text/plain">
-<input type="text" placeholder="Your Name" required>
-<input type="email" placeholder="Your Email" required>
-<textarea placeholder="Your Message"></textarea>
-<button type="submit">Send Inquiry</button>
-</form>
-</div>
+  <div class="card">
+    <h2>Disclaimer</h2>
+    <p>
+      Nairobi Locals is a listing platform only.
+      We do not verify, manage, or guarantee any service.
+    </p>
+  </div>
 
-</div>
-
-<footer>
-<p>⚠️ Disclaimer: Nairobi Locals is an advertising platform only. We do not arrange, manage, or supervise services.</p>
-<p>© 2026 Nairobi Locals</p>
-</footer>
-
-</div>
-
-<!-- PROVIDER AUTH -->
-<div id="providerAuth" class="container hidden">
-<div class="card">
-<h2>Service Provider Access</h2>
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="register()">Register</button>
-<button onclick="resetPassword()">Forgot Password?</button>
-<p id="authStatus"></p>
 </div>
 </div>
 
-<!-- PROVIDER DASHBOARD -->
-<div id="providerDashboard" class="container hidden">
-<div class="card">
-<h2>Provider Dashboard</h2>
-<p>🎉 Listing is FREE for 24 hours.</p>
-
-<input placeholder="Display Name">
-<input placeholder="Phone Number">
-<select>
-<option>Incall</option>
-<option>Outcall</option>
-<option>Both</option>
-</select>
-
-<select>
-<option value="150">Daily – 150</option>
-<option value="400">4 Days – 400</option>
-<option value="1200">Monthly – 1200</option>
-</select>
-
-<label><input type="checkbox"> VIP Boost (+150)</label>
-
-<input type="file">
-<button>Save Profile</button>
-</div>
-</div>
-
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
+<!-- SCRIPT -->
 <script>
-var firebaseConfig = {
-  apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-  authDomain: "local-service-hub-26b50.firebaseapp.com",
-  projectId: "local-service-hub-26b50"
-};
-firebase.initializeApp(firebaseConfig);
-
-function enterSite(){
-  document.getElementById("ageGate").style.display="none";
-  document.getElementById("mainSite").style.display="block";
-}
-
-function showProviderAuth(){
-  document.getElementById("providerAuth").style.display="block";
-}
-
-function login(){
-  firebase.auth().signInWithEmailAndPassword(
-    email.value,password.value
-  ).then(()=>{
-    providerDashboard.style.display="block";
-    providerAuth.style.display="none";
-  }).catch(e=>authStatus.innerText=e.message);
-}
-
-function register(){
-  firebase.auth().createUserWithEmailAndPassword(
-    email.value,password.value
-  ).then(()=>authStatus.innerText="Registered successfully")
-  .catch(e=>authStatus.innerText=e.message);
-}
-
-function resetPassword(){
-  firebase.auth().sendPasswordResetEmail(email.value)
-  .then(()=>authStatus.innerText="Reset email sent")
-  .catch(e=>authStatus.innerText=e.message);
-} // ===== AGE GATE FIX =====
 function enterSite() {
   document.getElementById("ageGate").style.display = "none";
   document.getElementById("mainSite").style.display = "block";
