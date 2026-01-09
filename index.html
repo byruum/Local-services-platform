@@ -19,7 +19,23 @@ input, select, textarea { width:100%; padding:8px; margin:5px 0; }
 footer { background:#111; color:#ccc; text-align:center; padding:20px; font-size:14px; }
 img { max-width:100%; border-radius:5px; }
 .provider-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
-</style>
+</style><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+    authDomain: "local-service-hub-26b50.firebaseapp.com",
+    projectId: "local-service-hub-26b50",
+    storageBucket: "local-service-hub-26b50.appspot.com",
+    messagingSenderId: "397740156836",
+    appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+</script>
 </head>
 
 <body>
