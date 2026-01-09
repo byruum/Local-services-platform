@@ -2,83 +2,132 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nairobi Locals</title>
+<title>Nairobi Locals – Adult Services Marketplace</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<meta name="description" content="Nairobi Locals is an adult services marketplace connecting consenting adults with verified service providers across Nairobi and Kiambu. 18+ only.">
 
 <style>
-body{font-family:Arial;background:#f6f6f6;margin:0}
-header{background:#b30000;color:#fff;padding:15px;text-align:center}
-section{padding:15px}
-.card{background:#fff;padding:15px;margin-bottom:15px;border-radius:6px}
-button{padding:10px 15px;background:#b30000;color:#fff;border:none;border-radius:4px;cursor:pointer}
-input,select,textarea{width:100%;padding:8px;margin:5px 0}
-.hidden{display:none}
-.provider img{width:100%;border-radius:6px}
-footer{background:#111;color:#fff;padding:15px;font-size:13px}
-small{color:#555}
+body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; }
+header { background:#111; color:#fff; padding:15px; text-align:center; }
+h1 { color:#c62828; }
+.container { padding:20px; max-width:1100px; margin:auto; }
+.hidden { display:none; }
+.card { background:#fff; padding:15px; margin-bottom:15px; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,.1); }
+button { padding:10px 15px; background:#c62828; color:#fff; border:none; cursor:pointer; border-radius:4px; }
+button.secondary { background:#333; }
+input, select, textarea { width:100%; padding:8px; margin:5px 0; }
+footer { background:#111; color:#ccc; text-align:center; padding:20px; font-size:14px; }
+img { max-width:100%; border-radius:5px; }
+.provider-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
 </style>
 </head>
 
 <body>
 
+<!-- AGE GATE -->
+<div id="ageGate" class="container">
+  <div class="card">
+    <h1>🔞 Adults Only (18+)</h1>
+    <p>
+      Nairobi Locals is an adult services marketplace intended strictly for consenting adults aged 18 years and above.
+      By entering this website, you confirm that you are at least 18 years old and that adult content is legal in your location.
+    </p>
+    <button onclick="enterSite()">I am 18 or Older</button>
+  </div>
+</div>
+
+<!-- MAIN SITE -->
+<div id="mainSite" class="hidden">
+
 <header>
-<h1>Nairobi Locals</h1>
-<p>Local Services Marketplace</p>
-<button onclick="showProviderAuth()">Want to offer services?</button>
+  <h1>Nairobi Locals</h1>
+  <p>Discreet Adult Services Marketplace – Nairobi & Kiambu</p>
+  <button onclick="showProviderAuth()">Want to offer services?</button>
 </header>
 
-<!-- PUBLIC MARKETPLACE -->
-<section id="publicView">
+<div class="container">
 
+<!-- DESCRIPTION -->
 <div class="card">
-<h3>Find Services</h3>
-<select>
-<option>Nairobi</option>
-<option>Westlands</option>
-<option>Kilimani</option>
-<option>CBD</option>
-<option>Eastlands</option>
-</select>
+  <h2>About Nairobi Locals</h2>
+  <p>
+    Nairobi Locals connects consenting adults with independent adult service providers.
+    Services may include adult companionship, massage services, dinner company, incalls and outcalls.
+    This platform does not manage or supervise services — providers operate independently.
+  </p>
 </div>
 
-<div class="card provider">
+<!-- FILTER -->
+<div class="card">
+  <h3>Find Services</h3>
+  <select id="locationFilter">
+    <option value="">Select Area</option>
+    <option>CBD</option>
+    <option>Embakasi</option>
+    <option>Westlands</option>
+    <option>Kilimani</option>
+    <option>Ruiru</option>
+  </select>
+  <select id="subLocationFilter">
+    <option value="">Sub-Location</option>
+    <option>Tassia</option>
+    <option>Pipeline</option>
+    <option>Fedha</option>
+    <option>Roysambu</option>
+    <option>Ruaka</option>
+  </select>
+</div>
+
+<!-- SAMPLE PROVIDERS -->
+<div class="card">
+<h3>Featured Providers</h3>
+<div class="provider-grid">
+
+<div class="card">
 <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2">
-<h3>Grace – Premium Massage</h3>
-<p>Location: Westlands</p>
-<p>Available for private sessions</p>
+<h4>Aisha – Massage & Incall</h4>
+<p>📍 Westlands</p>
+<p>💰 From KES 150</p>
 <a href="tel:+254700000000"><button>Call Now</button></a>
-<a href="https://wa.me/254700000000"><button>WhatsApp</button></a>
-</div>
-
-<div class="card provider">
-<img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e">
-<h3>Lynn – Relaxation Specialist</h3>
-<p>Location: Kilimani</p>
-<p>Discreet & professional</p>
-<a href="tel:+254711000000"><button>Call Now</button></a>
-<a href="https://wa.me/254711000000"><button>WhatsApp</button></a>
+<a href="https://wa.me/254700000000"><button class="secondary">WhatsApp</button></a>
 </div>
 
 <div class="card">
-<h3>Send Inquiry</h3>
-<input id="inqName" placeholder="Your Name">
-<input id="inqEmail" placeholder="Your Email">
-<textarea id="inqMsg" placeholder="Your message"></textarea>
-<button onclick="sendInquiry()">Send</button>
-<p id="inqStatus"></p>
+<img src="https://images.unsplash.com/photo-1548142813-c348350df52b">
+<h4>Lynn – Dinner Company</h4>
+<p>📍 Kilimani</p>
+<p>💰 From KES 400</p>
+<a href="tel:+254711111111"><button>Call Now</button></a>
+<a href="https://wa.me/254711111111"><button class="secondary">WhatsApp</button></a>
 </div>
 
-</section>
+</div>
+</div>
+
+<!-- INQUIRY -->
+<div class="card">
+<h3>General Inquiry</h3>
+<form action="mailto:workwithbyram@gmail.com" method="post" enctype="text/plain">
+<input type="text" placeholder="Your Name" required>
+<input type="email" placeholder="Your Email" required>
+<textarea placeholder="Your Message"></textarea>
+<button type="submit">Send Inquiry</button>
+</form>
+</div>
+
+</div>
+
+<footer>
+<p>⚠️ Disclaimer: Nairobi Locals is an advertising platform only. We do not arrange, manage, or supervise services.</p>
+<p>© 2026 Nairobi Locals</p>
+</footer>
+
+</div>
 
 <!-- PROVIDER AUTH -->
-<section id="providerAuth" class="hidden">
+<div id="providerAuth" class="container hidden">
 <div class="card">
-<h3>Service Provider Login / Register</h3>
+<h2>Service Provider Access</h2>
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
 <button onclick="login()">Login</button>
@@ -86,87 +135,77 @@ small{color:#555}
 <button onclick="resetPassword()">Forgot Password?</button>
 <p id="authStatus"></p>
 </div>
-</section>
+</div>
 
 <!-- PROVIDER DASHBOARD -->
-<section id="dashboard" class="hidden">
+<div id="providerDashboard" class="container hidden">
 <div class="card">
-<h3>Provider Dashboard</h3>
-<p><strong>Status:</strong> Free listing (24 hours)</p>
+<h2>Provider Dashboard</h2>
+<p>🎉 Listing is FREE for 24 hours.</p>
 
-<input type="file" id="photo">
+<input placeholder="Display Name">
+<input placeholder="Phone Number">
 <select>
-<option>Standard Listing</option>
-<option>VIP Listing (+150)</option>
-<option>Sponsored Profile</option>
+<option>Incall</option>
+<option>Outcall</option>
+<option>Both</option>
 </select>
 
-<button onclick="alert('Package selected. Payment integration next step.')">
-Select Package
-</button>
+<select>
+<option value="150">Daily – 150</option>
+<option value="400">4 Days – 400</option>
+<option value="1200">Monthly – 1200</option>
+</select>
 
-<p><small>Your profile is private until approved.</small></p>
-<button onclick="logout()">Logout</button>
+<label><input type="checkbox"> VIP Boost (+150)</label>
+
+<input type="file">
+<button>Save Profile</button>
 </div>
-</section>
+</div>
 
-<footer>
-<p><strong>Disclaimer:</strong> Nairobi Locals is a listing platform. We do not directly offer services.</p>
-<p>Support: <a style="color:#fff" href="mailto:workwithbyram@gmail.com">workwithbyram@gmail.com</a></p>
-<p>Invite others: <span id="inviteLink"></span></p>
-</footer>
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
 <script>
-// FIREBASE CONFIG (YOUR REAL CONFIG)
-firebase.initializeApp({
- apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
- authDomain: "local-service-hub-26b50.firebaseapp.com",
- projectId: "local-service-hub-26b50",
- storageBucket: "local-service-hub-26b50.appspot.com",
- messagingSenderId: "397740156836",
- appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
-});
+var firebaseConfig = {
+  apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
+  authDomain: "local-service-hub-26b50.firebaseapp.com",
+  projectId: "local-service-hub-26b50"
+};
+firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-
-function showProviderAuth(){
- document.getElementById("publicView").style.display="none";
- document.getElementById("providerAuth").style.display="block";
+function enterSite(){
+  document.getElementById("ageGate").style.display="none";
+  document.getElementById("mainSite").style.display="block";
 }
 
-function register(){
- auth.createUserWithEmailAndPassword(
-  email.value,password.value
- ).then(()=>{
-  authStatus.innerText="Registered successfully";
- }).catch(e=>authStatus.innerText=e.message);
+function showProviderAuth(){
+  document.getElementById("providerAuth").style.display="block";
 }
 
 function login(){
- auth.signInWithEmailAndPassword(
-  email.value,password.value
- ).then(()=>{
-  providerAuth.style.display="none";
-  dashboard.style.display="block";
- }).catch(e=>authStatus.innerText=e.message);
+  firebase.auth().signInWithEmailAndPassword(
+    email.value,password.value
+  ).then(()=>{
+    providerDashboard.style.display="block";
+    providerAuth.style.display="none";
+  }).catch(e=>authStatus.innerText=e.message);
+}
+
+function register(){
+  firebase.auth().createUserWithEmailAndPassword(
+    email.value,password.value
+  ).then(()=>authStatus.innerText="Registered successfully")
+  .catch(e=>authStatus.innerText=e.message);
 }
 
 function resetPassword(){
- auth.sendPasswordResetEmail(email.value)
- .then(()=>authStatus.innerText="Password reset email sent");
+  firebase.auth().sendPasswordResetEmail(email.value)
+  .then(()=>authStatus.innerText="Reset email sent")
+  .catch(e=>authStatus.innerText=e.message);
 }
-
-function logout(){
- auth.signOut();
- location.reload();
-}
-
-function sendInquiry(){
- document.getElementById("inqStatus").innerText=
- "Message sent. We will respond via email.";
-}
-
-document.getElementById("inviteLink").innerText=location.href;
 </script>
 
 </body>
