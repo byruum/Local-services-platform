@@ -1,28 +1,52 @@
-# Nairobi local 
+# Online Web Tools Platform
 
-Nairobi Locals is a discreet, adults-only local services listing platform designed for mature audiences seeking private companionship and personal services within Nairobi and its surrounding areas.
-Our platform connects independent adult service providers with respectful clients in a secure, private, and transparent environment. All listed providers operate independently and manage their own availability, communication, and arrangements directly with interested clients.
-Nairobi Locals focuses on discretion, consent, and mutual respect. We do not facilitate or participate in any form of illegal activity. The platform exists solely as an online directory where adults can discover and connect with independent companions offering personal time, social companionship, and other adult-oriented services.
-This website is strictly for users 18 years and above. By accessing this platform, you confirm that you are of legal age and understand the nature of adult-oriented content. All interactions and arrangements are made privately between consenting adults.
-Whether you are looking for discreet companionship, private social engagements, or personalized adult services, Nairobi Locals provides a simple and confidential way to browse verified listings, view profiles, and contact providers directly.
-🔞 Adults Only (18+)
-🔐 Discreet & Private
-📍 Nairobi & Nearby Areas
-🤝 Independent Providers
+This project is a lightweight web-based tools platform designed to help users perform common digital tasks easily and efficiently.
 
-## Important Notices
-- 18+ only
-- Listing & advertising service only
-- No client payments are processed
-- All service providers are independent
-- The platform does not guarantee services
+The platform currently provides practical utilities that can be accessed directly from a browser, without installation or complex setup.
 
-## Payments
-- Providers pay a listing activation fee via M-Pesa
-- Clients contact providers directly
+---
 
-## Legal
-- No minors allowed
-- Users are responsible for their own safety
-- Platform complies with local laws# nairobi locals,
-  nairobi  local 
+## 🔧 Available Tools
+
+### 📷 Photo Resize Tool
+A simple and fast image resizing utility for web, social media, documents, and online use.
+
+**Key features:**
+- Resize images to common dimensions
+- Maintain image quality
+- Easy upload and download
+- Works directly in the browser
+
+---
+
+### 🌐 Website Hosting & HTML Preview Tool
+A web-based HTML validation and live preview tool that allows users to test how their websites will render before publishing.
+
+**Key features:**
+- Paste full HTML documents
+- Basic structure validation
+- Clear feedback and recommendations
+- Live preview rendering
+
+---
+
+## 🎯 Purpose
+The goal of this project is to provide accessible online tools that simplify everyday web and digital tasks for developers, creators, and general users.
+
+---
+
+## 🚀 Technology Used
+- HTML
+- CSS
+- JavaScript
+- Browser-based rendering
+
+---
+
+## 📌 Status
+This project is actively maintained and open for future improvements and feature expansion.
+
+---
+
+## 📄 License
+This project is provided for educational and practical use.
