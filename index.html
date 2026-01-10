@@ -2,42 +2,211 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Simple Web Tools</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Smart Web Tools | Simple Online Utilities</title>
+  <meta name="description" content="Smart, fast, and reliable online tools for image resizing, HTML testing, and web utilities. No installation required.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fa;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #111827;
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      max-width: 700px;
+      margin: 0 auto 25px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background: #dc2626;
+      color: #fff;
+      padding: 14px 28px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .tool-card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .tool-card h3 {
+      margin-top: 0;
+    }
+
+    .tool-card p {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .tool-card a {
+      margin-top: 15px;
+      display: inline-block;
+      color: #dc2626;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .step {
+      background: #fff;
+      padding: 20px;
+      border-left: 5px solid #dc2626;
+      border-radius: 6px;
+    }
+
+    footer {
+      background: #111827;
+      color: #d1d5db;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #9ca3af;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <h1>Simple Web Tools</h1>
-  <p>Smart, simple utilities for everyday web tasks</p>
-</header>
+  <!-- HERO -->
+  <header>
+    <h1>Smart Web Tools for Everyday Creators</h1>
+    <p>
+      A simple and reliable platform offering browser-based tools to resize images,
+      test HTML, and prepare web content efficiently — no downloads, no complexity.
+    </p>
+    <a href="#tools" class="btn-primary">Get Started</a>
+  </header>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="provider.html">Tools</a>
-</nav>
+  <!-- TOOLS -->
+  <section id="tools">
+    <div class="section-title">
+      <h2>Available Tools</h2>
+      <p>Carefully built utilities designed for global web standards and everyday use.</p>
+    </div>
 
-<section class="container">
-  <h2>Work Faster. Keep It Simple.</h2>
+    <div class="tools">
+      <div class="tool-card">
+        <h3>🖼 Image Resize Tool</h3>
+        <p>
+          Resize images to precise pixel dimensions used worldwide for websites,
+          social media, documents, and applications. Supports common formats and
+          preserves quality.
+        </p>
+        <a href="resize.html">Resize Images →</a>
+      </div>
 
-  <p>
-    Simple Web Tools provides practical browser-based solutions for common
-    digital tasks. No installations, no complicated setup — just tools that
-    work when you need them.
-  </p>
+      <div class="tool-card">
+        <h3>🌐 HTML Test & Host Tool</h3>
+        <p>
+          Paste or upload your HTML and instantly preview it in the browser.
+          Receive structure feedback and recommendations before publishing your site.
+        </p>
+        <a href="provider.html">Test HTML →</a>
+      </div>
+    </div>
+  </section>
 
-  <p>
-    Designed for creators, website owners, and everyday users who value speed,
-    clarity, and reliability.
-  </p>
+  <!-- HOW IT WORKS -->
+  <section>
+    <div class="section-title">
+      <h2>How It Works</h2>
+    </div>
 
-  <br>
-  <a class="btn-primary" href="provider.html">Get Started</a>
-</section>
+    <div class="steps">
+      <div class="step">
+        <strong>1. Choose a Tool</strong>
+        <p>Select the tool that matches your task.</p>
+      </div>
+      <div class="step">
+        <strong>2. Upload or Paste</strong>
+        <p>Add your image or HTML content securely.</p>
+      </div>
+      <div class="step">
+        <strong>3. Get Instant Results</strong>
+        <p>Preview, validate, and apply recommendations immediately.</p>
+      </div>
+    </div>
+  </section>
 
-<footer>
-  <p>© 2026 Simple Web Tools</p>
-</footer>
+  <!-- WHY -->
+  <section>
+    <div class="section-title">
+      <h2>Why Use This Platform?</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <p>✔ No installation required</p>
+      </div>
+      <div class="step">
+        <p>✔ Works entirely in your browser</p>
+      </div>
+      <div class="step">
+        <p>✔ Beginner-friendly, professional-ready</p>
+      </div>
+      <div class="step">
+        <p>✔ Built with real-world web standards</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      © 2026 Smart Web Tools |
+      <a href="privacy.html">Privacy Policy</a> |
+      <a href="terms.html">Terms</a>
+    </p>
+  </footer>
 
 </body>
 </html>
