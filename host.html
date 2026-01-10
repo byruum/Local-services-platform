@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Host Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      background: white;
+      margin: auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+      color: #555;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
+    button {
+      background: #d32f2f;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #b71c1c;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .success {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      margin-top: 15px;
+      border: 1px solid #ccc;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Host Website</h1>
+  <p>Upload your website files and preview before going live.</p>
+
+  <input type="file" id="siteFile" accept=".html,.zip">
+
+  <button onclick="launchSite()">Launch Website</button>
+
+  <div id="status" class="status"></div>
+
+  <iframe id="preview"></iframe>
+</div>
+
+<script>
+  function launchSite() {
+    const fileInput = document.getElementById("siteFile");
+    const status = document.getElementById("status");
+    const preview = document.getElementById("preview");
+
+    if (!fileInput.files.length) {
+      alert("Please upload a website file");
+      return;
+    }
+
+    const file = fileInput.files[0];
+
+    if (!file.name.endsWith(".html")) {
+      status.style.display = "block";
+      status.className = "status success";
+      status.innerHTML = "Website package received. Ready for deployment.";
+      preview.style.display = "none";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      preview.srcdoc = reader.result;
+      preview.style.display = "block";
+
+      status.style.display = "block";
+      status.className = "status success";
+      status.innerHTML = "Website launched successfully. Ready for hosting.";
+    };
+
+    reader.readAsText(file);
+  }
+</script>
+
+</body>
+</html>
