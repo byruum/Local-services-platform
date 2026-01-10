@@ -1,0 +1,58 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f4f4;
+}
+
+header {
+  background: #222;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  background: #444;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: #fff;
+  margin: 0 12px;
+  text-decoration: none;
+}
+
+.container {
+  background: #fff;
+  margin: 20px;
+  padding: 20px;
+}
+
+.tool-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 6px;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 14px 20px;
+  background: #e53935;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.btn-primary:hover {
+  background: #c62828;
+}
+
+footer {
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+}
