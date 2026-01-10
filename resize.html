@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Resizer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Image Resizer</h1>
+  <p>Resize images quickly without uploads or installations</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="tools.html">Tools</a>
+</nav>
+
+<section class="container">
+
+  <input type="file" id="upload" accept="image/*">
+  <br><br>
+
+  <label>Width (px)</label><br>
+  <input type="number" id="width" placeholder="e.g. 800"><br><br>
+
+  <label>Height (px)</label><br>
+  <input type="number" id="height" placeholder="e.g. 600"><br><br>
+
+  <button class="btn" onclick="resizeImage()">Resize Image</button>
+
+  <br><br>
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <div id="download"></div>
+
+</section>
+
+<script>
+  function resizeImage() {
+    const fileInput = document.getElementById('upload');
+    const widthInput = document.getElementById('width').value;
+    const heightInput = document.getElementById('height').value;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    if (!fileInput.files.length) {
+      alert('Please select an image');
+      return;
+    }
+
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      img.onload = function() {
+        canvas.width = widthInput || img.width;
+        canvas.height = heightInput || img.height;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const resizedImage = canvas.toDataURL('image/jpeg');
+        document.getElementById('download').innerHTML =
+          '<a class="btn" download="resized-image.jpg" href="' + resizedImage + '">Download Image</a>';
+      };
+      img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(fileInput.files[0]);
+  }
+</script>
+
+</body>
+</html>
