@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Website Hosting & Preview Tool</title>
+  <meta charset="UTF-8">
+  <title>Online Tools Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f5f7fa;
+      background: #f4f6f9;
       margin: 0;
       padding: 20px;
       color: #333;
@@ -17,20 +17,30 @@
     .container {
       max-width: 1000px;
       margin: auto;
-      background: #ffffff;
+      background: #fff;
       padding: 25px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    h1 {
+    h1, h2 {
       margin-top: 0;
-      color: #222;
     }
 
-    p.description {
+    .tool {
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 25px;
+      margin-bottom: 25px;
+    }
+
+    .tool:last-child {
+      border-bottom: none;
+    }
+
+    .steps {
+      font-size: 14px;
       color: #555;
-      line-height: 1.6;
+      margin: 10px 0;
     }
 
     textarea {
@@ -41,23 +51,30 @@
       font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     button {
-      margin-top: 15px;
-      padding: 12px 22px;
-      background: #d32f2f;
-      color: #fff;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: bold;
       border: none;
       border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
       cursor: pointer;
     }
 
-    button:hover {
+    .btn-red {
+      background: #d32f2f;
+      color: #fff;
+    }
+
+    .btn-red:hover {
       background: #b71c1c;
+    }
+
+    .btn-dark {
+      background: #333;
+      color: #fff;
     }
 
     #feedback {
@@ -85,6 +102,11 @@
       border-left: 5px solid #2e7d32;
     }
 
+    #recommendation {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
     iframe {
       width: 100%;
       height: 400px;
@@ -93,72 +115,98 @@
       margin-top: 20px;
       background: #fff;
     }
-
-    .tips {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #444;
-    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>Website Hosting & Live Preview</h1>
+    <h1>Online Tools</h1>
 
-    <p class="description">
-      Paste your website HTML code below to instantly preview how your site will appear online.
-      This tool checks your code, highlights common issues, and renders a live preview for review
-      before publishing or deployment.
-    </p>
+    <!-- PHOTO RESIZE TOOL -->
+    <div class="tool">
+      <h2>📷 Photo Resize Tool</h2>
+      <p>Resize images instantly for websites, social media, documents, and online platforms without losing quality.</p>
 
-    <textarea id="htmlInput" placeholder="Paste your full HTML document here..."></textarea>
+      <div class="steps">
+        <strong>How it works:</strong><br>
+        1. Upload your image<br>
+        2. Choose the required size or preset<br>
+        3. Download the resized image
+      </div>
 
-    <button onclick="validateAndRender()">Get Started</button>
+      <a href="resize.html">
+        <button class="btn-dark">Resize Photo</button>
+      </a>
+    </div>
 
-    <div id="feedback"></div>
+    <!-- WEBSITE HOSTING TOOL -->
+    <div class="tool">
+      <h2>🌐 Website Hosting & Live Preview</h2>
+      <p>Preview and validate your website HTML before publishing to ensure it displays correctly and follows basic structure.</p>
 
-    <iframe id="preview"></iframe>
+      <div class="steps">
+        <strong>How it works:</strong><br>
+        1. Paste your full HTML code below<br>
+        2. Click “Host Website”<br>
+        3. Review feedback and live preview
+      </div>
+
+      <textarea id="htmlInput" placeholder="Paste your full HTML document here..."></textarea>
+
+      <br><br>
+      <button class="btn-red" onclick="validateAndRender()">Host Website</button>
+
+      <div id="feedback"></div>
+      <div id="recommendation"></div>
+
+      <iframe id="preview"></iframe>
+    </div>
   </div>
 
   <script>
     function validateAndRender() {
       const input = document.getElementById("htmlInput").value.trim();
       const feedback = document.getElementById("feedback");
+      const recommendation = document.getElementById("recommendation");
       const preview = document.getElementById("preview");
 
       feedback.className = "";
       feedback.innerHTML = "";
+      recommendation.innerHTML = "";
       preview.srcdoc = "";
 
       if (input.length === 0) {
         feedback.classList.add("error");
-        feedback.innerHTML = "❌ No content detected. Please paste your HTML code.";
+        feedback.innerHTML = "❌ No HTML detected.";
+        recommendation.innerHTML = "👉 Paste a complete HTML document to proceed.";
         return;
       }
 
       if (input.length < 50) {
         feedback.classList.add("error");
-        feedback.innerHTML = "❌ HTML is too short to be a complete website.";
+        feedback.innerHTML = "❌ HTML is too short.";
+        recommendation.innerHTML = "👉 Ensure your code includes full page structure and content.";
         return;
       }
 
       if (!input.toLowerCase().includes("<html")) {
         feedback.classList.add("error");
-        feedback.innerHTML = "❌ Missing &lt;html&gt; tag. This does not appear to be a full HTML document.";
+        feedback.innerHTML = "❌ Missing &lt;html&gt; tag.";
+        recommendation.innerHTML = "👉 Add a <code>&lt;html&gt;</code> tag to define your document.";
         return;
       }
 
       if (!input.toLowerCase().includes("<body")) {
         feedback.classList.add("warning");
-        feedback.innerHTML = "⚠️ &lt;body&gt; tag not detected. The site may not render correctly.";
+        feedback.innerHTML = "⚠️ Missing &lt;body&gt; tag.";
+        recommendation.innerHTML = "👉 Add a <code>&lt;body&gt;</code> section for better compatibility.";
         preview.srcdoc = input;
         return;
       }
 
       feedback.classList.add("success");
-      feedback.innerHTML = "✅ HTML validated successfully. Rendering live preview...";
-
+      feedback.innerHTML = "✅ Your HTML structure looks correct.";
+      recommendation.innerHTML = "🎉 You can proceed with publishing or deploying your website.";
       preview.srcdoc = input;
     }
   </script>
