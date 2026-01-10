@@ -2,182 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Provider Dashboard | Nairobi Locals</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #111;
-      color: #fff;
-      padding: 15px;
-      text-align: center;
-    }
-    .container {
-      max-width: 900px;
-      margin: 20px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 6px;
-    }
-    h2 {
-      margin-top: 0;
-    }
-    .hidden {
-      display: none;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
-    }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-    }
-    button {
-      background: #007bff;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    .logout {
-      background: #dc3545;
-    }
-    .notice {
-      background: #fff3cd;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-left: 5px solid #ffc107;
-    }
-  </style>
+  <title>Web Utilities</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
-  <h1>Provider Dashboard</h1>
-  <p>Nairobi Locals</p>
+  <h1>Web Utilities</h1>
+  <p>Carefully selected tools to support your digital workflow</p>
 </header>
 
-<div class="container hidden" id="dashboard">
+<nav>
+  <a href="index.html">Home</a>
+  <a href="provider.html">Tools</a>
+</nav>
 
-  <div class="notice">
-    <strong>Note:</strong> Your profile is private and only visible after approval.
+<section class="container">
+
+  <h2>Image & Media Tools</h2>
+
+  <div class="tool-card">
+    <h3>Image Optimizer</h3>
+    <p>
+      Resize and optimize images directly in your browser while preserving
+      quality. Ideal for websites, social media, and document uploads.
+    </p>
+    <p><strong>Key focus:</strong> Speed, accuracy, and simplicity</p>
   </div>
 
-  <h2>Your Profile</h2>
+  <h2>Web & Hosting Utilities</h2>
 
-  <label>Business / Display Name</label>
-  <input id="name">
+  <div class="tool-card">
+    <h3>Website Setup Resources</h3>
+    <p>
+      Helpful resources and services for launching and maintaining websites,
+      including hosting, performance optimization, and scalability guidance.
+    </p>
+    <p><strong>Designed for:</strong> Personal projects and small businesses</p>
+  </div>
 
-  <label>Service Description</label>
-  <textarea id="description"></textarea>
+</section>
 
-  <label>Main Location</label>
-  <select id="location">
-    <option>Nairobi</option>
-  </select>
-
-  <label>Sub Location</label>
-  <input id="sublocation" placeholder="CBD, Westlands, Pipeline, etc">
-
-  <label>Phone / WhatsApp</label>
-  <input id="phone">
-
-  <label>Pricing</label>
-  <select id="price">
-    <option value="150">Daily – KES 150</option>
-    <option value="400">4 Days – KES 400</option>
-    <option value="1200">Monthly – KES 1200</option>
-  </select>
-
-  <button onclick="saveProfile()">Save Profile</button>
-
-  <button class="logout" onclick="logout()">Logout</button>
-
-</div>
-
-<div class="container" id="loading">
-  <h3>Loading your dashboard…</h3>
-</div>
-
-<script>
-  // 🔐 YOUR REAL FIREBASE CONFIG (already verified)
-  const firebaseConfig = {
-    apiKey: "AIzaSyD88iH62FmlfY13LF3pDoE7MmRR76JSboI",
-    authDomain: "local-service-hub-26b50.firebaseapp.com",
-    projectId: "local-service-hub-26b50",
-    storageBucket: "local-service-hub-26b50.firebasestorage.app",
-    messagingSenderId: "397740156836",
-    appId: "1:397740156836:web:dc30fc4a0b3188bac68331"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-
-  // 🔄 AUTH CHECK
-  auth.onAuthStateChanged(user => {
-    if (!user) {
-      window.location.href = "index.html";
-    } else {
-      document.getElementById("dashboard").classList.remove("hidden");
-      document.getElementById("loading").style.display = "none";
-      loadProfile(user.uid);
-    }
-  });
-
-  function saveProfile() {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    db.collection("providers").doc(user.uid).set({
-      name: name.value,
-      description: description.value,
-      location: location.value,
-      sublocation: sublocation.value,
-      phone: phone.value,
-      price: price.value,
-      approved: false,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    alert("Profile saved. Await admin approval.");
-  }
-
-  function loadProfile(uid) {
-    db.collection("providers").doc(uid).get().then(doc => {
-      if (doc.exists) {
-        const d = doc.data();
-        name.value = d.name || "";
-        description.value = d.description || "";
-        sublocation.value = d.sublocation || "";
-        phone.value = d.phone || "";
-        price.value = d.price || "150";
-      }
-    });
-  }
-
-  function logout() {
-    auth.signOut();
-  }
-</script>
+<footer>
+  <p>Reliable tools designed for modern web use</p>
+</footer>
 
 </body>
 </html>
