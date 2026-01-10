@@ -1,69 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Image Resizer</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Resize Photo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      background: #fff;
+      margin: auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      color: #555;
+      font-size: 14px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 15px;
+    }
+
+    button {
+      background: #d32f2f;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #b71c1c;
+    }
+
+    .preset-buttons button {
+      margin-top: 8px;
+      background: #eee;
+      color: #333;
+      font-weight: normal;
+    }
+
+    .preset-buttons button:hover {
+      background: #ddd;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .row input {
+      width: 100%;
+    }
+
+    .checkbox {
+      margin-top: 10px;
+    }
+
+    .download {
+      display: none;
+      margin-top: 15px;
+      background: #2e7d32;
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <h1>Image Resizer</h1>
-  <p>Resize images instantly</p>
-</header>
+<div class="container">
+  <h1>Resize Photo</h1>
+  <p>Resize images for social media, documents, websites, and more.</p>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="provider.html">Tools</a>
-</nav>
+  <label>Select Image</label>
+  <input type="file" id="imageInput" accept="image/*" />
 
-<section class="container">
+  <label>Quick Sizes</label>
+  <div class="preset-buttons">
+    <button onclick="setSize(1080,1080)">Instagram Post (1080×1080)</button>
+    <button onclick="setSize(1080,1920)">Instagram Story (1080×1920)</button>
+    <button onclick="setSize(1200,630)">Facebook Post (1200×630)</button>
+    <button onclick="setSize(1280,720)">YouTube Thumbnail (1280×720)</button>
+    <button onclick="setSize(800,800)">Product Image (800×800)</button>
+    <button onclick="setSize(413,531)">Passport Photo</button>
+  </div>
 
-  <input type="file" id="upload" accept="image/*"><br><br>
+  <label>Custom Size (Pixels)</label>
+  <div class="row">
+    <input type="number" id="widthInput" placeholder="Width" />
+    <input type="number" id="heightInput" placeholder="Height" />
+  </div>
 
-  <label>Width (px)</label><br>
-  <input type="number" id="width" placeholder="e.g. 800"><br><br>
+  <div class="checkbox">
+    <input type="checkbox" id="lockRatio" checked /> Lock aspect ratio
+  </div>
 
-  <label>Height (px)</label><br>
-  <input type="number" id="height" placeholder="e.g. 600"><br><br>
+  <label>Image Quality</label>
+  <input type="range" id="qualityInput" min="30" max="100" value="90" />
+  <small>Quality: <span id="qualityValue">90%</span></small>
 
-  <button class="btn-primary" onclick="resizeImage()">Resize Image</button>
+  <label>Output Format</label>
+  <select id="formatInput">
+    <option value="image/jpeg">JPG</option>
+    <option value="image/png">PNG</option>
+    <option value="image/webp">WEBP</option>
+  </select>
 
-  <br><br>
+  <button onclick="resizeImage()">Resize Image</button>
+  <button class="download" id="downloadBtn">Download Image</button>
+
   <canvas id="canvas" style="display:none;"></canvas>
-  <div id="download"></div>
-
-</section>
+</div>
 
 <script>
-function resizeImage() {
-  const upload = document.getElementById('upload');
-  if (!upload.files.length) {
-    alert('Please select an image');
-    return;
+  const imageInput = document.getElementById("imageInput");
+  const widthInput = document.getElementById("widthInput");
+  const heightInput = document.getElementById("heightInput");
+  const lockRatio = document.getElementById("lockRatio");
+  const qualityInput = document.getElementById("qualityInput");
+  const qualityValue = document.getElementById("qualityValue");
+  const formatInput = document.getElementById("formatInput");
+  const downloadBtn = document.getElementById("downloadBtn");
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  let originalWidth, originalHeight;
+  let img = new Image();
+
+  qualityInput.oninput = () => {
+    qualityValue.textContent = qualityInput.value + "%";
+  };
+
+  imageInput.onchange = () => {
+    const file = imageInput.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      img.onload = () => {
+        originalWidth = img.width;
+        originalHeight = img.height;
+        widthInput.value = originalWidth;
+        heightInput.value = originalHeight;
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  widthInput.oninput = () => {
+    if (lockRatio.checked && originalWidth) {
+      heightInput.value = Math.round(widthInput.value * originalHeight / originalWidth);
+    }
+  };
+
+  heightInput.oninput = () => {
+    if (lockRatio.checked && originalHeight) {
+      widthInput.value = Math.round(heightInput.value * originalWidth / originalHeight);
+    }
+  };
+
+  function setSize(w, h) {
+    widthInput.value = w;
+    heightInput.value = h;
   }
 
-  const img = new Image();
-  const reader = new FileReader();
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
+  function resizeImage() {
+    if (!img.src) {
+      alert("Please select an image first");
+      return;
+    }
 
-  reader.onload = function(e) {
-    img.onload = function() {
-      canvas.width = document.getElementById('width').value || img.width;
-      canvas.height = document.getElementById('height').value || img.height;
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    canvas.width = widthInput.value;
+    canvas.height = heightInput.value;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      const output = canvas.toDataURL('image/jpeg');
-      document.getElementById('download').innerHTML =
-        `<a class="btn-primary" download="resized-image.jpg" href="${output}">
-          Download Image
-        </a>`;
+    const quality = qualityInput.value / 100;
+    const format = formatInput.value;
+
+    downloadBtn.style.display = "block";
+    downloadBtn.onclick = () => {
+      const link = document.createElement("a");
+      link.download = "resized-image";
+      link.href = canvas.toDataURL(format, quality);
+      link.click();
     };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(upload.files[0]);
-}
+  }
 </script>
 
 </body>
