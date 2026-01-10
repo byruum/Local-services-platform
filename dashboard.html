@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | Smart Web Tools</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard for accessing image resize and HTML testing tools. Simple, fast, browser-based utilities.">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f4f6;
+      color: #111;
+    }
+
+    header {
+      background: #111827;
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .welcome {
+      margin-bottom: 30px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 18px;
+      background: #dc2626;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .status {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .status div {
+      background: #fff;
+      padding: 20px;
+      border-left: 5px solid;
+      border-radius: 6px;
+    }
+
+    .ok { border-color: #16a34a; }
+    .warn { border-color: #f59e0b; }
+    .error { border-color: #dc2626; }
+
+    footer {
+      margin-top: 60px;
+      background: #111827;
+      color: #d1d5db;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #9ca3af;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Dashboard</h1>
+  <p>Manage and access your web tools from one place</p>
+</header>
+
+<div class="container">
+
+  <div class="welcome">
+    <h2>Welcome 👋</h2>
+    <p>
+      This dashboard gives you quick access to practical web tools designed to
+      help you prepare, test, and optimize digital content efficiently.
+      Everything runs directly in your browser.
+    </p>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="cards">
+
+    <div class="card">
+      <h3>🖼 Image Resize Tool</h3>
+      <p>
+        Resize images to globally accepted pixel dimensions for websites,
+        social media, documents, and applications while maintaining quality.
+      </p>
+      <a href="resize.html">Open Tool</a>
+    </div>
+
+    <div class="card">
+      <h3>🌐 HTML Test & Host Tool</h3>
+      <p>
+        Paste or upload HTML code to preview it instantly, detect structure
+        issues, and receive guidance before publishing your website.
+      </p>
+      <a href="provider.html">Open Tool</a>
+    </div>
+
+  </div>
+
+  <!-- STATUS / RECOMMENDATIONS -->
+  <div class="status">
+
+    <div class="ok">
+      <strong>✔ Best Practice</strong>
+      <p>Ensure every HTML page has a title and meta description.</p>
+    </div>
+
+    <div class="warn">
+      <strong>⚠ Recommendation</strong>
+      <p>Optimize images below 500KB for faster page loading.</p>
+    </div>
+
+    <div class="error">
+      <strong>❌ Common Issue</strong>
+      <p>Missing closing tags may cause layout or rendering problems.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <p>
+    © 2026 Smart Web Tools |
+    <a href="index.html">Home</a> |
+    <a href="privacy.html">Privacy Policy</a>
+  </p>
+</footer>
+
+</body>
+</html>
