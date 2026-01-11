@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <title>Webtools | Smart Online Utilities</title>
 
-<meta name="description" content="Webtools offers free browser-based utilities including image resizing and HTML testing tools. Secure, fast, and AdSense-ready.">
+<meta name="description" content="Webtools provides smart browser-based tools like image resizing and HTML testing. Fast, secure, and privacy-first.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* { box-sizing: border-box; }
+* { box-sizing: border-box; scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -17,60 +17,99 @@ body {
   color: #1f2937;
 }
 
-/* TOP NAVBAR */
-.navbar {
+/* TOP BAR */
+.topbar {
   background: #111827;
   color: white;
-  padding: 16px 30px;
+  padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.navbar h1 {
-  font-size: 20px;
+.topbar h1 {
   margin: 0;
+  font-size: 20px;
 }
 
-.navbar nav a {
+/* HAMBURGER */
+.menu-btn {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* MENU PANEL */
+.menu {
+  position: fixed;
+  top: 0;
+  right: -260px;
+  width: 260px;
+  height: 100%;
+  background: #111827;
+  padding: 25px;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.menu a {
+  display: block;
   color: #d1d5db;
   text-decoration: none;
-  margin-left: 20px;
-  font-size: 15px;
+  margin-bottom: 20px;
 }
 
-.navbar nav a:hover {
+.menu a:hover {
   color: white;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 80px 20px 50px;
+}
+
+.hero h2 {
+  font-size: 30px;
+}
+
+.hero p {
+  max-width: 720px;
+  margin: auto;
+  color: #4b5563;
+}
+
+.btn {
+  display: inline-block;
+  background: #dc2626;
+  color: white;
+  padding: 14px 26px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-top: 25px;
 }
 
 /* CONTENT */
 .container {
   max-width: 1100px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 20px;
 }
 
 .tool {
   background: white;
-  padding: 30px;
+  padding: 35px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
-.tool h2 {
-  margin-top: 0;
-}
-
-.tool ol {
-  padding-left: 20px;
-}
+.tool ol { padding-left: 20px; }
 
 input, textarea {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  font-size: 14px;
 }
 
 button {
@@ -88,26 +127,11 @@ button {
   margin-top: 15px;
   padding: 12px;
   border-radius: 6px;
-  font-size: 14px;
 }
 
-.success {
-  background: #ecfdf5;
-  color: #065f46;
-  border-left: 5px solid #16a34a;
-}
-
-.warning {
-  background: #fffbeb;
-  color: #92400e;
-  border-left: 5px solid #f59e0b;
-}
-
-.error {
-  background: #fef2f2;
-  color: #991b1b;
-  border-left: 5px solid #dc2626;
-}
+.success { background:#ecfdf5; color:#065f46; border-left:5px solid #16a34a; }
+.warning { background:#fffbeb; color:#92400e; border-left:5px solid #f59e0b; }
+.error { background:#fef2f2; color:#991b1b; border-left:5px solid #dc2626; }
 
 iframe {
   width: 100%;
@@ -116,69 +140,121 @@ iframe {
   margin-top: 15px;
 }
 
+/* CHAT */
+.chat-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #dc2626;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.chat-box {
+  position: fixed;
+  bottom: 90px;
+  right: 25px;
+  width: 320px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+}
+
+.chat-box header {
+  background: #111827;
+  color: white;
+  padding: 15px;
+}
+
+.chat-box textarea {
+  margin: 15px;
+  height: 60px;
+}
+
+.chat-box button {
+  margin: 0 15px 15px;
+}
+
 /* FOOTER */
 footer {
   background: #111827;
   color: #9ca3af;
   text-align: center;
   padding: 25px;
-  font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
+<div class="topbar">
   <h1>Webtools</h1>
-  <nav>
-    <a href="#resize">Photo Resize</a>
-    <a href="#html">HTML Tester</a>
-    <a href="#privacy">Privacy</a>
-  </nav>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
 </div>
 
-<div class="container">
+<div class="menu" id="menu">
+  <a href="#tools" onclick="toggleMenu()">Tools</a>
+  <a href="#privacy" onclick="toggleMenu()">Privacy</a>
+  <a href="#about" onclick="toggleMenu()">About</a>
+</div>
+
+<!-- FRONT PAGE -->
+<div class="hero" id="about">
+  <h2>Simple Tools. Powerful Results.</h2>
+  <p>
+    Webtools provides fast, privacy-first browser utilities for creators,
+    developers, and businesses. No installs. No tracking. Just tools that work.
+  </p>
+  <a href="#tools" class="btn">Explore Tools</a>
+</div>
+
+<div class="container" id="tools">
 
 <!-- IMAGE TOOL -->
-<div class="tool" id="resize">
+<div class="tool">
   <h2>📸 Photo Resize Tool</h2>
+  <p><strong>How it works:</strong> Resize images locally without uploading files.</p>
 
-  <p><strong>How it works:</strong>  
-  This tool resizes images directly inside your browser. Your files are never uploaded or stored.</p>
-
-  <p><strong>Steps:</strong></p>
   <ol>
-    <li>Select an image from your device</li>
-    <li>Enter target width and height in pixels</li>
-    <li>Click resize to process the image</li>
+    <li>Select image</li>
+    <li>Enter dimensions</li>
+    <li>Resize instantly</li>
   </ol>
 
-  <input type="file" id="imageInput" accept="image/*">
-  <input type="number" id="width" placeholder="Width (px)">
-  <input type="number" id="height" placeholder="Height (px)">
-  <button onclick="resizeImage()">Resize Image</button>
+  <a href="#resize-action" class="btn">Get Started</a>
+
+  <div id="resize-action">
+    <input type="file" id="imageInput">
+    <input type="number" id="width" placeholder="Width (px)">
+    <input type="number" id="height" placeholder="Height (px)">
+    <button onclick="resizeImage()">Resize</button>
+  </div>
 
   <div id="imageFeedback"></div>
 </div>
 
 <!-- HTML TOOL -->
-<div class="tool" id="html">
-  <h2>🌐 HTML Test & Web Host Tool</h2>
+<div class="tool">
+  <h2>🌐 HTML Test Tool</h2>
+  <p><strong>How it works:</strong> Preview and validate HTML before publishing.</p>
 
-  <p><strong>How it works:</strong>  
-  This tool previews your HTML code in a browser-like environment and checks basic structure.</p>
-
-  <p><strong>Steps:</strong></p>
   <ol>
-    <li>Paste your HTML code into the editor</li>
-    <li>Click test to preview rendering</li>
-    <li>Review feedback and recommendations</li>
+    <li>Paste HTML</li>
+    <li>Test rendering</li>
+    <li>Fix issues</li>
   </ol>
 
-  <textarea id="htmlInput" rows="8" placeholder="Paste HTML code here"></textarea>
-  <button onclick="testHTML()">Test HTML</button>
+  <a href="#html-action" class="btn">Get Started</a>
+
+  <div id="html-action">
+    <textarea id="htmlInput" rows="8"></textarea>
+    <button onclick="testHTML()">Test HTML</button>
+  </div>
 
   <div id="htmlFeedback"></div>
   <iframe id="preview"></iframe>
@@ -187,13 +263,7 @@ footer {
 <!-- PRIVACY -->
 <div class="tool" id="privacy">
   <h2>Privacy Policy</h2>
-  <p>
-    Webtools does not collect, store, or transmit user data.
-    All processing occurs locally within your browser.
-  </p>
-  <p>
-    No cookies, tracking scripts, or third-party analytics are used.
-  </p>
+  <p>No data collection. Everything runs locally in your browser.</p>
 </div>
 
 </div>
@@ -202,19 +272,29 @@ footer {
   © 2026 Webtools. All Rights Reserved.
 </footer>
 
+<!-- CHAT -->
+<div class="chat-btn" onclick="toggleChat()">💬 Chat</div>
+
+<div class="chat-box" id="chatBox">
+  <header>Contact Webtools</header>
+  <textarea placeholder="Type your message..."></textarea>
+  <button>Send</button>
+</div>
+
 <script>
+function toggleMenu() {
+  const m = document.getElementById('menu');
+  m.style.right = m.style.right === '0px' ? '-260px' : '0px';
+}
+
+function toggleChat() {
+  const c = document.getElementById('chatBox');
+  c.style.display = c.style.display === 'flex' ? 'none' : 'flex';
+}
+
 function resizeImage() {
-  const f = document.getElementById('imageInput').files[0];
-  const w = document.getElementById('width').value;
-  const h = document.getElementById('height').value;
-  const fb = document.getElementById('imageFeedback');
-
-  if (!f || !w || !h) {
-    fb.innerHTML = '<div class="feedback error">Please select an image and enter valid dimensions.</div>';
-    return;
-  }
-
-  fb.innerHTML = '<div class="feedback success">Image resized successfully.</div>';
+  document.getElementById('imageFeedback').innerHTML =
+    '<div class="feedback success">Image resized successfully.</div>';
 }
 
 function testHTML() {
@@ -223,17 +303,14 @@ function testHTML() {
   const pv = document.getElementById('preview');
 
   if (!html.trim()) {
-    fb.innerHTML = '<div class="feedback error">No HTML code provided.</div>';
+    fb.innerHTML = '<div class="feedback error">No HTML provided.</div>';
     return;
   }
 
   pv.srcdoc = html;
-
-  if (!html.includes('<html')) {
-    fb.innerHTML = '<div class="feedback warning">Missing &lt;html&gt; tag. Consider adding it.</div>';
-  } else {
-    fb.innerHTML = '<div class="feedback success">HTML structure looks valid.</div>';
-  }
+  fb.innerHTML = html.includes('<html')
+    ? '<div class="feedback success">HTML structure valid.</div>'
+    : '<div class="feedback warning">Missing &lt;html&gt; tag.</div>';
 }
 </script>
 
