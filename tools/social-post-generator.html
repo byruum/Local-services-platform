@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Social Post Generator | WebTool.co.ke</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Generate humanized social media posts with smart hashtags based on trending topics. Designed for businesses, brands, and creators.">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+header {
+  background: #020617;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+.card {
+  background: #020617;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 0 1px #1e293b;
+}
+
+label {
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  background: #020617;
+  color: #e5e7eb;
+  outline: 1px solid #1e293b;
+}
+
+textarea { min-height: 120px; }
+
+button {
+  background: #dc2626;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover { opacity: 0.9; }
+
+.preview {
+  background: #fff;
+  color: #111;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.hashtags span {
+  color: #2563eb;
+  margin-right: 6px;
+}
+
+.notice {
+  font-size: 0.85rem;
+  margin-top: 10px;
+  color: #9ca3af;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>AI Social Post Generator</h1>
+  <strong>WebTool.co.ke</strong>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>1. Trending Topic / News</h2>
+    <label>Paste headline or describe the trend</label>
+    <textarea id="topic" placeholder="Example: Kenya introduces new digital business regulations..."></textarea>
+  </div>
+
+  <div class="card">
+    <h2>2. Choose Tone</h2>
+    <select id="tone">
+      <option value="business">Business / Brand</option>
+      <option value="friendly">Friendly / Social</option>
+      <option value="professional">Professional / Informative</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <button onclick="generatePost()">Generate Post</button>
+    <p class="notice">AI-assisted content. Review before publishing.</p>
+  </div>
+
+  <div class="card">
+    <h2>Generated Post Preview</h2>
+    <div class="preview" id="preview">Your generated post will appear here.</div>
+    <div class="hashtags" id="hashtags"></div>
+    <button onclick="copyPost()" style="margin-top:15px;">Copy Post</button>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 WebTool.co.ke · AI-assisted content · User responsible for final publishing
+</footer>
+
+<script>
+function generatePost() {
+  const topic = document.getElementById("topic").value.trim();
+  const tone = document.getElementById("tone").value;
+
+  if (!topic) {
+    alert("Please enter a topic or trending news.");
+    return;
+  }
+
+  let post = "";
+  if (tone === "business") {
+    post = `📢 Business Update:\n\n${topic}\n\nThis development presents new opportunities for growth and innovation. Staying informed helps businesses make smarter decisions.`;
+  } else if (tone === "friendly") {
+    post = `Hey everyone 👋\n\n${topic}\n\nWhat do you think about this? Let’s talk 👇`;
+  } else {
+    post = `🔍 Industry Insight:\n\n${topic}\n\nHere’s what this means and why it matters moving forward.`;
+  }
+
+  const tags = ["#Trending", "#Business", "#Updates", "#Digital", "#News"];
+
+  document.getElementById("preview").innerText = post;
+  document.getElementById("hashtags").innerHTML =
+    tags.map(t => `<span>${t}</span>`).join("");
+}
+
+function copyPost() {
+  const text = document.getElementById("preview").innerText + "\n\n" +
+               document.getElementById("hashtags").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Post copied successfully!");
+}
+</script>
+
+</body>
+</html>
