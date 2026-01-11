@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Photo Resize Tool | WebTool.co.ke</title>
-  <meta name="description" content="Resize single or multiple images online without losing quality. Original images are never modified.">
+  <meta name="description" content="Resize single or multiple images by choosing pixel sizes. Original images are never modified.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -81,6 +81,12 @@
       margin-top: 20px;
     }
 
+    .pixel-info {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+
     footer {
       background: #111827;
       color: #d1d5db;
@@ -101,31 +107,43 @@
 
 <header>
   <h1>Photo Resize Tool</h1>
-  <p>Resize single or multiple images safely — original files remain unchanged</p>
+  <p>Resize images by choosing pixel sizes — safely and professionally</p>
 </header>
 
 <main>
 
   <div class="info">
     🔒 <strong>Your original images are never modified.</strong><br>
-    All processing happens inside your browser. New resized copies are generated for download.
+    A resized copy is created in your browser for download.
   </div>
 
   <div class="box">
     <h2>Resize Images</h2>
 
     <label>Select Image(s)</label>
-    <input type="file" id="imageInput" accept="image/*" multiple>
+    <input type="file" id="imageInput" accept="image/*" multiple onchange="showOriginalSize()">
+
+    <div id="originalSize" class="pixel-info"></div>
+
+    <label>Choose Common Pixel Size</label>
+    <select onchange="applyPreset(this.value)">
+      <option value="">-- Select a preset --</option>
+      <option value="1080x1080">Instagram Square (1080 × 1080)</option>
+      <option value="1200x628">Facebook / Web Banner (1200 × 628)</option>
+      <option value="800x800">Profile Image (800 × 800)</option>
+      <option value="600x600">Thumbnail (600 × 600)</option>
+      <option value="400x400">Small Icon (400 × 400)</option>
+    </select>
 
     <label>Width (px)</label>
-    <input type="number" id="width" placeholder="e.g. 800">
+    <input type="number" id="width" placeholder="Width in pixels">
 
     <label>Height (px)</label>
-    <input type="number" id="height" placeholder="e.g. 600">
+    <input type="number" id="height" placeholder="Height in pixels">
 
     <label>Output Format</label>
     <select id="format">
-      <option value="image/png">PNG (Best Quality, No Loss)</option>
+      <option value="image/png">PNG (Best Quality)</option>
       <option value="image/jpeg">JPEG (Smaller Size)</option>
     </select>
 
@@ -133,7 +151,7 @@
   </div>
 
   <div class="warning">
-    ⚠ For professional graphics or text-heavy images, choose <strong>PNG</strong>.<br>
+    ⚠ For sharp images and text, choose <strong>PNG</strong>.<br>
     JPEG applies compression even at high quality.
   </div>
 
@@ -148,6 +166,32 @@
 </footer>
 
 <script>
+function applyPreset(value) {
+  if (!value) return;
+  const parts = value.split("x");
+  document.getElementById("width").value = parts[0];
+  document.getElementById("height").value = parts[1];
+}
+
+function showOriginalSize() {
+  const file = document.getElementById("imageInput").files[0];
+  if (!file) return;
+
+  const img = new Image();
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    img.src = e.target.result;
+  };
+
+  img.onload = function() {
+    document.getElementById("originalSize").innerText =
+      "Original image size: " + img.width + " × " + img.height + " px";
+  };
+
+  reader.readAsDataURL(file);
+}
+
 function resizeImages() {
   const files = document.getElementById("imageInput").files;
   const width = document.getElementById("width").value;
@@ -155,7 +199,7 @@ function resizeImages() {
   const format = document.getElementById("format").value;
 
   if (!files.length || !width || !height) {
-    alert("Please select image(s) and enter width and height.");
+    alert("Please select image(s) and choose pixel size.");
     return;
   }
 
@@ -176,12 +220,10 @@ function resizeImages() {
       ctx.imageSmoothingQuality = "high";
       ctx.drawImage(img, 0, 0, width, height);
 
-      let dataURL;
-      if (format === "image/jpeg") {
-        dataURL = canvas.toDataURL(format, 1.0);
-      } else {
-        dataURL = canvas.toDataURL(format);
-      }
+      let dataURL =
+        format === "image/jpeg"
+          ? canvas.toDataURL(format, 1.0)
+          : canvas.toDataURL(format);
 
       const link = document.createElement("a");
       link.href = dataURL;
