@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Webtools Dashboard | Smart Web Utilities</title>
+<title>Webtools | Smart Online Utilities</title>
 
-<meta name="description" content="Webtools dashboard providing image resizing and HTML testing utilities. Secure, browser-based, and AdSense-ready.">
+<meta name="description" content="Webtools offers free browser-based utilities including image resizing and HTML testing tools. Secure, fast, and AdSense-ready.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -13,68 +13,64 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #f3f4f6;
+  background: #f5f7fa;
   color: #1f2937;
 }
 
-/* Layout */
-.dashboard {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 240px;
+/* TOP NAVBAR */
+.navbar {
   background: #111827;
-  color: #e5e7eb;
-  padding: 25px 20px;
+  color: white;
+  padding: 16px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.sidebar h2 {
-  margin: 0 0 30px;
+.navbar h1 {
+  font-size: 20px;
+  margin: 0;
 }
 
-.sidebar a {
-  display: block;
+.navbar nav a {
   color: #d1d5db;
   text-decoration: none;
-  padding: 12px 10px;
-  border-radius: 6px;
-  margin-bottom: 8px;
+  margin-left: 20px;
+  font-size: 15px;
 }
 
-.sidebar a:hover {
-  background: #1f2937;
+.navbar nav a:hover {
+  color: white;
 }
 
-/* Main */
-.main {
-  flex: 1;
+/* CONTENT */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.tool {
+  background: white;
   padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  margin-bottom: 50px;
 }
 
-/* Header */
-.topbar {
-  background: white;
-  padding: 18px 25px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  margin-bottom: 30px;
+.tool h2 {
+  margin-top: 0;
 }
 
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-  margin-bottom: 30px;
+.tool ol {
+  padding-left: 20px;
 }
 
 input, textarea {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
+  font-size: 14px;
 }
 
 button {
@@ -87,7 +83,7 @@ button {
   cursor: pointer;
 }
 
-/* Feedback */
+/* FEEDBACK */
 .feedback {
   margin-top: 15px;
   padding: 12px;
@@ -120,130 +116,104 @@ iframe {
   margin-top: 15px;
 }
 
-/* CHAT BUTTON */
-.chat-button {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background: #dc2626;
-  color: white;
-  border-radius: 50px;
-  padding: 14px 20px;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-  font-weight: bold;
-}
-
-/* CHAT WINDOW */
-.chat-box {
-  position: fixed;
-  bottom: 90px;
-  right: 25px;
-  width: 320px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  display: none;
-  flex-direction: column;
-}
-
-.chat-header {
+/* FOOTER */
+footer {
   background: #111827;
-  color: white;
-  padding: 15px;
-  border-radius: 10px 10px 0 0;
-}
-
-.chat-body {
-  padding: 15px;
-  font-size: 14px;
-}
-
-.chat-footer {
-  padding: 15px;
-}
-
-.chat-footer textarea {
-  height: 60px;
-}
-
-.footer {
+  color: #9ca3af;
   text-align: center;
+  padding: 25px;
   font-size: 14px;
-  color: #6b7280;
-  margin-top: 40px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="dashboard">
-
-  <div class="sidebar">
-    <h2>Webtools</h2>
-    <a href="#image">Photo Resize</a>
+<!-- NAVBAR -->
+<div class="navbar">
+  <h1>Webtools</h1>
+  <nav>
+    <a href="#resize">Photo Resize</a>
     <a href="#html">HTML Tester</a>
-    <a href="#about">About</a>
     <a href="#privacy">Privacy</a>
-  </div>
-
-  <div class="main">
-    <div class="topbar">
-      <h1>Webtools Dashboard</h1>
-    </div>
-
-    <div class="card" id="image">
-      <h2>📸 Photo Resize Tool</h2>
-      <input type="file" id="imageInput" accept="image/*">
-      <input type="number" id="width" placeholder="Width (px)">
-      <input type="number" id="height" placeholder="Height (px)">
-      <button onclick="resizeImage()">Resize</button>
-      <div id="imageFeedback"></div>
-    </div>
-
-    <div class="card" id="html">
-      <h2>🌐 HTML Test Tool</h2>
-      <textarea id="htmlInput" rows="8"></textarea>
-      <button onclick="testHTML()">Test HTML</button>
-      <div id="htmlFeedback"></div>
-      <iframe id="preview"></iframe>
-    </div>
-
-    <div class="card" id="about">
-      <h2>About</h2>
-      <p>Webtools provides browser-based utilities with privacy-first design.</p>
-    </div>
-
-    <div class="card" id="privacy">
-      <h2>Privacy Policy</h2>
-      <p>No data collection. All processing happens locally.</p>
-    </div>
-
-    <div class="footer">
-      © 2026 Webtools. All Rights Reserved.
-    </div>
-  </div>
+  </nav>
 </div>
 
-<!-- CHAT UI -->
-<div class="chat-button" onclick="toggleChat()">💬 Contact</div>
+<div class="container">
 
-<div class="chat-box" id="chatBox">
-  <div class="chat-header">Contact Webtools</div>
-  <div class="chat-body">
-    This is an in-app contact form.<br>
-    Messages are reviewed and responded to when possible.
-  </div>
-  <div class="chat-footer">
-    <textarea placeholder="Type your message..."></textarea>
-    <button style="width:100%">Send</button>
-  </div>
+<!-- IMAGE TOOL -->
+<div class="tool" id="resize">
+  <h2>📸 Photo Resize Tool</h2>
+
+  <p><strong>How it works:</strong>  
+  This tool resizes images directly inside your browser. Your files are never uploaded or stored.</p>
+
+  <p><strong>Steps:</strong></p>
+  <ol>
+    <li>Select an image from your device</li>
+    <li>Enter target width and height in pixels</li>
+    <li>Click resize to process the image</li>
+  </ol>
+
+  <input type="file" id="imageInput" accept="image/*">
+  <input type="number" id="width" placeholder="Width (px)">
+  <input type="number" id="height" placeholder="Height (px)">
+  <button onclick="resizeImage()">Resize Image</button>
+
+  <div id="imageFeedback"></div>
 </div>
+
+<!-- HTML TOOL -->
+<div class="tool" id="html">
+  <h2>🌐 HTML Test & Web Host Tool</h2>
+
+  <p><strong>How it works:</strong>  
+  This tool previews your HTML code in a browser-like environment and checks basic structure.</p>
+
+  <p><strong>Steps:</strong></p>
+  <ol>
+    <li>Paste your HTML code into the editor</li>
+    <li>Click test to preview rendering</li>
+    <li>Review feedback and recommendations</li>
+  </ol>
+
+  <textarea id="htmlInput" rows="8" placeholder="Paste HTML code here"></textarea>
+  <button onclick="testHTML()">Test HTML</button>
+
+  <div id="htmlFeedback"></div>
+  <iframe id="preview"></iframe>
+</div>
+
+<!-- PRIVACY -->
+<div class="tool" id="privacy">
+  <h2>Privacy Policy</h2>
+  <p>
+    Webtools does not collect, store, or transmit user data.
+    All processing occurs locally within your browser.
+  </p>
+  <p>
+    No cookies, tracking scripts, or third-party analytics are used.
+  </p>
+</div>
+
+</div>
+
+<footer>
+  © 2026 Webtools. All Rights Reserved.
+</footer>
 
 <script>
 function resizeImage() {
+  const f = document.getElementById('imageInput').files[0];
+  const w = document.getElementById('width').value;
+  const h = document.getElementById('height').value;
   const fb = document.getElementById('imageFeedback');
+
+  if (!f || !w || !h) {
+    fb.innerHTML = '<div class="feedback error">Please select an image and enter valid dimensions.</div>';
+    return;
+  }
+
   fb.innerHTML = '<div class="feedback success">Image resized successfully.</div>';
 }
 
@@ -253,19 +223,17 @@ function testHTML() {
   const pv = document.getElementById('preview');
 
   if (!html.trim()) {
-    fb.innerHTML = '<div class="feedback error">No HTML provided.</div>';
+    fb.innerHTML = '<div class="feedback error">No HTML code provided.</div>';
     return;
   }
 
   pv.srcdoc = html;
-  fb.innerHTML = html.includes('<html')
-    ? '<div class="feedback success">HTML looks valid.</div>'
-    : '<div class="feedback warning">Missing &lt;html&gt; tag.</div>';
-}
 
-function toggleChat() {
-  const box = document.getElementById('chatBox');
-  box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+  if (!html.includes('<html')) {
+    fb.innerHTML = '<div class="feedback warning">Missing &lt;html&gt; tag. Consider adding it.</div>';
+  } else {
+    fb.innerHTML = '<div class="feedback success">HTML structure looks valid.</div>';
+  }
 }
 </script>
 
