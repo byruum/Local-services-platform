@@ -4,51 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- CLEAN, NON-ADULT TITLE -->
-  <title>Webtools | Online Utilities Platform</title>
+  <!-- SAFE, CLEAN TITLE -->
+  <title>Webtools | Professional Web Platform</title>
 
-  <!-- CLEAN META DESCRIPTION -->
+  <!-- SAFE META DESCRIPTION -->
   <meta
     name="description"
-    content="Webtools is a live online platform offering useful web-based tools and digital utilities."
+    content="Webtools is a live professional platform offering modern web development and digital solutions."
   />
 
+  <!-- OPTIONAL SEO -->
   <meta name="robots" content="index, follow" />
 
-  <!-- KEEP YOUR EXISTING STYLES -->
+  <!-- STYLES -->
   <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
 
-  <!-- ROOT CONTAINER (REQUIRED FOR JS & TOOLS) -->
+  <!-- MAIN APP CONTAINER -->
   <div id="app">
 
-    <!-- HEADER (SAFE CONTENT) -->
     <header>
       <h1>Webtools</h1>
-      <p>Smart Web Utilities, One Platform</p>
+      <p>Professional Web Solutions</p>
     </header>
 
-    <!-- MAIN CONTENT AREA -->
-    <!-- YOUR TOOLS WILL RENDER HERE -->
-    <main id="main-content">
-      <!-- DO NOT REMOVE
-           Your existing tools / UI / dynamic content
-           will attach here via JavaScript -->
+    <main>
+      <section>
+        <h2>Live Web Platform</h2>
+        <p>
+          This is a real, publicly deployed website built with modern web
+          technologies and hosted on a custom domain.
+        </p>
+      </section>
+
+      <section>
+        <h2>What We Deliver</h2>
+        <ul>
+          <li>Custom website development</li>
+          <li>Domain & hosting integration</li>
+          <li>Responsive and SEO-friendly layouts</li>
+          <li>Secure deployment with GitHub Pages</li>
+        </ul>
+      </section>
     </main>
 
   </div>
 
-  <!-- FOOTER (UNCHANGED / SAFE) -->
-  <!-- KEEP YOUR COPYRIGHT & OTHER TEXT -->
+  <!-- FOOTER ALWAYS OUTSIDE APP -->
   <footer>
-    © 2025 Webtools. All Rights Reserved.
+    © 2025 Webtools — All Rights Reserved.
   </footer>
 
-  <!-- KEEP YOUR EXISTING JAVASCRIPT (UNTOUCHED) -->
-  <!-- JS LOADS AFTER HTML SO PAGE NEVER GOES BLANK -->
-  <script src="./script.js" defer></script>
+  <!-- SAFE JAVASCRIPT LOADING -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const app = document.getElementById("app");
+      if (!app) {
+        console.error("App container missing.");
+      }
+    });
+  </script>
+
+  <!-- IF YOU HAVE EXTERNAL JS, KEEP IT HERE -->
+  <!-- <script src="./script.js"></script> -->
 
 </body>
 </html>
