@@ -1,199 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Upwork Image Resizer | WebTool</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f6f9;
-    color: #333;
-  }
-
-  header {
-    background: #0d6efd;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 30px auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  }
-
-  input[type="file"] {
-    margin: 15px 0;
-  }
-
-  button {
-    padding: 12px 20px;
-    background: #0d6efd;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #0b5ed7;
-  }
-
-  .feedback {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 6px;
-    font-size: 14px;
-  }
-
-  .green {
-    background: #e6fffa;
-    color: #065f46;
-    border-left: 5px solid #10b981;
-  }
-
-  .yellow {
-    background: #fff7ed;
-    color: #92400e;
-    border-left: 5px solid #f59e0b;
-  }
-
-  .red {
-    background: #fee2e2;
-    color: #7f1d1d;
-    border-left: 5px solid #ef4444;
-  }
-
-  a.download {
-    display: none;
-    margin-top: 15px;
-    padding: 10px 18px;
-    background: #16a34a;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-
-  footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    font-size: 13px;
-    color: #666;
-  }
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>Upwork Image Resizer</h1>
-  <p>Fix image size issues before uploading to Upwork</p>
-</header>
-
-<div class="container">
-
-  <h2>How this tool works</h2>
-  <ul>
-    <li>✔ Checks Upwork’s <strong>4000px maximum length rule</strong></li>
-    <li>✔ Resizes to <strong>1000 × 750</strong> (recommended)</li>
-    <li>✔ Shows clear warnings & recommendations</li>
-    <li>✔ No uploads — runs in your browser</li>
-  </ul>
-
-  <input type="file" id="imageInput" accept="image/*">
-
-  <br>
-  <button onclick="processImage()">Check & Resize Image</button>
-
-  <div id="feedback"></div>
-
-  <canvas id="canvas" style="display:none;"></canvas>
-
-  <a id="download" class="download">Download Resized Image</a>
-
-</div>
-
-<footer>
-  © 2026 WebTool • Privacy Safe • No Image Storage
-</footer>
-
 <script>
-function processImage() {
+function resizeImage() {
   const input = document.getElementById("imageInput");
-  const feedback = document.getElementById("feedback");
-  const download = document.getElementById("download");
-
-  feedback.innerHTML = "";
-  download.style.display = "none";
+  const result = document.getElementById("result");
 
   if (!input.files.length) {
-    feedback.innerHTML = "<div class='red'>❌ Please upload an image.</div>";
+    alert("Please select an image.");
     return;
   }
 
   const file = input.files[0];
   const img = new Image();
+  const reader = new FileReader();
 
-  img.onload = function () {
-    const width = img.width;
-    const height = img.height;
-    const longestSide = Math.max(width, height);
+  reader.onload = e => img.src = e.target.result;
 
-    // ❌ Rule 1: Max 4000px
-    if (longestSide > 4000) {
-      feedback.innerHTML = `
-        <div class="red">
-          ❌ <strong>Image rejected</strong><br>
-          The longest side is <strong>${longestSide}px</strong>.<br>
-          Upwork allows a maximum of <strong>4000px</strong>.<br><br>
-          👉 Recommendation: Resize your image before upload.
-        </div>
+  img.onload = () => {
+    let width = img.width;
+    let height = img.height;
+
+    // ✅ MINIMUM REQUIREMENTS (Upwork)
+    if (width < 1000 || height < 750) {
+      result.innerHTML = `
+        ❌ Image too small.<br>
+        Upwork requires at least <strong>1000 × 750 px</strong>.<br>
+        Your image is <strong>${width} × ${height}px</strong>.
       `;
       return;
     }
 
-    // ⚠️ Rule 2: Not recommended size
-    if (width !== 1000 || height !== 750) {
-      feedback.innerHTML = `
-        <div class="yellow">
-          ⚠️ <strong>Image is allowed but not recommended</strong><br>
-          Current size: ${width} × ${height}px<br><br>
-          ✔ Upwork recommends <strong>1000 × 750</strong> for best display.<br>
-          👉 This tool will resize it for you.
-        </div>
-      `;
-    } else {
-      feedback.innerHTML = `
-        <div class="green">
-          ✅ <strong>Perfect!</strong><br>
-          Image meets Upwork requirements and recommended size.
-        </div>
-      `;
+    // ✅ MAXIMUM REQUIREMENTS (Upwork)
+    const MAX = 4000;
+
+    if (width > MAX || height > MAX) {
+      const scale = Math.min(MAX / width, MAX / height);
+      width = Math.round(width * scale);
+      height = Math.round(height * scale);
     }
 
-    // Resize to recommended
     const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = 1000;
-    canvas.height = 750;
-    ctx.drawImage(img, 0, 0, 1000, 750);
+    canvas.width = width;
+    canvas.height = height;
 
-    download.href = canvas.toDataURL("image/jpeg", 0.9);
-    download.download = "upwork-1000x750.jpg";
-    download.style.display = "inline-block";
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);
+
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      result.innerHTML = `
+        ✅ Image ready for Upwork<br>
+        Final size: <strong>${width} × ${height}px</strong><br>
+        <a href="${url}" download="upwork-image.jpg">Download image</a>
+      `;
+    }, "image/jpeg", 0.92);
   };
 
-  img.src = URL.createObjectURL(file);
+  reader.readAsDataURL(file);
 }
 </script>
-
-</body>
-</html>
