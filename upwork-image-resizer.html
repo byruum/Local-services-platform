@@ -1,229 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Upwork Image Resizer | WebTool</title>
+<meta charset="UTF-8">
+<title>Upwork Image Resizer | WebTool</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    :root {
-      --primary: #e63946;
-      --dark: #1d3557;
-      --light: #f1faee;
-      --gray: #6c757d;
-    }
+<style>
+*{box-sizing:border-box}
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f8f9fa;
-      color: #222;
-    }
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f6f9;
+  color:#222;
+}
 
-    header {
-      background: linear-gradient(135deg, #000, #1d3557);
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-    }
+.container{
+  max-width:1200px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.1);
+}
 
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
+header{
+  text-align:center;
+  margin-bottom:30px;
+}
 
-    header p {
-      max-width: 700px;
-      margin: auto;
-      opacity: 0.9;
-    }
+header h1{
+  margin:0;
+  font-size:28px;
+}
 
-    .btn {
-      background: var(--primary);
-      color: white;
-      padding: 14px 28px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
+header p{
+  margin-top:10px;
+  color:#666;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 40px 20px;
-    }
+.notice{
+  background:#e8f5e9;
+  border-left:5px solid #0f9d58;
+  padding:15px;
+  margin-bottom:25px;
+  font-size:14px;
+}
 
-    .tool-box {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
+.tool{
+  border:2px dashed #0f9d58;
+  padding:30px;
+  border-radius:10px;
+  text-align:center;
+}
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 20px;
-    }
+input[type=file]{
+  margin-top:15px;
+}
 
-    input[type="number"],
-    input[type="file"] {
-      width: 100%;
-      padding: 12px;
-      margin-top: 8px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+.controls{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
 
-    .row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-      gap: 20px;
-    }
+input[type=number]{
+  padding:12px;
+  width:160px;
+}
 
-    canvas {
-      display: none;
-    }
+button{
+  padding:12px 22px;
+  border:none;
+  border-radius:6px;
+  background:#0f9d58;
+  color:#fff;
+  font-size:15px;
+  cursor:pointer;
+}
 
-    .preview {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
+button.secondary{
+  background:#1a73e8;
+}
 
-    .preview img {
-      width: 100%;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
+button:hover{opacity:0.9}
 
-    footer {
-      background: #111;
-      color: #bbb;
-      padding: 40px 20px;
-      text-align: center;
-      margin-top: 60px;
-    }
+canvas{
+  display:block;
+  max-width:100%;
+  margin:30px auto 10px;
+  border-radius:8px;
+  background:#fafafa;
+}
 
-    footer a {
-      color: #bbb;
-      margin: 0 10px;
-      text-decoration: none;
-    }
+.feedback{
+  text-align:center;
+  font-weight:bold;
+  margin-top:10px;
+}
 
-    .whatsapp {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      background: #25d366;
-      color: white;
-      padding: 14px 18px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
+.success{color:#0f9d58}
+.error{color:#d93025}
+
+footer{
+  text-align:center;
+  margin-top:30px;
+  font-size:13px;
+  color:#777;
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <h1>Upwork Image Resizer</h1>
-  <p>Resize images to exact Upwork & marketplace requirements without quality loss. Bulk supported. 100% browser-based.</p>
-  <button class="btn" onclick="document.getElementById('images').click()">Let's Explore</button>
-</header>
-
 <div class="container">
-  <div class="tool-box">
+  <header>
+    <h1>Upwork Image Resizer Tool</h1>
+    <p>Resize images to meet Upwork project gallery requirements</p>
+  </header>
 
-    <label>Select Images (Single or Bulk)</label>
-    <input type="file" id="images" accept="image/*" multiple>
-
-    <div class="row">
-      <div>
-        <label>Width (px)</label>
-        <input type="number" id="width" value="1000" min="1000" max="4000">
-      </div>
-      <div>
-        <label>Height (px)</label>
-        <input type="number" id="height" value="750" min="750" max="4000">
-      </div>
-    </div>
-
-    <label>
-      <input type="checkbox" id="keepRatio" checked>
-      Preserve aspect ratio (recommended)
-    </label>
-
-    <button class="btn" style="margin-top:25px" onclick="processImages()">Resize Images</button>
-
-    <canvas id="canvas"></canvas>
-    <div class="preview" id="preview"></div>
-
+  <div class="notice">
+    ✔ Upwork accepts images between <strong>1000×750</strong> and <strong>4000×4000</strong> pixels.<br>
+    ✔ Recommended size: <strong>1200×900</strong> (best clarity & acceptance)
   </div>
+
+  <div class="tool">
+    <strong>Select Image</strong><br>
+    <input type="file" id="upload" accept="image/*">
+
+    <div class="controls">
+      <input type="number" id="width" min="1000" max="4000" value="1200">
+      <input type="number" id="height" min="750" max="4000" value="900">
+      <button onclick="resizeImage()">Resize</button>
+      <button class="secondary" onclick="downloadImage()">Download</button>
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
+  <div id="feedback" class="feedback"></div>
+
+  <footer>
+    © 2026 WebTool.co.ke · Privacy · Terms
+  </footer>
 </div>
 
-<footer>
-  <p><strong>WebTool.co.ke</strong></p>
-  <p>Fast • Private • Browser-only tools</p>
-  <p>
-    <a href="#">Privacy Policy</a> |
-    <a href="#">Terms & Conditions</a> |
-    <a href="mailto:support@webtool.co.ke">Support</a>
-  </p>
-</footer>
-
-<a class="whatsapp" href="https://wa.me/254746011254" target="_blank">WhatsApp</a>
-
 <script>
-function processImages() {
-  const files = document.getElementById("images").files;
-  const canvas = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
-  const preview = document.getElementById("preview");
+const upload = document.getElementById("upload");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const feedback = document.getElementById("feedback");
+let img = new Image();
 
-  const targetW = parseInt(document.getElementById("width").value);
-  const targetH = parseInt(document.getElementById("height").value);
-  const keepRatio = document.getElementById("keepRatio").checked;
+upload.addEventListener("change", () => {
+  const file = upload.files[0];
+  if (!file || !file.type.startsWith("image")) {
+    feedback.textContent = "Invalid image file.";
+    feedback.className = "feedback error";
+    return;
+  }
 
-  preview.innerHTML = "";
+  const reader = new FileReader();
+  reader.onload = e => img.src = e.target.result;
+  reader.readAsDataURL(file);
+});
 
-  Array.from(files).forEach(file => {
-    const img = new Image();
-    img.onload = () => {
-      let w = targetW;
-      let h = targetH;
+function resizeImage(){
+  const w = parseInt(width.value);
+  const h = parseInt(height.value);
 
-      if (keepRatio) {
-        const ratio = img.width / img.height;
-        if (w / h > ratio) {
-          w = h * ratio;
-        } else {
-          h = w / ratio;
-        }
-      }
+  if (!img.src){
+    feedback.textContent = "Upload an image first.";
+    feedback.className = "feedback error";
+    return;
+  }
 
-      canvas.width = w;
-      canvas.height = h;
-      ctx.drawImage(img, 0, 0, w, h);
+  if (w < 1000 || h < 750){
+    feedback.textContent = "Minimum allowed: 1000 × 750 (Upwork requirement)";
+    feedback.className = "feedback error";
+    return;
+  }
 
-      canvas.toBlob(blob => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "upwork-" + file.name;
+  if (w > 4000 || h > 4000){
+    feedback.textContent = "Maximum allowed: 4000 × 4000";
+    feedback.className = "feedback error";
+    return;
+  }
 
-        const imgEl = document.createElement("img");
-        imgEl.src = url;
-        imgEl.onclick = () => a.click();
+  canvas.width = w;
+  canvas.height = h;
 
-        preview.appendChild(imgEl);
-      }, "image/jpeg", 0.95);
-    };
-    img.src = URL.createObjectURL(file);
-  });
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.clearRect(0,0,w,h);
+  ctx.drawImage(img,0,0,w,h);
+
+  feedback.textContent = "✔ Image resized successfully (Upwork compliant)";
+  feedback.className = "feedback success";
+}
+
+function downloadImage(){
+  if (!canvas.width){
+    feedback.textContent = "Resize an image before downloading.";
+    feedback.className = "feedback error";
+    return;
+  }
+  const link = document.createElement("a");
+  link.download = "upwork-image.png";
+  link.href = canvas.toDataURL("image/png",1.0);
+  link.click();
 }
 </script>
 
