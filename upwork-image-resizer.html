@@ -1,59 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Upwork Image Resizer | WebTool</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f9;
+}
+
+header {
+  background: #0d6efd;
+  color: #fff;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-btn {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 260px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -4px 0 10px rgba(0,0,0,0.2);
+  padding: 20px;
+  transition: right 0.3s ease;
+}
+
+.menu.active {
+  right: 0;
+}
+
+.menu a {
+  display: block;
+  margin-bottom: 15px;
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+input[type=file] {
+  margin: 20px 0;
+}
+
+button {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #bb2d3b;
+}
+
+.status {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25d366;
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 50%;
+  font-size: 22px;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h3>Upwork Image Resizer</h3>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+</header>
+
+<div class="menu" id="menu">
+  <a href="#" onclick="toggleMenu()">✕ Close</a>
+  <a href="#">Privacy Policy</a>
+  <a href="#">Terms of Service</a>
+  <a href="mailto:jumaadventuresandsafaris@gmail.com">Support</a>
+</div>
+
+<div class="container">
+  <h2>Resize Image for Upwork (4000px)</h2>
+  <p>Automatically converts your image to Upwork-accepted format.</p>
+
+  <input type="file" id="imageInput" accept="image/*">
+  <br>
+  <button onclick="resizeImage()">Convert to Upwork Size</button>
+
+  <div class="status" id="status"></div>
+</div>
+
+<a class="whatsapp" href="https://wa.me/254746011254" target="_blank">💬</a>
+
 <script>
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("active");
+}
+
 function resizeImage() {
   const input = document.getElementById("imageInput");
-  const result = document.getElementById("result");
+  const status = document.getElementById("status");
 
   if (!input.files.length) {
-    alert("Please select an image.");
+    status.textContent = "Please upload an image.";
     return;
   }
 
-  const file = input.files[0];
   const img = new Image();
   const reader = new FileReader();
 
   reader.onload = e => img.src = e.target.result;
+  reader.readAsDataURL(input.files[0]);
 
   img.onload = () => {
-    let width = img.width;
-    let height = img.height;
-
-    // ✅ MINIMUM REQUIREMENTS (Upwork)
-    if (width < 1000 || height < 750) {
-      result.innerHTML = `
-        ❌ Image too small.<br>
-        Upwork requires at least <strong>1000 × 750 px</strong>.<br>
-        Your image is <strong>${width} × ${height}px</strong>.
-      `;
-      return;
-    }
-
-    // ✅ MAXIMUM REQUIREMENTS (Upwork)
-    const MAX = 4000;
-
-    if (width > MAX || height > MAX) {
-      const scale = Math.min(MAX / width, MAX / height);
-      width = Math.round(width * scale);
-      height = Math.round(height * scale);
-    }
-
-    const canvas = document.getElementById("canvas");
-    canvas.width = width;
-    canvas.height = height;
-
+    const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, width, height);
+
+    const targetWidth = 4000;
+    const scale = targetWidth / img.width;
+    const targetHeight = Math.round(img.height * scale);
+
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+
+    ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
     canvas.toBlob(blob => {
-      const url = URL.createObjectURL(blob);
-      result.innerHTML = `
-        ✅ Image ready for Upwork<br>
-        Final size: <strong>${width} × ${height}px</strong><br>
-        <a href="${url}" download="upwork-image.jpg">Download image</a>
-      `;
-    }, "image/jpeg", 0.92);
-  };
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "upwork-image-4000px.jpg";
+      link.click();
 
-  reader.readAsDataURL(file);
+      status.textContent = "✅ Image ready for Upwork (4000px, clean, sRGB)";
+    }, "image/jpeg", 0.95);
+  };
 }
 </script>
+
+</body>
+</html>
