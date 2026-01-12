@@ -7,147 +7,191 @@
 
 <style>
   body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+  }
+
+  header {
+    background: #0d6efd;
+    color: #fff;
     padding: 20px;
+    text-align: center;
   }
 
   .container {
-    max-width: 600px;
-    margin: auto;
+    max-width: 900px;
+    margin: 30px auto;
     background: #fff;
-    padding: 20px;
+    padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   }
 
-  h1 {
-    text-align: center;
-    color: #14a800;
-  }
-
-  p {
-    font-size: 14px;
-    color: #555;
-    text-align: center;
-  }
-
-  input, select, button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+  input[type="file"] {
+    margin: 15px 0;
   }
 
   button {
-    background: #14a800;
+    padding: 12px 20px;
+    background: #0d6efd;
     color: #fff;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
   }
 
   button:hover {
-    background: #108a00;
+    background: #0b5ed7;
   }
 
-  canvas {
+  .feedback {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  .green {
+    background: #e6fffa;
+    color: #065f46;
+    border-left: 5px solid #10b981;
+  }
+
+  .yellow {
+    background: #fff7ed;
+    color: #92400e;
+    border-left: 5px solid #f59e0b;
+  }
+
+  .red {
+    background: #fee2e2;
+    color: #7f1d1d;
+    border-left: 5px solid #ef4444;
+  }
+
+  a.download {
     display: none;
+    margin-top: 15px;
+    padding: 10px 18px;
+    background: #16a34a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
   }
 
-  .note {
-    margin-top: 15px;
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
     font-size: 13px;
-    color: #333;
-    background: #eef9f0;
-    padding: 10px;
-    border-left: 4px solid #14a800;
+    color: #666;
   }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
   <h1>Upwork Image Resizer</h1>
-  <p>Resize images to meet Upwork Project Gallery requirements</p>
+  <p>Fix image size issues before uploading to Upwork</p>
+</header>
 
-  <input type="file" id="upload" accept="image/png, image/jpeg">
+<div class="container">
 
-  <select id="format">
-    <option value="image/jpeg">JPG (Recommended)</option>
-    <option value="image/png">PNG</option>
-  </select>
+  <h2>How this tool works</h2>
+  <ul>
+    <li>✔ Checks Upwork’s <strong>4000px maximum length rule</strong></li>
+    <li>✔ Resizes to <strong>1000 × 750</strong> (recommended)</li>
+    <li>✔ Shows clear warnings & recommendations</li>
+    <li>✔ No uploads — runs in your browser</li>
+  </ul>
 
-  <button onclick="resizeImage()">Resize & Download</button>
+  <input type="file" id="imageInput" accept="image/*">
 
-  <canvas id="canvas"></canvas>
+  <br>
+  <button onclick="processImage()">Check & Resize Image</button>
 
-  <div class="note">
-    ✔ Output size: <strong>1000 × 750 px</strong><br>
-    ✔ Format: JPG / PNG<br>
-    ✔ Safe for Upwork Project Gallery
-  </div>
+  <div id="feedback"></div>
+
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <a id="download" class="download">Download Resized Image</a>
+
 </div>
 
+<footer>
+  © 2026 WebTool • Privacy Safe • No Image Storage
+</footer>
+
 <script>
-function resizeImage() {
-  const fileInput = document.getElementById('upload');
-  const format = document.getElementById('format').value;
+function processImage() {
+  const input = document.getElementById("imageInput");
+  const feedback = document.getElementById("feedback");
+  const download = document.getElementById("download");
 
-  if (!fileInput.files.length) {
-    alert("Please upload an image");
+  feedback.innerHTML = "";
+  download.style.display = "none";
+
+  if (!input.files.length) {
+    feedback.innerHTML = "<div class='red'>❌ Please upload an image.</div>";
     return;
   }
 
-  const file = fileInput.files[0];
-
-  if (file.size > 10 * 1024 * 1024) {
-    alert("Image must be under 10MB");
-    return;
-  }
-
+  const file = input.files[0];
   const img = new Image();
-  const reader = new FileReader();
 
-  reader.onload = function(e) {
-    img.src = e.target.result;
+  img.onload = function () {
+    const width = img.width;
+    const height = img.height;
+    const longestSide = Math.max(width, height);
+
+    // ❌ Rule 1: Max 4000px
+    if (longestSide > 4000) {
+      feedback.innerHTML = `
+        <div class="red">
+          ❌ <strong>Image rejected</strong><br>
+          The longest side is <strong>${longestSide}px</strong>.<br>
+          Upwork allows a maximum of <strong>4000px</strong>.<br><br>
+          👉 Recommendation: Resize your image before upload.
+        </div>
+      `;
+      return;
+    }
+
+    // ⚠️ Rule 2: Not recommended size
+    if (width !== 1000 || height !== 750) {
+      feedback.innerHTML = `
+        <div class="yellow">
+          ⚠️ <strong>Image is allowed but not recommended</strong><br>
+          Current size: ${width} × ${height}px<br><br>
+          ✔ Upwork recommends <strong>1000 × 750</strong> for best display.<br>
+          👉 This tool will resize it for you.
+        </div>
+      `;
+    } else {
+      feedback.innerHTML = `
+        <div class="green">
+          ✅ <strong>Perfect!</strong><br>
+          Image meets Upwork requirements and recommended size.
+        </div>
+      `;
+    }
+
+    // Resize to recommended
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = 1000;
+    canvas.height = 750;
+    ctx.drawImage(img, 0, 0, 1000, 750);
+
+    download.href = canvas.toDataURL("image/jpeg", 0.9);
+    download.download = "upwork-1000x750.jpg";
+    download.style.display = "inline-block";
   };
 
-  img.onload = function() {
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-
-    const targetWidth = 1000;
-    const targetHeight = 750;
-
-    canvas.width = targetWidth;
-    canvas.height = targetHeight;
-
-    // Maintain aspect ratio (cover)
-    const scale = Math.max(
-      targetWidth / img.width,
-      targetHeight / img.height
-    );
-
-    const x = (targetWidth / 2) - (img.width / 2) * scale;
-    const y = (targetHeight / 2) - (img.height / 2) * scale;
-
-    ctx.drawImage(
-      img,
-      x,
-      y,
-      img.width * scale,
-      img.height * scale
-    );
-
-    const link = document.createElement('a');
-    link.download = 'upwork-image-1000x750.' + (format === 'image/png' ? 'png' : 'jpg');
-    link.href = canvas.toDataURL(format, 0.92);
-    link.click();
-  };
-
-  reader.readAsDataURL(file);
+  img.src = URL.createObjectURL(file);
 }
 </script>
 
