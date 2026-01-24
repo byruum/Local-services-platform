@@ -1,67 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Bullet to Video Commentary Generator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Bullet → Video Commentary Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+  <style>
     body {
-        font-family: Arial, sans-serif;
-        background: #f4f6f8;
-        margin: 0;
-        padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
     }
+
     h1 {
-        text-align: center;
+      text-align: center;
+      margin-bottom: 20px;
     }
+
     form {
-        max-width: 800px;
-        margin: auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 6px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: auto;
     }
+
     label {
-        font-weight: bold;
-        display: block;
-        margin-top: 15px;
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
     }
+
     input, textarea, select, button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        box-sizing: border-box;
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      font-size: 14px;
     }
+
     textarea {
-        min-height: 80px;
+      min-height: 80px;
     }
+
     button {
-        background: #007bff;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        margin-top: 20px;
-        font-size: 16px;
+      margin-top: 15px;
+      background: #0b5ed7;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
+
     button:hover {
-        background: #0056b3;
+      background: #084298;
     }
+
     #scriptPreview, #scenePreview {
-        max-width: 800px;
-        margin: 30px auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 6px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        white-space: pre-wrap;
+      background: #ffffff;
+      padding: 15px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 8px;
+      white-space: pre-wrap;
     }
+
     .scene {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
+      border-left: 4px solid #0b5ed7;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #f9f9f9;
     }
-</style>
+  </style>
 </head>
 
 <body>
@@ -70,26 +79,29 @@
 
 <form id="commentaryForm">
 
-    <label>Topic</label>
-    <input type="text" placeholder="What are we talking about?" required>
+  <label>Topic</label>
+  <input type="text" id="topic" required placeholder="e.g. Corruption in Nairobi County">
 
-    <label>How it happened (one point per line)</label>
-    <textarea placeholder="Point one&#10;Point two"></textarea>
+  <label>How it happened (one point per line)</label>
+  <textarea id="happened"></textarea>
 
-    <label>Why it should not happen</label>
-    <textarea placeholder="Reason one&#10;Reason two"></textarea>
+  <label>Why it should not happen</label>
+  <textarea id="why"></textarea>
 
-    <label>How it can be resolved</label>
-    <textarea placeholder="Solution one&#10;Solution two"></textarea>
+  <label>How it can be resolved</label>
+  <textarea id="resolve"></textarea>
 
-    <label>Tone</label>
-    <select>
-        <option>Emotional</option>
-        <option>Strong</option>
-        <option>Calm</option>
-    </select>
+  <label>Tone</label>
+  <select id="tone">
+    <option>Calm & Educational</option>
+    <option>Strong Commentary</option>
+    <option>Emotional</option>
+    <option>Motivational</option>
+  </select>
 
-    <button type="submit">Generate Script & Scenes</button>
+  <button type="submit">Generate Script & Scenes</button>
+  <button type="button" onclick="playVoice()">▶ Play Voice</button>
+
 </form>
 
 <div id="scriptPreview"></div>
@@ -97,75 +109,94 @@
 
 <script>
 document.getElementById("commentaryForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const inputs = document.querySelectorAll("input, textarea, select");
+  const topic = topicInput().value;
+  const happened = splitLines("happened");
+  const why = splitLines("why");
+  const resolve = splitLines("resolve");
+  const tone = document.getElementById("tone").value;
 
-    const topic = inputs[0].value;
-    const happened = inputs[1].value.split("\n").filter(Boolean);
-    const why = inputs[2].value.split("\n").filter(Boolean);
-    const resolve = inputs[3].value.split("\n").filter(Boolean);
-    const tone = inputs[4].value;
+  let script = "";
 
-    let script = "";
+  script += `Today we need to talk about ${topic}.\n\n`;
 
-    script += `Today we need to talk about ${topic}.\n\n`;
+  if (happened.length) {
+    script += "Here is how it happened:\n";
+    happened.forEach(p => script += `- ${p}\n`);
+    script += "\n";
+  }
 
-    if (happened.length) {
-        script += "Here is how it happened.\n";
-        happened.forEach(p => script += `- ${p}\n`);
-        script += "\n";
-    }
+  if (why.length) {
+    script += "This should not be happening because:\n";
+    why.forEach(p => script += `- ${p}\n`);
+    script += "\n";
+  }
 
-    if (why.length) {
-        script += "This should not be happening because.\n";
-        why.forEach(p => script += `- ${p}\n`);
-        script += "\n";
-    }
+  if (resolve.length) {
+    script += "Here is how we can fix this:\n";
+    resolve.forEach(p => script += `- ${p}\n`);
+    script += "\n";
+  }
 
-    if (resolve.length) {
-        script += "Here is how we can fix this.\n";
-        resolve.forEach(p => script += `- ${p}\n`);
-        script += "\n";
-    }
+  script += `This message is delivered in a ${tone.toLowerCase()} tone.`;
 
-    script += `This message is delivered in a ${tone.toLowerCase()} tone.`;
+  const spoken = makeSpoken(script, tone);
 
-    const spoken = makeSpoken(script, tone);
-
-    document.getElementById("scriptPreview").innerText =
-        "Generated Narration Script:\n\n" + spoken;
-
-    generateScenes(script);
+  document.getElementById("scriptPreview").innerText = spoken;
+  generateScenes(script);
 });
 
-function generateScenes(script) {
-    const parts = script.split("\n\n"); // PARAGRAPH-BASED SCENES
-    const container = document.getElementById("scenePreview");
-
-    container.innerHTML = "<h3>Generated Video Scenes</h3>";
-
-    parts.forEach((text, index) => {
-        if (text.trim()) {
-            const div = document.createElement("div");
-            div.className = "scene";
-            div.innerHTML = `<strong>Scene ${index + 1}</strong><br>${text}`;
-            container.appendChild(div);
-        }
-    });
+function topicInput() {
+  return document.getElementById("topic");
 }
 
-function makeSpoken(script, tone) {
-    let spoken = script.replace(/-/g, "").replace(/\n/g, " ");
+function splitLines(id) {
+  return document.getElementById(id).value.split("\n").filter(Boolean);
+}
 
-    if (tone === "Emotional") {
-        spoken = "Listen carefully. " + spoken;
-    }
-    if (tone === "Strong") {
-        spoken = "Let me be very clear. " + spoken;
-    }
+function generateScenes(script) {
+  const parts = script.split("\n");
+  const container = document.getElementById("scenePreview");
 
-    return spoken;
+  container.innerHTML = "<h3>Generated Video Scenes</h3>";
+
+  parts.forEach((text, i) => {
+    if (text.trim()) {
+      const div = document.createElement("div");
+      div.className = "scene";
+      div.innerHTML = `<strong>Scene ${i + 1}</strong><br>${text}`;
+      container.appendChild(div);
+    }
+  });
+}
+
+function makeSpoken(text, tone) {
+  let spoken = text.replace(/-/g, "").replace(/\n/g, " ");
+
+  if (tone.includes("Emotional")) {
+    spoken = "Listen carefully. " + spoken;
+  }
+  if (tone.includes("Strong")) {
+    spoken = "Let me be very clear. " + spoken;
+  }
+
+  return spoken;
+}
+
+function playVoice() {
+  const text = document.getElementById("scriptPreview").innerText;
+  if (!text) {
+    alert("Generate the script first");
+    return;
+  }
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 0.95;
+  utterance.pitch = 1.1;
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
 }
 </script>
 
