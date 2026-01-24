@@ -1,158 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Bullet to Video Commentary</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>Bullet to Video Commentary</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 20px;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  padding: 20px;
+}
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+h2 {
+  text-align: center;
+}
 
-    h2 {
-      margin-top: 0;
-      color: #222;
-    }
+form {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 6px;
+  max-width: 600px;
+  margin: auto;
+}
 
-    p {
-      color: #555;
-    }
+input, textarea, select, button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 14px;
+}
 
-    input, textarea, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
+button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
 
-    textarea {
-      min-height: 80px;
-    }
+button:hover {
+  background: #0056b3;
+}
 
-    button {
-      background: #007bff;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
+#scriptPreview {
+  background: #ffffff;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 6px;
+  white-space: pre-wrap;
+}
 
-    button:hover {
-      background: #0056b3;
-    }
+#scenePreview {
+  margin-top: 20px;
+}
 
-    #scriptPreview {
-      margin-top: 20px;
-      padding: 15px;
-      background: #f0f0f0;
-      border-radius: 6px;
-      white-space: pre-wrap;
-      font-size: 14px;
-    }
+.scene {
+  background: #ffffff;
+  border-left: 5px solid #007bff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
 
-    .label {
-      font-weight: bold;
-      margin-top: 10px;
-      display: block;
-    }
-  </style>
+.scene strong {
+  display: block;
+  margin-bottom: 5px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
-  <h2>Bullet Points → Video Commentary</h2>
-  <p>Write key issues. The system generates a spoken-style script ready for voice & video.</p>
+<h2>Bullet Points → Video Commentary</h2>
 
-  <form id="commentaryForm">
-    <label class="label">Topic</label>
-    <input type="text" placeholder="Topic (required)" required />
+<form id="commentaryForm">
+  <input type="text" placeholder="Topic" required>
 
-    <label class="label">How it happened (one point per line)</label>
-    <textarea placeholder="Describe what happened"></textarea>
+  <textarea placeholder="How it happened (one point per line)"></textarea>
 
-    <label class="label">Why it should not happen</label>
-    <textarea placeholder="Why this is a problem"></textarea>
+  <textarea placeholder="Why it should not happen"></textarea>
 
-    <label class="label">How it can be resolved</label>
-    <textarea placeholder="Possible solutions"></textarea>
+  <textarea placeholder="How it can be resolved"></textarea>
 
-    <label class="label">Tone</label>
-    <select>
-      <option>Calm & Educational</option>
-      <option>Strong Commentary</option>
-      <option>Emotional</option>
-      <option>Motivational</option>
-    </select>
+  <select>
+    <option>Calm & Educational</option>
+    <option>Strong Commentary</option>
+    <option>Emotional</option>
+    <option>Motivational</option>
+  </select>
 
-    <button type="submit">Generate Commentary Script</button>
-  </form>
+  <button type="submit">Generate Script</button>
+</form>
 
-  <div id="scriptPreview" style="display:none;"></div>
-</div>
+<div id="scriptPreview"></div>
+<div id="scenePreview"></div>
 
 <script>
 document.getElementById("commentaryForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
-  const fields = document.querySelectorAll("input, textarea, select");
+  const inputs = document.querySelectorAll("input, textarea, select");
 
-  const topic = fields[0].value.trim();
-  const happened = fields[1].value.split("\n").filter(Boolean);
-  const why = fields[2].value.split("\n").filter(Boolean);
-  const resolve = fields[3].value.split("\n").filter(Boolean);
-  const tone = fields[4].value;
+  const topic = inputs[0].value;
+  const happened = inputs[1].value.split("\n").filter(Boolean);
+  const why = inputs[2].value.split("\n").filter(Boolean);
+  const resolve = inputs[3].value.split("\n").filter(Boolean);
+  const tone = inputs[4].value;
 
   let script = "";
 
-  script += `Let’s talk about ${topic}.\n\n`;
+  script += `Today we need to talk about ${topic}.\n\n`;
 
   if (happened.length) {
-    script += "Here’s how this happened.\n";
-    happened.forEach(p => {
-      script += `${p}. `;
+    script += "Here is how it happened.\n";
+    happened.forEach(point => {
+      script += `• ${point}\n`;
     });
-    script += "\n\n";
+    script += "\n";
   }
 
   if (why.length) {
-    script += "This should not be happening.\n";
-    why.forEach(p => {
-      script += `${p}. `;
+    script += "This should not be happening because.\n";
+    why.forEach(point => {
+      script += `• ${point}\n`;
     });
-    script += "\n\n";
+    script += "\n";
   }
 
   if (resolve.length) {
-    script += "Here’s how we move forward.\n";
-    resolve.forEach(p => {
-      script += `${p}. `;
+    script += "Here is how we can fix this.\n";
+    resolve.forEach(point => {
+      script += `• ${point}\n`;
     });
-    script += "\n\n";
+    script += "\n";
   }
 
   script += `This message is delivered in a ${tone.toLowerCase()} tone.`;
 
-  const preview = document.getElementById("scriptPreview");
-  preview.style.display = "block";
-  preview.innerText = script;
+  document.getElementById("scriptPreview").innerText = script;
+
+  generateScenes(script);
 });
+
+function generateScenes(script) {
+  const parts = script.split("\n\n");
+  const sceneContainer = document.getElementById("scenePreview");
+
+  sceneContainer.innerHTML = "<h3>Generated Video Scenes</h3>";
+
+  parts.forEach((text, index) => {
+    if (text.trim()) {
+      const div = document.createElement("div");
+      div.className = "scene";
+      div.innerHTML = `<strong>Scene ${index + 1}</strong>${text}`;
+      sceneContainer.appendChild(div);
+    }
+  });
+}
 </script>
 
 </body>
