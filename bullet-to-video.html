@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bullet to Video Commentary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #222;
+    }
+
+    p {
+      color: #555;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #scriptPreview {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Bullet Points → Video Commentary</h2>
+  <p>Write key issues. The system generates a spoken-style script ready for voice & video.</p>
+
+  <form id="commentaryForm">
+    <label class="label">Topic</label>
+    <input type="text" placeholder="Topic (required)" required />
+
+    <label class="label">How it happened (one point per line)</label>
+    <textarea placeholder="Describe what happened"></textarea>
+
+    <label class="label">Why it should not happen</label>
+    <textarea placeholder="Why this is a problem"></textarea>
+
+    <label class="label">How it can be resolved</label>
+    <textarea placeholder="Possible solutions"></textarea>
+
+    <label class="label">Tone</label>
+    <select>
+      <option>Calm & Educational</option>
+      <option>Strong Commentary</option>
+      <option>Emotional</option>
+      <option>Motivational</option>
+    </select>
+
+    <button type="submit">Generate Commentary Script</button>
+  </form>
+
+  <div id="scriptPreview" style="display:none;"></div>
+</div>
+
+<script>
+document.getElementById("commentaryForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const fields = document.querySelectorAll("input, textarea, select");
+
+  const topic = fields[0].value.trim();
+  const happened = fields[1].value.split("\n").filter(Boolean);
+  const why = fields[2].value.split("\n").filter(Boolean);
+  const resolve = fields[3].value.split("\n").filter(Boolean);
+  const tone = fields[4].value;
+
+  let script = "";
+
+  script += `Let’s talk about ${topic}.\n\n`;
+
+  if (happened.length) {
+    script += "Here’s how this happened.\n";
+    happened.forEach(p => {
+      script += `${p}. `;
+    });
+    script += "\n\n";
+  }
+
+  if (why.length) {
+    script += "This should not be happening.\n";
+    why.forEach(p => {
+      script += `${p}. `;
+    });
+    script += "\n\n";
+  }
+
+  if (resolve.length) {
+    script += "Here’s how we move forward.\n";
+    resolve.forEach(p => {
+      script += `${p}. `;
+    });
+    script += "\n\n";
+  }
+
+  script += `This message is delivered in a ${tone.toLowerCase()} tone.`;
+
+  const preview = document.getElementById("scriptPreview");
+  preview.style.display = "block";
+  preview.innerText = script;
+});
+</script>
+
+</body>
+</html>
