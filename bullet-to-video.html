@@ -33,7 +33,7 @@ input, textarea, select, button {
 
 button {
   background: #007bff;
-  color: #fff;
+  color: #ffffff;
   border: none;
   cursor: pointer;
 }
@@ -137,7 +137,8 @@ document.getElementById("commentaryForm").addEventListener("submit", function(e)
 
   script += `This message is delivered in a ${tone.toLowerCase()} tone.`;
 
-  document.getElementById("scriptPreview").innerText = script;
+  const spoken = makeSpoken(script, tone);
+  document.getElementById("scriptPreview").innerText = spoken;
 
   generateScenes(script);
 });
@@ -156,6 +157,24 @@ function generateScenes(script) {
       sceneContainer.appendChild(div);
     }
   });
+}
+
+function makeSpoken(script, tone) {
+  let spoken = script;
+
+  spoken = spoken.replace(/\./g, "…");
+  spoken = spoken.replace(/•/g, "");
+  spoken = spoken.replace(/\n/g, " ");
+
+  if (tone.includes("Emotional")) {
+    spoken = "Listen carefully… " + spoken;
+  }
+
+  if (tone.includes("Strong")) {
+    spoken = "Let me be very clear… " + spoken;
+  }
+
+  return spoken;
 }
 </script>
 
