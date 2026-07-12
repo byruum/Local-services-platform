@@ -2,14 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Webtool AI Designer</title>
-  <link rel="stylesheet" href="Style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webtool AI Designer Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; background:#0f0f0f; color:#fff; font-family:'Poppins'; overflow: hidden; }
+    header { background:#000; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; height: 60px; }
+    header h2 { margin: 0; font-size: 18px; }
+    header button { background:#FFA500; border:none; padding:10px 16px; font-weight:bold; border-radius:8px; cursor:pointer; margin-left:10px; color: #000; }
+    header button:hover { background: #ffc107; }
+   .editor-wrap { display:flex; height:calc(100vh - 60px); }
+   .left-panel,.right-panel { width:300px; background:#1a1a1a; padding:15px; overflow-y:auto; }
+   .canvas-stage { flex:1; display:flex; justify-content:center; align-items:center; background:#2a2a2a; padding: 20px; }
+    #c {
+      background: white;
+      box-shadow:0 0 50px rgba(255,165,0,0.2);
+      border-radius:12px;
+      max-width: 90%;
+      max-height: 90%;
+    }
+    #aiPrompt { width:100%; padding:10px; background:#333; border:1px solid #555; color:#fff; border-radius:6px; margin-bottom: 10px; }
+   .left-panel h3,.right-panel h3 { border-bottom: 1px solid #333; padding-bottom: 8px; }
+   .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+   .template { background:#333; padding:15px 5px; margin:5px 0; border-radius:8px; cursor:pointer; text-align:center; font-weight: 600; }
+   .template:hover { background:#FFA500; color:#000; }
+   .left-panel button,.right-panel select { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: none; background: #333; color: #fff; cursor: pointer; }
+   .left-panel button { background: #FFA500; color: #000; font-weight: bold; }
+    #layerList div { background:#333; padding:8px; margin:4px 0; border-radius:4px; cursor:pointer; font-size: 12px; }
+    #layerList div:hover { background: #444; }
+  </style>
 </head>
 <body>
   <header>
-    <h2>🤖 Webtool AI Designer</h2>
+    <h2>🤖 Webtool AI Designer Pro</h2>
     <div>
       <button onclick="aiGenerate()">✨ AI Generate</button>
       <button onclick="downloadCanvas()">⬇️ Export HD</button>
@@ -17,49 +44,146 @@
   </header>
 
   <div class="editor-wrap">
-    <!-- LEFT: AI + TEMPLATES -->
     <aside class="left-panel">
       <h3>AI Tools</h3>
-      <input id="aiPrompt" placeholder="Describe design: Salon promo for braids">
+      <input id="aiPrompt" placeholder="Describe: Salon promo for braids">
       <button onclick="aiGenerate()">Generate Design</button>
       <button onclick="aiSuggestText()">✨ AI Write Caption</button>
-      <button onclick="aiRemoveBg()">🪄 Remove BG</button>
 
       <h3>Smart Templates</h3>
       <div class="template-grid">
-        <div class="template" onclick="loadAI('salon')">💇 Salon AI</div>
-        <div class="template" onclick="loadAI('mtumba')">👕 Mtumba AI</div>
-        <div class="template" onclick="loadAI('offer')">🔥 Offer AI</div>
+        <div class="template" onclick="loadAI('salon')">💇 Salon</div>
+        <div class="template" onclick="loadAI('mtumba')">👕 Mtumba</div>
+        <div class="template" onclick="loadAI('offer')">🔥 Offer</div>
+        <div class="template" onclick="loadAI('spa')">💅 Spa</div>
       </div>
 
       <h3>Elements</h3>
-      <button onclick="addText()">T Text</button>
-      <button onclick="addImage()">🖼️ Upload</button>
+      <button onclick="addText()">T Add Text</button>
+      <button onclick="addImage()">🖼️ Upload Image</button>
       <input type="file" id="imgInput" hidden>
     </aside>
 
-    <!-- CENTER: CANVAS -->
     <main class="canvas-stage">
       <canvas id="c" width="1080" height="1080"></canvas>
     </main>
 
-    <!-- RIGHT: AI PROPERTIES -->
     <aside class="right-panel">
       <h3>Smart Edit</h3>
-      <label>AI Style: 
+      <label>AI Style:
         <select id="aiStyle" onchange="applyAIStyle()">
           <option>Luxury</option><option>Bold Sale</option><option>Minimal</option><option>African</option>
         </select>
       </label>
-      <label>Magic Resize: 
+      <label>Canvas Size:
         <select id="resize" onchange="magicResize()">
-          <option>Instagram Post</option><option>WhatsApp Status</option><option>Facebook Cover</option>
+          <option value="1080x1080">Instagram Post</option>
+          <option value="1080x1920">WhatsApp Status</option>
+          <option value="1200x630">Facebook Cover</option>
         </select>
       </label>
-      <h4>Layers</h4>
+      <h4>Layers - Click to Select</h4>
       <div id="layerList"></div>
     </aside>
   </div>
-<script src="Editor.js"></script>
+
+<script>
+  const canvas = new fabric.Canvas('c', { backgroundColor: '#ffffff' });
+
+  function saveAndUpdate() { updateLayers(); canvas.renderAll(); }
+
+  function aiGenerate() {
+    const prompt = document.getElementById('aiPrompt').value.toLowerCase();
+    if(prompt.includes('salon')) loadAI('salon');
+    else if(prompt.includes('mtumba') || prompt.includes('sale')) loadAI('mtumba');
+    else if(prompt.includes('spa')) loadAI('spa');
+    else loadAI('offer');
+  }
+
+  function aiSuggestText() {
+    const captions = [
+      "New Braids, New You! Book Today 💅",
+      "MTUMBA BALE JUST LANDED! From Ksh 200",
+      "Weekend Special: 20% Off All Services",
+      "Glow Up Season at Ruth Styles Salon"
+    ];
+    addText(captions[Math.floor(Math.random() * captions.length)]);
+  }
+
+  function loadAI(type) {
+    canvas.clear();
+    canvas.backgroundColor = '#ffffff';
+    if(type === 'salon') {
+      canvas.add(new fabric.Rect({left:0, top:0, width:1080, height:1080, fill: new fabric.Gradient({type:'linear', coords:{x1:0,y1:0,x2:0,y2:1080}, colorStops:[{offset:0,color:'#FFD6E8'},{offset:1,color:'#F48FB1'}]})}));
+      canvas.add(new fabric.Textbox('RUTH STYLES\nSALON', {left:540, top:120, fontSize:80, fontFamily:'Montserrat', fill:'#AD1457', textAlign:'center', originX:'center', fontWeight:'900'}));
+      canvas.add(new fabric.Rect({left:100, top:320, width:880, height:400, fill:'#fff', rx:30}));
+      canvas.add(new fabric.Textbox('Knotless Braids Ksh 2500\nGel Nails Ksh 800\nFacial Ksh 1200', {left:540, top:350, fontSize:38, fontFamily:'Poppins', fill:'#000', textAlign:'center', originX:'center'}));
+      canvas.add(new fabric.Rect({left:0, top:950, width:1080, height:130, fill:'#AD1457'}));
+      canvas.add(new fabric.Text('Call/WhatsApp: 0712 345 678', {left:540, top:990, fontSize:34, fill:'#fff', fontFamily:'Montserrat', originX:'center'}));
+    }
+    if(type === 'mtumba') {
+      canvas.add(new fabric.Rect({left:0, top:0, width:1080, height:1080, fill: new fabric.Gradient({type:'linear', coords:{x1:0,y1:0,x2:1080,y2:1080}, colorStops:[{offset:0,color:'#FFF3E0'},{offset:1,color:'#FFCC80'}]})}));
+      canvas.add(new fabric.Circle({left:880, top:80, radius:100, fill:'#D32F2F'}));
+      canvas.add(new fabric.Text('SALE', {left:880, top:130, fontSize:40, fill:'#fff', fontFamily:'Montserrat', originX:'center', originY:'center', fontWeight:'900'}));
+      canvas.add(new fabric.Textbox('MTUMBA\nBALE SALE', {left:540, top:220, fontSize:90, fontWeight:'900', fill:'#E65100', textAlign:'center', originX:'center', fontFamily:'Montserrat'}));
+      canvas.add(new fabric.Textbox('Ladies Jeans Ksh 500\nMen Shirts Ksh 300\nKids Mix Ksh 150', {left:540, top:500, fontSize:40, fontFamily:'Poppins', fill:'#000', textAlign:'center', originX:'center'}));
+    }
+    if(type === 'spa') { /* Add more */ }
+    if(type === 'offer') { /* Add more */ }
+    saveAndUpdate();
+  }
+
+  function magicResize() {
+    const [w,h] = document.getElementById('resize').value.split('x');
+    canvas.setDimensions({width: parseInt(w), height: parseInt(h)});
+    saveAndUpdate();
+  }
+
+  function applyAIStyle() {
+    const style = document.getElementById('aiStyle').value;
+    const obj = canvas.getActiveObject();
+    if(!obj) return alert("Select text first");
+    if(style === 'Luxury') obj.set({fontFamily:'Montserrat', fill:'#AD1457'});
+    if(style === 'Bold Sale') obj.set({fontFamily:'Montserrat', fill:'#D32F2F', fontWeight:'900'});
+    saveAndUpdate();
+  }
+
+  function updateLayers() {
+    const list = document.getElementById('layerList');
+    list.innerHTML = '';
+    canvas.getObjects().forEach((obj, i) => {
+      let name = obj.type === 'textbox'? obj.text.substring(0,15) : obj.type;
+      list.innerHTML += `<div onclick="selectLayer(${i})">Layer ${i+1}: ${name}</div>`;
+    })
+  }
+  function selectLayer(i) { canvas.setActiveObject(canvas.item(i)); }
+
+  function addText(t='Click to edit') {
+    canvas.add(new fabric.Textbox(t, {left:200, top:200, fontSize:60, width:600, fontFamily:'Montserrat'}));
+    saveAndUpdate();
+  }
+  document.getElementById('imgInput').addEventListener('change', e => {
+    const reader = new FileReader();
+    reader.onload = event => {
+      fabric.Image.fromURL(event.target.result, img => {
+        img.set({left:200, top:200, scaleX:0.3, scaleY:0.3});
+        canvas.add(img); saveAndUpdate();
+      });
+    }
+    reader.readAsDataURL(e.target.files[0]);
+  });
+  function addImage() { document.getElementById('imgInput').click(); }
+
+  function downloadCanvas() {
+    const link = document.createElement('a');
+    link.download = 'webtool-ai-design.png';
+    link.href = canvas.toDataURL({ format: 'png', multiplier: 2 });
+    link.click();
+  }
+
+  canvas.on('object:added', saveAndUpdate);
+  canvas.on('object:modified', saveAndUpdate);
+  loadAI('salon'); // load default
+</script>
 </body>
 </html>
