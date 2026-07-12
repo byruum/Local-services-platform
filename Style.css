@@ -1,0 +1,5 @@
+.canvas-wrapper { padding: 20px; background: #f5f5f5; border-radius: 10px; }
+.canvas-toolbar { margin-bottom: 15px; display: flex; gap: 10px; }
+.canvas-toolbar input, .canvas-toolbar button { padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; }
+.canvas-toolbar button { background: #FFA500; color: white; border: none; cursor: pointer; }
+#webtoolCanvas { background: white; border: 2px solid #ddd; border-radius: 8px; }
