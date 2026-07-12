@@ -2,33 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Webtool Designer Pro v3</title>
+  <title>Webtool AI Designer</title>
   <link rel="stylesheet" href="Style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 </head>
 <body>
   <header>
-    <h2>🎨 Webtool Pro Designer</h2>
-    <button onclick="downloadCanvas()">⬇️ Download HD</button>
+    <h2>🤖 Webtool AI Designer</h2>
+    <div>
+      <button onclick="aiGenerate()">✨ AI Generate</button>
+      <button onclick="downloadCanvas()">⬇️ Export HD</button>
+    </div>
   </header>
 
   <div class="editor-wrap">
-    <!-- LEFT: TEMPLATES + ELEMENTS -->
+    <!-- LEFT: AI + TEMPLATES -->
     <aside class="left-panel">
-      <h3>Pro Templates</h3>
+      <h3>AI Tools</h3>
+      <input id="aiPrompt" placeholder="Describe design: Salon promo for braids">
+      <button onclick="aiGenerate()">Generate Design</button>
+      <button onclick="aiSuggestText()">✨ AI Write Caption</button>
+      <button onclick="aiRemoveBg()">🪄 Remove BG</button>
+
+      <h3>Smart Templates</h3>
       <div class="template-grid">
-        <div class="template" onclick="loadSalonTemplate()">💇 Salon</div>
-        <div class="template" onclick="loadMtumbaTemplate()">👕 Mtumba</div>
-        <div class="template" onclick="loadSpaTemplate()">💅 Spa</div>
-        <div class="template" onclick="loadSaleTemplate()">🔥 Big Sale</div>
+        <div class="template" onclick="loadAI('salon')">💇 Salon AI</div>
+        <div class="template" onclick="loadAI('mtumba')">👕 Mtumba AI</div>
+        <div class="template" onclick="loadAI('offer')">🔥 Offer AI</div>
       </div>
 
       <h3>Elements</h3>
-      <button onclick="addText()">T Add Text</button>
-      <button onclick="addImage()">🖼️ Upload Photo</button>
+      <button onclick="addText()">T Text</button>
+      <button onclick="addImage()">🖼️ Upload</button>
       <input type="file" id="imgInput" hidden>
-      <button onclick="addShape('rect')">⬛ Add Shape</button>
     </aside>
 
     <!-- CENTER: CANVAS -->
@@ -36,22 +43,23 @@
       <canvas id="c" width="1080" height="1080"></canvas>
     </main>
 
-    <!-- RIGHT: PROPERTIES -->
+    <!-- RIGHT: AI PROPERTIES -->
     <aside class="right-panel">
-      <h3>Properties</h3>
-      <label>Font: 
-        <select id="fontFamily" onchange="updateProps()">
-          <option>Montserrat</option><option>Playfair Display</option><option>Arial</option>
+      <h3>Smart Edit</h3>
+      <label>AI Style: 
+        <select id="aiStyle" onchange="applyAIStyle()">
+          <option>Luxury</option><option>Bold Sale</option><option>Minimal</option><option>African</option>
         </select>
       </label>
-      <label>Size: <input type="range" id="fontSize" min="20" max="120" onchange="updateProps()"></label>
-      <label>Color: <input type="color" id="color" onchange="updateProps()"></label>
-      <button onclick="bringForward()">⬆️ Bring Forward</button>
-      <button onclick="sendBackward()">⬇️ Send Backward</button>
-      <button onclick="deleteObj()">🗑️ Delete</button>
+      <label>Magic Resize: 
+        <select id="resize" onchange="magicResize()">
+          <option>Instagram Post</option><option>WhatsApp Status</option><option>Facebook Cover</option>
+        </select>
+      </label>
+      <h4>Layers</h4>
+      <div id="layerList"></div>
     </aside>
   </div>
-
 <script src="Editor.js"></script>
 </body>
 </html>
