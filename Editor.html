@@ -2,32 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ruth Styles Pro Canvas</title>
-  <link rel="stylesheet" href="Style.css?v=2">
+  <title>Webtool Designer Pro v3</title>
+  <link rel="stylesheet" href="Style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 </head>
 <body>
-  <div class="editor-container">
-    <div class="sidebar">
-      <h4>Templates</h4>
-      <button onclick="loadTemplate('salon')">💇 Salon Promo</button>
-      <button onclick="loadTemplate('mtumba')">👕 Mtumba Sale</button>
-      <button onclick="loadTemplate('price')">💰 Price List</button>
+  <header>
+    <h2>🎨 Webtool Pro Designer</h2>
+    <button onclick="downloadCanvas()">⬇️ Download HD</button>
+  </header>
 
-      <h4>Elements</h4>
-      <button onclick="addText()">+ Add Text</button>
-      <button onclick="addBox()">+ Add Box</button>
-      <button onclick="document.getElementById('imgUpload').click()">+ Upload Image</button>
-      <input type="file" id="imgUpload" accept="image/*" style="display:none">
+  <div class="editor-wrap">
+    <!-- LEFT: TEMPLATES + ELEMENTS -->
+    <aside class="left-panel">
+      <h3>Pro Templates</h3>
+      <div class="template-grid">
+        <div class="template" onclick="loadSalonTemplate()">💇 Salon</div>
+        <div class="template" onclick="loadMtumbaTemplate()">👕 Mtumba</div>
+        <div class="template" onclick="loadSpaTemplate()">💅 Spa</div>
+        <div class="template" onclick="loadSaleTemplate()">🔥 Big Sale</div>
+      </div>
 
-      <h4>Export</h4>
-      <button onclick="downloadCanvas()">Download PNG</button>
-    </div>
+      <h3>Elements</h3>
+      <button onclick="addText()">T Add Text</button>
+      <button onclick="addImage()">🖼️ Upload Photo</button>
+      <input type="file" id="imgInput" hidden>
+      <button onclick="addShape('rect')">⬛ Add Shape</button>
+    </aside>
 
-    <div class="canvas-area">
-      <canvas id="mainCanvas" width="900" height="900"></canvas>
-    </div>
+    <!-- CENTER: CANVAS -->
+    <main class="canvas-stage">
+      <canvas id="c" width="1080" height="1080"></canvas>
+    </main>
+
+    <!-- RIGHT: PROPERTIES -->
+    <aside class="right-panel">
+      <h3>Properties</h3>
+      <label>Font: 
+        <select id="fontFamily" onchange="updateProps()">
+          <option>Montserrat</option><option>Playfair Display</option><option>Arial</option>
+        </select>
+      </label>
+      <label>Size: <input type="range" id="fontSize" min="20" max="120" onchange="updateProps()"></label>
+      <label>Color: <input type="color" id="color" onchange="updateProps()"></label>
+      <button onclick="bringForward()">⬆️ Bring Forward</button>
+      <button onclick="sendBackward()">⬇️ Send Backward</button>
+      <button onclick="deleteObj()">🗑️ Delete</button>
+    </aside>
   </div>
-  <script src="Editor.js?v=2"></script>
+
+<script src="Editor.js"></script>
 </body>
 </html>
