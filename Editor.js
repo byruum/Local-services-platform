@@ -1,95 +1,114 @@
-const canvas = document.getElementById('mainCanvas');
-const ctx = canvas.getContext('2d');
-let objects = [];
-let isDragging = false;
-let dragIndex = null;
+const canvas = new fabric.Canvas('c');
+let history = [];
 
-function redraw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+// SAVE STATE FOR UNDO
+function saveState() { history.push(JSON.stringify(canvas)); }
+
+// AI GENERATE - "Fake AI" for now, later we connect OpenAI
+function aiGenerate() {
+  const prompt = document.getElementById('aiPrompt').value.toLowerCase();
+  canvas.clear();
   
-  objects.forEach((obj, i) => {
-    ctx.globalAlpha = (i === dragIndex)? 0.7 : 1;
-    if(obj.type === 'text') {
-      ctx.fillStyle = obj.color;
-      ctx.font = `${obj.size} ${obj.font}`;
-      ctx.fillText(obj.text, obj.x, obj.y);
-    }
-    if(obj.type === 'rect') {
-      ctx.fillStyle = obj.color;
-      ctx.fillRect(obj.x, obj.y, obj.w, obj.h);
-    }
-    if(obj.type === 'image') {
-      ctx.drawImage(obj.img, obj.x, obj.y, obj.w, obj.h);
-    }
-    ctx.globalAlpha = 1;
-  })
+  if(prompt.includes('salon')) {
+    loadAI('salon');
+  } else if(prompt.includes('mtumba') || prompt.includes('sale')) {
+    loadAI('mtumba');
+  } else {
+    loadAI('offer');
+  }
+  alert("AI Generated layout based on: " + prompt);
 }
 
-function addText() {
-  objects.push({type: 'text', text: 'Tap to Edit', x: 100, y: 150, size: '48px', font: 'Arial', color: '#D81B60'});
-  redraw();
+// AI SUGGEST TEXT
+function aiSuggestText() {
+  const captions = [
+    "New Braids, New You! Book Today 💅",
+    "Mtumba Bale Just Landed! Prices From Ksh 200",
+    "Weekend Special: 20% Off All Services",
+    "Glow Up Season at Ruth Styles Salon"
+  ];
+  const random = captions[Math.floor(Math.random() * captions.length)];
+  addText(random);
 }
 
-function addBox() {
-  objects.push({type: 'rect', x: 200, y: 300, w: 300, h: 100, color: '#FFA500'});
-  redraw();
-}
-
-// COMPETITIVE TEMPLATES
-function loadTemplate(type) {
-  objects = [];
+// SMART TEMPLATES WITH AI LAYOUT
+function loadAI(type) {
+  canvas.clear();
   if(type === 'salon') {
-    objects.push({type:'rect',x:0,y:0,w:900,h:900,color:'#FFD6E8'});
-    objects.push({type:'text',text:'RUTH STYLES SALON',x:50,y:150,size:'56px',font:'Impact',color:'#D81B60'});
-    objects.push({type:'text',text:'Braids: Ksh 1500\nKnotless: Ksh 2500\nNails: Ksh 500',x:50,y:350,size:'32px',font:'Arial',color:'#000'});
-    objects.push({type:'rect',x:0,y:800,w:900,h:100,color:'#D81B60'});
-    objects.push({type:'text',text:'Call/WhatsApp: 0712 345 678',x:50,y:860,size:'28px',font:'Arial',color:'#fff'});
+    canvas.backgroundColor = '#FFD6E8';
+    canvas.add(new fabric.Textbox('RUTH STYLES', {left:540, top:100, fontSize:80, fontFamily:'Montserrat', fill:'#AD1457', textAlign:'center', originX:'center'}));
+    canvas.add(new fabric.Textbox('Luxury Braids & Nails', {left:540, top:200, fontSize:32, fill:'#000', textAlign:'center', originX:'center'}));
+    canvas.add(new fabric.Rect({left:100, top:300, width:880, height:400, fill:'#fff', rx:20}));
+    canvas.add(new fabric.Textbox('Knotless 2500\nBox Braids 2000\nNails 800', {left:540, top:350, fontSize:40, textAlign:'center', originX:'center'}));
   }
   if(type === 'mtumba') {
-    objects.push({type:'rect',x:0,y:0,w:900,h:900,color:'#FFF3E0'});
-    objects.push({type:'text',text:'MTUMBA BALE SALE!!!',x:50,y:150,size:'50px',font:'Impact',color:'#E65100'});
-    objects.push({type:'text',text:'Jeans: Ksh 500\nTshirts: Ksh 200\nShoes: Ksh 800',x:50,y:350,size:'32px',font:'Arial',color:'#000'});
-    objects.push({type:'text',text:'Location: Gikomba Market Stall 12',x:50,y:800,size:'24px',font:'Arial',color:'#000'});
+    canvas.backgroundColor = '#FFF3E0';
+    canvas.add(new fabric.Circle({left:900, top:100, radius:100, fill:'#D32F2F'}));
+    canvas.add(new fabric.Text('SALE', {left:900, top:150, fontSize:40, fill:'#fff', originX:'center', originY:'center'}));
+    canvas.add(new fabric.Textbox('MTUMBA\nBALE SALE', {left:540, top:250, fontSize:90, fontWeight:'900', fill:'#E65100', textAlign:'center', originX:'center'}));
   }
-  redraw();
+  updateLayers();
+  canvas.renderAll();
 }
 
-// DRAG FUNCTION
-canvas.addEventListener('mousedown', e => {
-  const mx = e.offsetX, my = e.offsetY;
-  dragIndex = objects.findIndex(obj => mx > obj.x && mx < obj.x + (obj.w||200) && my > obj.y-30 && my < obj.y+10);
-  if(dragIndex > -1) isDragging = true;
-});
-canvas.addEventListener('mousemove', e => {
-  if(isDragging) {
-    objects[dragIndex].x = e.offsetX;
-    objects[dragIndex].y = e.offsetY;
-    redraw();
-  }
-});
-canvas.addEventListener('mouseup', () => isDragging = false);
+// MAGIC RESIZE
+function magicResize() {
+  const size = document.getElementById('resize').value;
+  if(size === 'WhatsApp Status') canvas.setDimensions({width:1080, height:1920});
+  if(size === 'Instagram Post') canvas.setDimensions({width:1080, height:1080});
+  if(size === 'Facebook Cover') canvas.setDimensions({width:1200, height:630});
+  canvas.renderAll();
+}
 
-// Image Upload
-document.getElementById('imgUpload').addEventListener('change', e => {
+// APPLY AI STYLE
+function applyAIStyle() {
+  const style = document.getElementById('aiStyle').value;
+  const obj = canvas.getActiveObject();
+  if(!obj) return;
+  
+  if(style === 'Luxury') obj.set({fontFamily:'Playfair Display', fill:'#AD1457'});
+  if(style === 'Bold Sale') obj.set({fontFamily:'Montserrat', fill:'#D32F2F', fontWeight:'900'});
+  if(style === 'African') obj.set({fill:'#FF6F00'});
+  canvas.renderAll();
+}
+
+// LAYER CONTROL
+function updateLayers() {
+  const list = document.getElementById('layerList');
+  list.innerHTML = '';
+  canvas.getObjects().forEach((obj, i) => {
+    list.innerHTML += `<div onclick="selectLayer(${i})">Layer ${i+1}: ${obj.type}</div>`;
+  })
+}
+function selectLayer(i) { canvas.setActiveObject(canvas.item(i)); }
+
+// BASIC TOOLS
+function addText(t='Click to edit') {
+  canvas.add(new fabric.Textbox(t, {left:200, top:200, fontSize:60, width:600}));
+  updateLayers();
+}
+document.getElementById('imgInput').addEventListener('change', e => {
   const reader = new FileReader();
   reader.onload = event => {
-    const img = new Image();
-    img.onload = () => {
-      objects.push({type:'image', img:img, x:100, y:100, w:250, h:250});
-      redraw();
-    }
-    img.src = event.target.result;
+    fabric.Image.fromURL(event.target.result, img => {
+      img.set({left:200, top:200, scaleX:0.3, scaleY:0.3});
+      canvas.add(img); updateLayers();
+    });
   }
   reader.readAsDataURL(e.target.files[0]);
 });
+function addImage() { document.getElementById('imgInput').click(); }
+
+// AI REMOVE BG - Placeholder for now
+function aiRemoveBg() { alert("AI Background Remover: Connect to remove.bg API next step"); }
 
 function downloadCanvas() {
   const link = document.createElement('a');
-  link.download = 'ruth-styles-poster.png';
-  link.href = canvas.toDataURL();
+  link.download = 'ai-design.png';
+  link.href = canvas.toDataURL({multiplier:3}); // 3x HD
   link.click();
 }
 
-redraw();
+canvas.on('object:added', saveState);
+canvas.on('object:modified', saveState);
+loadAI('salon');
