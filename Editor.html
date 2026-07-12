@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ruth Styles Canvas Pro</title>
-  <link rel="stylesheet" href="Style.css">
+  <title>Ruth Styles Pro Canvas</title>
+  <link rel="stylesheet" href="Style.css?v=2">
 </head>
 <body>
   <div class="editor-container">
-    <!-- LEFT TOOLBAR -->
     <div class="sidebar">
       <h4>Templates</h4>
       <button onclick="loadTemplate('salon')">💇 Salon Promo</button>
@@ -17,7 +16,7 @@
 
       <h4>Elements</h4>
       <button onclick="addText()">+ Add Text</button>
-      <button onclick="addShape('rect')">+ Add Box</button>
+      <button onclick="addBox()">+ Add Box</button>
       <button onclick="document.getElementById('imgUpload').click()">+ Upload Image</button>
       <input type="file" id="imgUpload" accept="image/*" style="display:none">
 
@@ -25,24 +24,10 @@
       <button onclick="downloadCanvas()">Download PNG</button>
     </div>
 
-    <!-- CANVAS AREA -->
     <div class="canvas-area">
-      <canvas id="mainCanvas" width="1080" height="1080"></canvas>
-    </div>
-
-    <!-- RIGHT PROPERTIES -->
-    <div class="properties">
-      <h4>Text Style</h4>
-      <input type="color" id="textColor" value="#000000">
-      <select id="fontSize">
-        <option>24px</option><option>36px</option><option>48px</option><option>64px</option>
-      </select>
-      <select id="fontFamily">
-        <option>Arial</option><option>Impact</option><option>Georgia</option>
-      </select>
+      <canvas id="mainCanvas" width="900" height="900"></canvas>
     </div>
   </div>
-
-  <script src="Editor.js"></script>
+  <script src="Editor.js?v=2"></script>
 </body>
 </html>
