@@ -1,14 +1,30 @@
-<div class="canvas-tool">
-  <h3>Canvas Designer</h3>
-  
-  <div class="controls">
-    <input id="textInput" placeholder="Type text here">
-    <input type="color" id="colorPicker" value="#FFA500">
-    <button onclick="addText()">Add Text</button>
-    <button onclick="downloadCanvas()">Download</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webtool Canvas Designer</title>
+  <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+  <div class="canvas-tool">
+    <h3>Canvas Designer</h3>
+
+    <div class="controls">
+      <input id="textInput" placeholder="Type text here">
+      <input type="color" id="colorPicker" value="#FFA500">
+      <button onclick="addText()">Add Text</button>
+      <button onclick="addImage()">Upload Image</button>
+      <input type="file" id="imageInput" accept="image/*" style="display:none">
+      <button onclick="clearCanvas()">Clear</button>
+      <button onclick="downloadCanvas()">Download</button>
+    </div>
+
+    <canvas id="mainCanvas" width="600" height="400"></canvas>
   </div>
 
-  <canvas id="mainCanvas" width="600" height="400"></canvas>
-</div>
+  <script src="Editor.js"></script>
+</body>
+</html>
 
 <script src="/modules/canvas-editor/editor.js"></script>
