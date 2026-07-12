@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <title>WebTools | Simple Online Tools for Everyday Use</title>
 
-  <meta name="description" content="WebTools provides simple, browser-based tools like image resizing and HTML testing to help businesses, creators, and developers work faster online.">
+  <meta name="description" content="WebTools provides simple, browser-based tools like image resizing, HTML testing, and AI Design for businesses, creators, and developers.">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -47,6 +47,11 @@
       font-weight: bold;
       cursor: pointer;
       display: inline-block;
+      margin: 5px;
+    }
+    .btn-main.orange {
+      background: #FFA500;
+      color: #000;
     }
 
     section {
@@ -122,6 +127,8 @@
       color: #111827;
       padding: 25px;
       border-radius: 12px;
+      display: flex;
+      flex-direction: column;
     }
 
     .tool-card h3 {
@@ -131,6 +138,7 @@
     .tool-card ul {
       padding-left: 18px;
       font-size: 0.95rem;
+      flex-grow: 1;
     }
 
     .status {
@@ -141,6 +149,7 @@
     .green { color: #16a34a; }
     .yellow { color: #ca8a04; }
     .red { color: #dc2626; }
+    .orange { color: #FFA500; }
 
     .tool-card a {
       margin-top: 15px;
@@ -151,6 +160,11 @@
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
+      text-align: center;
+    }
+    .tool-card a.orange {
+      background: #FFA500;
+      color: #000;
     }
 
     footer {
@@ -179,6 +193,7 @@
     directly in the browser, with no downloads or complex setup.
   </p>
   <button class="btn-main" onclick="openTools()">Explore Tools</button>
+  <a href="Editor.html" class="btn-main orange">🤖 Open AI Designer Pro</a>
 </header>
 
 <section>
@@ -240,6 +255,20 @@
       <div class="status yellow">🟡 Missing meta tags</div>
       <div class="status red">🔴 HTML errors detected</div>
       <a href="provider.html">Get Started</a>
+    </div>
+
+    <!-- NEW AI DESIGNER TOOL -->
+    <div class="tool-card">
+      <h3>🤖 AI Designer Pro</h3>
+      <p>Create posters, ads, and WhatsApp Status for Salon, Mtumba, Spa in 10 seconds.</p>
+      <ul>
+        <li>Drag, Resize, Rotate elements</li>
+        <li>AI Write Captions + Pro Templates</li>
+        <li>Export HD for Printing & Social</li>
+      </ul>
+      <div class="status green">🟢 For Ruth Styles, Mtumba, Spa</div>
+      <div class="status orange">🟠 New: AI Powered</div>
+      <a href="Editor.html" class="orange">Open AI Designer</a>
     </div>
 
   </div>
